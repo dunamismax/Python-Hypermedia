@@ -1,7 +1,7 @@
 [project]
-name = "project-cleanup"
+name = "test-app"
 version = "0.1.0"
-description = "A script to clean temporary files and directories from the monorepo."
+description = "A Python app for testing anything and everything."
 authors = [{ name = "dunamismax", email = "dunamismax@google.com" }]
 dependencies = [
     "ruff==0.12.2"
