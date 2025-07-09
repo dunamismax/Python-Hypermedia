@@ -58,9 +58,7 @@ async def upload_image(
         shutil.copyfileobj(file.file, buffer)
 
     # Create a new Image record in the database
-    new_image = Image(
-        title=title, description=description, filename=file.filename
-    )
+    new_image = Image(title=title, description=description, filename=file.filename)
     session.add(new_image)
     session.commit()
 

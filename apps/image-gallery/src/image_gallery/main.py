@@ -38,9 +38,7 @@ app.mount(
 )
 
 # Mount the uploads directory to be able to serve the images
-app.mount(
-    "/uploads", StaticFiles(directory=UPLOAD_DIRECTORY), name="uploads"
-)
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIRECTORY), name="uploads")
 
 
 # Include the API routers

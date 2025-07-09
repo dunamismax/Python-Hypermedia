@@ -6,6 +6,10 @@ authors = [{ name = "Gemini", email = "gemini@google.com" }]
 dependencies = [
     "typer[all]==0.12.3",
     "questionary==2.0.1",
+    "prompt-toolkit==3.0.43",
+    "wcwidth==0.2.13",
+    "click==8.1.7",
+    "typing-extensions==4.12.2",
 ]
 
 [tool.uv]

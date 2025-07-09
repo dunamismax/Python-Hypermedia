@@ -164,7 +164,7 @@ This repository includes a custom CLI tool to automate the setup and running of 
    source .venv/bin/activate
    
    # Install dependencies
-   uv pip sync
+   uv pip sync pyproject.toml
    ```
 
 3. **Run the script:**
@@ -178,7 +178,36 @@ The script will present an interactive menu where you can:
 
 ---
 
-#### 4. Manual Setup (The Old Way)
+#### 4. Cleaning the Repository
+
+If you need to reset your project by removing all temporary files and environments, you can use the `app_cleaner` script.
+
+1. **Navigate to the script directory:**
+   ```bash
+   cd scripts/app_cleaner
+   ```
+
+2. **Set up the script's environment (only needs to be done once):**
+   ```bash
+   # Create the virtual environment
+   uv venv
+   
+   # Activate the environment
+   source .venv/bin/activate
+   
+   # Install dependencies
+   uv pip sync pyproject.toml
+   ```
+
+3. **Run the script:**
+   ```bash
+   python clean.py
+   ```
+The script will find all temporary files (`.venv`, `node_modules`, etc.) and ask for confirmation before deleting them.
+
+---
+
+#### 5. Manual Setup (The Old Way)
 
 If you prefer to run an application manually, the process is the same for all apps.
 
@@ -205,7 +234,7 @@ If you prefer to run an application manually, the process is the same for all ap
 
 4. **Install Python dependencies:**
    ```bash
-   uv pip sync
+   uv pip sync pyproject.toml
    ```
 
 5. **Install frontend dependencies:**

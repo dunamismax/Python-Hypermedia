@@ -26,7 +26,7 @@ You can run the application by following the steps below.
    source .venv/bin/activate
 
    # Install Python and Node.js packages
-   uv pip sync
+   uv pip sync pyproject.toml
    npm install
    ```
 

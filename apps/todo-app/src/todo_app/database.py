@@ -1,4 +1,4 @@
-from sqlmodel import create_engine, SQLModel
+from sqlmodel import SQLModel, create_engine
 
 # For simplicity, we'll use a local SQLite database.
 # The file will be created in the same directory as this script.

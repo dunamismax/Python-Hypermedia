@@ -31,9 +31,23 @@ def get_app_directories(root: Path) -> List[Path]:
         return []
     return sorted([d for d in apps_path.iterdir() if d.is_dir()])
 
-def run_command(command: List[str], cwd: Path, description: str):
-    """Runs a command in a specified directory and streams its output."""
+def run_command(
+    command: List[str],
+    cwd: Path,
+    description: str,
+    clear_env_vars: List[str] = None,
+):
+    """
+    Runs a command in a specified directory, optionally clearing environment variables.
+    """
     typer.secho(f"🚀 Starting: {description} in {cwd}...", fg=typer.colors.YELLOW)
+
+    env = os.environ.copy()
+    if clear_env_vars:
+        for var in clear_env_vars:
+            if var in env:
+                del env[var]
+
     try:
         process = subprocess.Popen(
             command,
@@ -41,35 +55,92 @@ def run_command(command: List[str], cwd: Path, description: str):
             stdout=sys.stdout,
             stderr=sys.stderr,
             text=True,
+            env=env,
         )
         process.wait()
         if process.returncode == 0:
             typer.secho(f"✅ Success: {description}", fg=typer.colors.GREEN)
         else:
-            typer.secho(f"❌ Error: {description} failed with exit code {process.returncode}", fg=typer.colors.RED)
+            typer.secho(
+                f"❌ Error: {description} failed with exit code {process.returncode}",
+                fg=typer.colors.RED,
+            )
             raise typer.Exit(1)
     except FileNotFoundError:
-        typer.secho(f"❌ Error: Command '{command[0]}' not found. Is it installed and in your PATH?", fg=typer.colors.RED)
+        typer.secho(
+            f"❌ Error: Command '{command[0]}' not found. Is it installed and in your PATH?",
+            fg=typer.colors.RED,
+        )
         raise typer.Exit(1)
     except Exception as e:
         typer.secho(f"❌ An unexpected error occurred: {e}", fg=typer.colors.RED)
         raise typer.Exit(1)
 
+
 def install_dependencies(app_path: Path):
     """Installs Python and Node.js dependencies for a given app."""
     typer.secho(f"\nProcessing app: {app_path.name}", bold=True, fg=typer.colors.CYAN)
-    
+
     # Create virtual environment
     run_command(["uv", "venv"], cwd=app_path, description="Create Python virtual environment")
-    
-    # Install Python dependencies
-    run_command(["uv", "pip", "sync"], cwd=app_path, description="Install Python dependencies")
-    
+
+    # Install Python dependencies using the global uv, but with a cleared VIRTUAL_ENV
+    pyproject_path = app_path / "pyproject.toml"
+    if pyproject_path.exists():
+        run_command(
+            ["uv", "pip", "install", "--no-cache", ".[dev]"],
+            cwd=app_path,
+            description="Install Python dependencies (including dev)",
+            clear_env_vars=["VIRTUAL_ENV"],
+        )
+    else:
+        typer.secho(
+            "No pyproject.toml found, skipping Python dependency installation.",
+            fg=typer.colors.YELLOW,
+        )
+
     # Install Node.js dependencies
     if (app_path / "package.json").exists():
-        run_command(["npm", "install"], cwd=app_path, description="Install Node.js dependencies")
+        run_command(
+            ["npm", "install"], cwd=app_path, description="Install Node.js dependencies"
+        )
     else:
         typer.secho("No package.json found, skipping npm install.", fg=typer.colors.YELLOW)
+
+    # Run quality checks
+    run_quality_checks(app_path)
+
+
+
+def run_quality_checks(app_path: Path):
+    """Runs Ruff linter and formatter for a given app."""
+    typer.secho(f"🔬 Running quality checks for: {app_path.name}", bold=True, fg=typer.colors.BLUE)
+
+    venv_python = app_path / ".venv" / "bin" / "python"
+    if sys.platform == "win32":
+        venv_python = app_path / ".venv" / "Scripts" / "python.exe"
+
+    if not venv_python.exists():
+        typer.secho(
+            f"Could not find python executable in venv for {app_path.name}. Skipping quality checks.",
+            fg=typer.colors.YELLOW,
+        )
+        return
+
+    # Run Ruff linter (check)
+    run_command(
+        [str(venv_python), "-m", "ruff", "check", ".", "--fix"],
+        cwd=app_path,
+        description="Run Ruff linter",
+    )
+
+    # Run Ruff formatter
+    run_command(
+        [str(venv_python), "-m", "ruff", "format", "."],
+        cwd=app_path,
+        description="Run Ruff formatter",
+    )
+
 
 # --- Typer Commands ---
 
@@ -107,7 +178,7 @@ def main():
             use_indicator=True,
             style=questionary.Style([
                 ('highlighted', 'bold fg:yellow'),
-                ('selected', 'bold fg:bright_yellow'),
+                ('selected', 'bold fg:ansibrightyellow'),
                 ('pointer', 'bold fg:yellow'),
             ])
         ).ask()

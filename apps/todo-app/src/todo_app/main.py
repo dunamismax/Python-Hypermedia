@@ -25,9 +25,7 @@ app = FastAPI(
 )
 
 # Mount the static files directory to serve CSS, JS, etc.
-app.mount(
-    "/static", StaticFiles(directory="src/todo_app/static"), name="static"
-)
+app.mount("/static", StaticFiles(directory="src/todo_app/static"), name="static")
 
 # Include the API routers
 app.include_router(router)
