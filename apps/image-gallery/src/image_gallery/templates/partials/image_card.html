@@ -1,9 +1,0 @@
-<div class="card bg-base-100 shadow-xl image-full">
-    <figure>
-        <img src="{{ url_for('uploads', path=image.filename) }}" alt="{{ image.title }}" class="w-full h-full object-cover">
-    </figure>
-    <div class="card-body p-4 justify-end">
-        <h2 class="card-title text-white">{{ image.title }}</h2>
-        <p class="text-white/80">{{ image.description }}</p>
-    </div>
-</div>

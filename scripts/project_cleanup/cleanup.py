@@ -29,7 +29,7 @@ TARGETS_TO_DELETE = [
     "node_modules",
     "package-lock.json",
     "*.egg-info",
-    "static",
+    "static/**/main.css",
 ]
 
 

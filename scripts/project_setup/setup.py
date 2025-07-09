@@ -116,6 +116,11 @@ def setup_project(project_path: Path):
         run_command(
             ["npm", "install"], cwd=project_path, description="Install Node.js dependencies"
         )
+        run_command(
+            ["npm", "run", "build"],
+            cwd=project_path,
+            description="Build static assets (CSS)",
+        )
 
     run_quality_checks(project_path)
 
@@ -136,7 +141,7 @@ def run_quality_checks(project_path: Path):
         return
 
     run_command(
-        [str(venv_python), "-m", "ruff", "check", ".", "--fix", "--ignore", "E501"],
+        [str(venv_python), "-m", "ruff", "check", ".", "--fix"],
         cwd=project_path,
         description="Run Ruff linter",
     )

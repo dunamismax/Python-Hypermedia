@@ -5,8 +5,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlmodel import Session, select
 
-from todo_app.database import engine
-from todo_app.models import Todo
+from .database import engine
+from .models import Todo
 
 # Configure templates
 templates = Jinja2Templates(directory="src/todo_app/templates")
