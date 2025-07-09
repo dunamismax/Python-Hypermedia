@@ -28,9 +28,7 @@ def get_all_todos(request: Request, session: Annotated[Session, Depends(get_sess
     Renders the main page with all To-Do items.
     """
     todos = session.exec(select(Todo).order_by(Todo.id)).all()
-    return templates.TemplateResponse(
-        "index.html", {"request": request, "todos": todos}
-    )
+    return templates.TemplateResponse("index.html", {"request": request, "todos": todos})
 
 
 @router.post("/todos", response_class=HTMLResponse)
@@ -51,9 +49,7 @@ def create_todo(
 
     # Return the full list of todos to be swapped into the DOM
     todos = session.exec(select(Todo).order_by(Todo.id)).all()
-    return templates.TemplateResponse(
-        "partials/todos.html", {"request": request, "todos": todos}
-    )
+    return templates.TemplateResponse("partials/todos.html", {"request": request, "todos": todos})
 
 
 @router.patch("/todos/{todo_id}", response_class=HTMLResponse)
@@ -73,9 +69,7 @@ def toggle_todo(
         session.commit()
         session.refresh(todo)
 
-    return templates.TemplateResponse(
-        "partials/todo_item.html", {"request": request, "todo": todo}
-    )
+    return templates.TemplateResponse("partials/todo_item.html", {"request": request, "todo": todo})
 
 
 @router.delete("/todos/{todo_id}", response_class=HTMLResponse)

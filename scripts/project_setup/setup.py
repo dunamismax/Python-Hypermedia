@@ -4,39 +4,46 @@ import sys
 from pathlib import Path
 from typing import List
 
+
 # --- ANSI Color Codes ---
 class Colors:
-    YELLOW = '\033[93m'
-    GREEN = '\033[92m'
-    RED = '\033[91m'
-    BLUE = '\033[94m'
-    CYAN = '\033[96m'
-    BOLD = '\033[1m'
-    END = '\033[0m'
+    YELLOW = "\033[93m"
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    BLUE = "\033[94m"
+    CYAN = "\033[96m"
+    BOLD = "\033[1m"
+    END = "\033[0m"
+
 
 def cprint(text, color=None, bold=False):
     """Prints text with specified color and boldness."""
-    style = Colors.BOLD if bold else ''
-    color_code = getattr(Colors, color.upper(), '') if color else ''
+    style = Colors.BOLD if bold else ""
+    color_code = getattr(Colors, color.upper(), "") if color else ""
     print(f"{style}{color_code}{text}{Colors.END}")
 
+
 # --- Utility Functions ---
+
 
 def get_project_root() -> Path:
     """Finds the project root by looking for the .git directory."""
     current_path = Path.cwd().resolve()
     while not (current_path / ".git").exists():
         if current_path.parent == current_path:
-            raise FileNotFoundError("Could not find project root. Make sure you are inside the repository.")
+            raise FileNotFoundError(
+                "Could not find project root. Make sure you are inside the repository."
+            )
         current_path = current_path.parent
     return current_path
+
 
 def get_project_directories(root: Path, project_type: str) -> List[Path]:
     """Scans a directory ('apps' or 'scripts') and returns a list of valid project directories."""
     base_path = root / project_type
     if not base_path.is_dir():
         return []
-    
+
     project_dirs = []
     for d in base_path.iterdir():
         if d.is_dir() and (d / "pyproject.toml").exists():
@@ -44,6 +51,7 @@ def get_project_directories(root: Path, project_type: str) -> List[Path]:
                 continue
             project_dirs.append(d)
     return sorted(project_dirs)
+
 
 def run_command(
     command: List[str],
@@ -54,7 +62,7 @@ def run_command(
     """
     Runs a command in a specified directory, optionally clearing environment variables.
     """
-    cprint(f"🚀 Starting: {description} in {cwd}...", color='yellow')
+    cprint(f"🚀 Starting: {description} in {cwd}...", color="yellow")
 
     env = os.environ.copy()
     if clear_env_vars:
@@ -73,20 +81,26 @@ def run_command(
         )
         process.wait()
         if process.returncode == 0:
-            cprint(f"✅ Success: {description}", color='green')
+            cprint(f"✅ Success: {description}", color="green")
         else:
-            cprint(f"❌ Error: {description} failed with exit code {process.returncode}", color='red')
+            cprint(
+                f"❌ Error: {description} failed with exit code {process.returncode}", color="red"
+            )
             sys.exit(1)
     except FileNotFoundError:
-        cprint(f"❌ Error: Command '{command[0]}' not found. Is it installed and in your PATH?", color='red')
+        cprint(
+            f"❌ Error: Command '{command[0]}' not found. Is it installed and in your PATH?",
+            color="red",
+        )
         sys.exit(1)
     except Exception as e:
-        cprint(f"❌ An unexpected error occurred: {e}", color='red')
+        cprint(f"❌ An unexpected error occurred: {e}", color="red")
         sys.exit(1)
+
 
 def setup_project(project_path: Path):
     """Installs Python and Node.js dependencies for a given project."""
-    cprint(f"\nProcessing project: {project_path.name}", color='cyan', bold=True)
+    cprint(f"\nProcessing project: {project_path.name}", color="cyan", bold=True)
 
     run_command(["uv", "venv"], cwd=project_path, description="Create Python virtual environment")
 
@@ -99,24 +113,39 @@ def setup_project(project_path: Path):
         )
 
     if (project_path / "package.json").exists():
-        run_command(["npm", "install"], cwd=project_path, description="Install Node.js dependencies")
+        run_command(
+            ["npm", "install"], cwd=project_path, description="Install Node.js dependencies"
+        )
 
     run_quality_checks(project_path)
 
+
 def run_quality_checks(project_path: Path):
     """Runs Ruff linter and formatter for a given project."""
-    cprint(f"🔬 Running quality checks for: {project_path.name}", color='blue', bold=True)
+    cprint(f"🔬 Running quality checks for: {project_path.name}", color="blue", bold=True)
 
     venv_python = project_path / ".venv" / "bin" / "python"
     if sys.platform == "win32":
         venv_python = project_path / ".venv" / "Scripts" / "python.exe"
 
     if not venv_python.exists():
-        cprint(f"Could not find python executable in venv for {project_path.name}. Skipping.", color='yellow')
+        cprint(
+            f"Could not find python executable in venv for {project_path.name}. Skipping.",
+            color="yellow",
+        )
         return
 
-    run_command([str(venv_python), "-m", "ruff", "check", ".", "--fix", "--ignore", "E501"], cwd=project_path, description="Run Ruff linter")
-    run_command([str(venv_python), "-m", "ruff", "format", "."], cwd=project_path, description="Run Ruff formatter")
+    run_command(
+        [str(venv_python), "-m", "ruff", "check", ".", "--fix", "--ignore", "E501"],
+        cwd=project_path,
+        description="Run Ruff linter",
+    )
+    run_command(
+        [str(venv_python), "-m", "ruff", "format", "."],
+        cwd=project_path,
+        description="Run Ruff formatter",
+    )
+
 
 def main():
     """
@@ -125,7 +154,7 @@ def main():
     try:
         project_root = get_project_root()
     except FileNotFoundError as e:
-        cprint(str(e), color='red')
+        cprint(str(e), color="red")
         sys.exit(1)
 
     app_dirs = get_project_directories(project_root, "apps")
@@ -133,14 +162,15 @@ def main():
     all_projects = app_dirs + script_dirs
 
     if not all_projects:
-        cprint("No applications or scripts found to set up.", color='yellow')
+        cprint("No applications or scripts found to set up.", color="yellow")
         sys.exit(0)
 
-    cprint("Setting up all applications and scripts...", color='blue', bold=True)
+    cprint("Setting up all applications and scripts...", color="blue", bold=True)
     for project_path in all_projects:
         setup_project(project_path)
-    
-    cprint("\n🎉 All projects have been set up successfully!", color='green', bold=True)
+
+    cprint("\n🎉 All projects have been set up successfully!", color="green", bold=True)
+
 
 if __name__ == "__main__":
     main()
