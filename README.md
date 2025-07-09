@@ -123,6 +123,7 @@ This monorepo is organized with a focus on complete application independence.
 - **`apps/`**: The main directory containing all independent applications. Each subdirectory is a complete, standalone project with its own dependencies, environment, and configuration.
   - **[`todo-app/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/todo-app)**: An example To-Do list application.
   - **[`image-gallery/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/image-gallery)**: An example image gallery application.
+- **[`scripts/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/scripts)**: Contains various utility scripts for development, automation, and management.
 - **`.github/`**: Contains GitHub-specific files, such as workflow definitions and issue templates.
 - **`.gitignore`**: A single, top-level gitignore for the whole repository.
 - **`README.md`**: This file.
