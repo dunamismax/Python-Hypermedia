@@ -4,5 +4,5 @@ This directory contains various utility scripts for the repository. These can ra
 
 ## Available Scripts
 
-- **[`app_runner/`](./app_runner/)**: A CLI tool to interactively set up, install dependencies for, and launch the applications in the `apps/` directory.
+- **[`project_setup/`](./project_setup/)**: A non-interactive tool to set up the entire repository by creating virtual environments and installing all dependencies for every app and script.
 - **[`app_cleaner/`](./app_cleaner/)**: A CLI tool to clean temporary files and directories (`.venv`, `node_modules`, etc.) from the entire repository.

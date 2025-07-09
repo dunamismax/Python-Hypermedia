@@ -1,0 +1,8 @@
+[project]
+name = "project-setup"
+version = "0.1.0"
+description = "A script to set up all projects in the monorepo."
+authors = [{ name = "Gemini", email = "gemini@google.com" }]
+dependencies = [
+    "typer[all]==0.12.3"
+]

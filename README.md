@@ -133,121 +133,88 @@ This monorepo is organized with a focus on complete application independence.
 <details>
 <summary><h3>Getting Started (Click to Expand)</h3></summary>
 
+The development workflow is designed to be simple and consistent across all projects in this repository.
+
 #### 1. Prerequisites
 
 - **Python 3.10+**
 - **[uv](https://github.com/astral-sh/uv)**: The fast Python package installer used in this project.
-- **Node.js and npm**: For managing frontend dependencies like Tailwind CSS.
+- **Node.js and npm**: For managing frontend dependencies in the web applications.
 
-#### 2. Clone the Repository
+#### 2. Initial Repository Setup
 
+First, clone the repository to your local machine:
 ```bash
 git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
 ```
 
-#### 3. Running an Application (The Easy Way)
+Next, run the **`project_setup`** script. This is a one-time command that will scan the entire repository and automatically create virtual environments, install all Python and Node.js dependencies, and run quality checks for every application and script.
 
-This repository includes a custom CLI tool to automate the setup and running of all projects (applications and scripts).
-
-1. **Navigate to the script directory:**
+1. **Navigate to the script's directory:**
    ```bash
-   cd scripts/app_runner
+   cd scripts/project_setup
    ```
 
-2. **Set up the script's environment (only needs to be done once):**
+2. **Set up the script's own environment (only needs to be done once):**
    ```bash
-   # Create the virtual environment
    uv venv
-   
-   # Activate the environment
    source .venv/bin/activate
-   
-   # Install dependencies
    uv pip sync pyproject.toml
    ```
 
-3. **Run the script:**
+3. **Run the main setup process:**
    ```bash
-   python run.py
+   python setup.py
    ```
 
-The script will present an interactive menu where you can:
-- **Set up all projects at once**: Choose **"ALL PROJECTS"** to automatically create virtual environments and install all Python/Node.js dependencies for every project in the `apps/` and `scripts/` directories.
-- **Run a specific app or script**: Select any project from the list to automatically install its dependencies. If you select an app, it will also launch its development servers.
+After this script completes, every project in the monorepo is ready to be used.
 
----
+#### 3. Running an Application
 
-#### 4. Cleaning the Repository
+Once the initial setup is complete, running any application requires navigating to its directory and starting its development servers.
 
-If you need to reset your project by removing all temporary files and environments, you can use the `app_cleaner` script.
-
-1. **Navigate to the script directory:**
-   ```bash
-   cd scripts/app_cleaner
-   ```
-
-2. **Set up the script's environment (only needs to be done once):**
-   ```bash
-   # Create the virtual environment
-   uv venv
-   
-   # Activate the environment
-   source .venv/bin/activate
-   
-   # Install dependencies
-   uv pip sync pyproject.toml
-   ```
-
-3. **Run the script:**
-   ```bash
-   python clean.py
-   ```
-The script will find all temporary files (`.venv`, `node_modules`, etc.) and ask for confirmation before deleting them.
-
----
-
-#### 5. Manual Setup (The Old Way)
-
-If you prefer to run an application manually, the process is the same for all apps.
-
-**Example using `todo-app`:**
+**Example using `image-gallery`:**
 
 1. **Navigate to the app's directory:**
    ```bash
-   cd apps/todo-app
+   cd apps/image-gallery
    ```
 
-2. **Create the Python virtual environment:**
+2. **Activate the app's virtual environment:**
    ```bash
-   uv venv
-   ```
-
-3. **Activate the environment:**
-   ```bash
-   # On macOS / Linux
    source .venv/bin/activate
-
-   # On Windows
-   .venv\Scripts\activate
    ```
 
-4. **Install Python dependencies:**
+3. **Run the development servers (requires two separate terminals):**
+
+   - **Terminal 1: Start the Tailwind CSS watcher.**
+     This automatically rebuilds your CSS file when you make changes.
+     ```bash
+     npm run watch
+     ```
+
+   - **Terminal 2: Start the FastAPI server.**
+     The `--reload` flag enables live reloading for your Python code.
+     ```bash
+     uvicorn src.image_gallery.main:app --reload
+     ```
+
+4. **Open the app in your browser:**
+   Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+#### 4. Cleaning the Repository
+
+To reset the repository to a clean state, you can use the **`app_cleaner`** script. It will remove all generated files like virtual environments, `node_modules`, and caches.
+
+1. **Navigate to the script's directory:**
    ```bash
-   uv pip sync pyproject.toml
+   cd scripts/app_cleaner
    ```
-
-5. **Install frontend dependencies:**
+2. **Run the script (after its initial setup):**
    ```bash
-   npm install
+   python clean.py
    ```
-
-6. **Run the development servers (requires two terminals):**
-   - **Terminal 1 (Tailwind CSS):** `npm run watch`
-   - **Terminal 2 (FastAPI):** `uvicorn src.todo_app.main:app --reload`
-
-7. **Open in browser:** Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
-
 </details>
 
 ---

@@ -10,7 +10,8 @@ dependencies = [
     "sqlalchemy>=2.0.41",
     "sqlmodel>=0.0.24",
     "python-multipart>=0.0.20",
-    "ruff==0.12.2"
+    "ruff==0.12.2",
+    "click==8.2.1"
 ]
 
 [tool.ruff]

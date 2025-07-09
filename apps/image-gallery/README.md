@@ -10,40 +10,31 @@ The application features an upload form that sends image data to a FastAPI backe
 
 ## How to Run This App
 
-You can run the application by following the steps below.
+This app is managed by the central `project_setup` script in the repository's `scripts/` directory.
 
-1. **Navigate to the app directory:**
+1.  **Run the main setup script** from `scripts/project_setup` to install all dependencies and create the virtual environment for this app.
 
-   ```bash
-   cd apps/image-gallery
-   ```
+2.  **Navigate to this app's directory:**
+    ```bash
+    cd apps/image-gallery
+    ```
 
-2. **Set up the environment and install dependencies:**
+3.  **Activate the virtual environment:**
+    ```bash
+    source .venv/bin/activate
+    ```
 
-   ```bash
-   # Create and activate a virtual environment
-   uv venv
-   source .venv/bin/activate
+4.  **Run the development servers (requires two separate terminals):**
 
-   # Install Python and Node.js packages
-   uv pip sync pyproject.toml
-   npm install
-   ```
+    - **Terminal 1 (CSS Watcher):**
+      ```bash
+      npm run watch
+      ```
 
-3. **Run the development servers:**
-   You will need two separate terminals running in this directory.
-
-   - **Terminal 1 (CSS Watcher):**
-
-     ```bash
-     npm run watch
-     ```
-
-   - **Terminal 2 (FastAPI Server):**
-
-     ```bash
-     uvicorn src.image_gallery.main:app --reload
-     ```
+    - **Terminal 2 (FastAPI Server):**
+      ```bash
+      uvicorn src.image_gallery.main:app --reload
+      ```
 
 ### What You Get
 
