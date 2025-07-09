@@ -94,10 +94,10 @@ This stack creates a rich, interactive user experience by rendering HTML on the 
 
 Tools for creating command-line interfaces to manage the application, run scripts, and automate tasks.
 
-- **Typer**
-  - **Why:** The sister library to FastAPI, also built by Sebastián Ramírez. Typer makes it incredibly easy to build powerful and elegant CLI applications using the same Python type hints you use in the rest of the stack. It's ideal for creating management commands (e.g., creating a superuser, seeding the database, running maintenance tasks) with automatic help text and argument validation.
-  - **Latest Version:** 0.12.3
-  - **Official Documentation:** <https://typer.tiangolo.com/>
+- **argparse (Python Standard Library)**
+  - **Why:** As the built-in, standard library solution, argparse is the canonical way to build command-line interfaces in Python without any external dependencies. It provides a robust way to define arguments, options, and sub-commands, making it ideal for creating management scripts (e.g., creating a superuser, seeding the database, running maintenance tasks). It automatically generates help and usage messages and issues errors when users provide invalid arguments.
+  - **Version:** Part of the Python Standard Library
+  - **Official Documentation:** [**https://docs.python.org/3/library/argparse.html**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fdocs.python.org%2F3%2Flibrary%2Fargparse.html)
 
 ### **5. Deployment & Hosting**
 
