@@ -11,6 +11,7 @@ dist/
 __pycache__/
 *.pyc
 .DS_Store
+static/
 apps/image-gallery/uploads/
 
 # ===================================================================
