@@ -218,10 +218,10 @@ This ensures that you are always using the correct, project-defined version of P
 
 ```bash
 # Example: Running a script
-uv run python some_script.py
+uv run some_script.py
 
 # Example: Running the cleanup script
-uv run python scripts/project_cleanup/cleanup.py
+uv run scripts/project_cleanup/cleanup.py
 ```
 
 `uv` is a powerful and extremely fast Python package installer, resolver, and version manager. It replaces `pip`, `pip-tools`, `virtualenv`, and `pyenv`. By using `uv run`, you gain:
