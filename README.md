@@ -31,81 +31,67 @@ All code in this repository primarily targets **macOS** for development and test
 <details>
 <summary><h3>The Python Hypermedia Stack (Click to Expand)</h3></summary>
 
-This stack is designed for building self-contained, high-performance, and interactive web applications. The architecture is centered around a powerful Python backend that renders HTML, enhanced with a minimal set of best-in-class libraries to create a rich user experience without the need for a heavy client-side framework.
+This stack is designed for building fast, modern web applications with server-rendered HTML, enhanced with dynamic interactivity. It prioritizes developer experience, performance, and maintainability by leveraging a curated set of modern tools.
 
----
+### **1. Development & Tooling**
 
-### **1. Backend**
+A streamlined toolchain for a productive and consistent development environment.
 
-The core of the application, responsible for handling logic, routing, and rendering the user interface.
+- [**uv**](https://astral.sh/uv)
+  - **Why:** A next-generation, high-performance Python packaging tool. `uv` handles project dependency management and virtual environments with exceptional speed, replacing traditional tools like `pip` and `venv` for a faster, more efficient workflow.
+- [**Ruff**](https://docs.astral.sh/ruff/)
+  - **Why:** An extremely fast, all-in-one Python linter and code formatter. Ruff replaces multiple tools (like Black, isort, and Flake8) with a single, cohesive, and blazing-fast utility, ensuring consistent code quality and style across the project.
 
-- **FastAPI**
-  - **Why:** A modern, high-performance Python web framework ideal for building APIs and, in this case, serving server-rendered HTML. It uses standard Python type hints for data validation, which leads to robust, editor-friendly code. It will handle the routes and render the Jinja2 templates.
-  - **Latest Version:** 0.111.0
-  - **Official Documentation:** <https://fastapi.tiangolo.com/>
-- **Uvicorn**
-  - **Why:** A lightning-fast ASGI (Asynchronous Server Gateway Interface) server that is required to run FastAPI's asynchronous capabilities. It acts as the direct process manager for the Python application on your server.
-  - **Latest Version:** 0.30.1
-  - **Official Documentation:** <https://www.uvicorn.org/>
+### **2. Backend**
 
-### **2. Database & Data Modeling**
+The application's core, built for speed and ease of use.
 
-This combination provides a powerful and Python-native way to define, validate, and interact with your database.
+- [**FastAPI**](https://fastapi.tiangolo.com/)
+  - **Why:** A modern, high-performance Python web framework. It uses standard Python type hints to build robust APIs and render server-side HTML templates, providing automatic data validation and documentation.
+- [**Uvicorn**](https://www.uvicorn.org/)
+  - **Why:** A lightning-fast ASGI server that runs the FastAPI application, enabling its high-performance asynchronous capabilities.
 
-- **Pydantic**
-  - **Why:** The backbone for data validation in FastAPI. It uses Python type hints to validate, serialize, and deserialize data, ensuring that all data flowing through your application is well-structured and correct. It's a core dependency of FastAPI.
-  - **Latest Version:** 2.8.2
-  - **Official Documentation:** <https://docs.pydantic.dev/>
-- **SQLAlchemy**
-  - **Why:** The premier SQL toolkit and Object Relational Mapper (ORM) for Python. It provides a full suite of powerful tools for interacting with your database, offering both a high-level ORM and a low-level SQL expression language for maximum flexibility and performance.
-  - **Latest Version:** 2.0.31
-  - **Official Documentation:** <https://www.sqlalchemy.org/>
-- **SQLModel**
-  - **Why:** Created by the author of FastAPI, SQLModel simplifies interaction between the database and the API. It is built on top of Pydantic and SQLAlchemy, allowing you to define your data models, database tables, and API responses from a single, clear Python class. This reduces code duplication significantly.
-  - **Latest Version:** 0.1.1
-  - **Official Documentation:** <https://sqlmodel.tiangolo.com/>
+### **3. Database**
 
-### **3. Frontend (The Hypermedia Stack)**
+A unified and Pythonic approach to data modeling and database interaction.
 
-This stack creates a rich, interactive user experience by rendering HTML on the server, avoiding the need for a complex client-side JavaScript framework.
+- [**SQLModel**](https://sqlmodel.tiangolo.com/)
+  - **Why:** The primary tool for database interaction, built by the creator of FastAPI. SQLModel cleverly combines Pydantic and SQLAlchemy, allowing you to define data, database tables, and API models in a single Python class. This significantly reduces code duplication and simplifies data management.
+- [**Pydantic**](https://docs.pydantic.dev/latest/)
+  - **Why:** The foundational libraries that power SQLModel. Pydantic provides robust data validation, while SQLAlchemy offers a powerful and flexible SQL toolkit and Object Relational Mapper (ORM).
+- [**SQLAlchemy**](https://www.sqlalchemy.org/)
+  - **Why:** The foundational libraries that power SQLModel. Pydantic provides robust data validation, while SQLAlchemy offers a powerful and flexible SQL toolkit and Object Relational Mapper (ORM).
 
-- **Jinja2**
-  - **Why:** A fast, expressive, and widely-used templating engine for Python. FastAPI will use Jinja2 to render your HTML templates, injecting dynamic data from the backend before sending the final HTML page to the user's browser.
-  - **Latest Version:** 3.1.4
-  - **Official Documentation:** <https://jinja.palletsprojects.com/>
-- **HTMX**
-  - **Why:** This is the key to modern interactivity in this stack. HTMX allows you to access modern browser features like AJAX directly from HTML attributes. Instead of writing JavaScript to fetch data and update the UI, you can add simple attributes to your HTML elements that tell HTMX to fetch a new piece of HTML from the server and swap it into the page.
-  - **Latest Version:** 2.0.1
-  - **Official Documentation:** <https://htmx.org/>
-- **Tailwind CSS**
-  - **Why:** A utility-first CSS framework that allows for rapid UI development directly within your HTML. Instead of writing custom CSS files, you use pre-defined utility classes. This is highly efficient for prototyping and building custom designs without leaving your Jinja2 templates.
-  - **Latest Version:** 3.4.4
-  - **Official Documentation:** <https://tailwindcss.com/docs/>
-- **DaisyUI**
-  - **Why:** A plugin for Tailwind CSS that provides pre-styled components (like buttons, cards, menus, etc.) as Tailwind utility classes. This dramatically speeds up development by giving you beautifully designed components out-of-the-box, while still allowing for full customization through standard Tailwind utilities.
-  - **Latest Version:** 4.12.10
-  - **Official Documentation:** <https://daisyui.com/>
-- **TypeScript (Vanilla)**
-  - **Why:** As requested, for minimal, "sprinkled-in" use. While HTMX handles the vast majority of interactivity, you might occasionally need a small, self-contained script for a purely client-side interaction (e.g., toggling a class on a complex element without a server trip). Using vanilla TypeScript provides type-safety for these small, targeted use cases.
-  - **Latest Version:** 5.5.3
-  - **Official Documentation:** <https://www.typescriptlang.org/docs/>
+### **4. Frontend**
 
-### **4. CLI & Management**
+A hypermedia-driven frontend that delivers a rich user experience without requiring a heavy client-side JavaScript framework.
 
-This project uses **uv** for all Python-related tasks, including script running, dependency management, and environment setup. Scripts are executed directly with `uv run`, which automatically handles the environment and dependencies.
+- [**Jinja2**](https://jinja.palletsprojects.com/)
+  - **Why:** A fast and expressive templating engine used by FastAPI to render dynamic HTML, injecting backend data directly into the user interface.
+- [**HTMX**](https://htmx.org/)
+  - **Why:** The core of the interactive experience. HTMX allows you to trigger AJAX requests directly from HTML attributes, enabling smooth UI updates by swapping server-rendered HTML fragments without writing complex JavaScript.
+- [**Tailwind CSS**](https://tailwindcss.com/docs)
+  - **Why:** A utility-first CSS framework for rapidly building custom user interfaces directly within your HTML, promoting speed and consistency in design.
+- [**DaisyUI**](https://daisyui.com/)
+  - **Why:** A plugin for Tailwind CSS that provides a library of pre-styled components (like buttons, cards, and menus). It accelerates development by offering ready-to-use UI elements that are fully customizable with Tailwind utilities.
+- [**TypeScript**](https://www.typescriptlang.org/docs/)
+  - **Why:** Used for minimal, targeted client-side interactions where HTMX may not be suitable. Vanilla TypeScript offers type safety for small, self-contained scripts without adding framework overhead.
 
-### **5. Deployment & Hosting**
+### **5. CLI & Task Management**
 
-Your specified self-hosted deployment on a Linux virtual machine.
+A modern tool for building command-line interfaces to manage the application.
 
-- **Ubuntu Server**
-  - **Why:** A stable, popular, and well-documented Linux distribution, making it an excellent choice for a web server. The Long-Term Support (LTS) version ensures security updates and stability for years.
-  - **Latest Version:** 24.04 LTS ("Noble Numbat")
-  - **Official Documentation:** <https://ubuntu.com/server/docs>
-- **Caddy**
-  - **Why:** An incredibly powerful and easy-to-use web server that excels as a reverse proxy. Its killer feature is automatic HTTPS, meaning it will provision and renew TLS certificates for your domains automatically. Its configuration file (the Caddyfile) is famously simple compared to alternatives. It will sit in front of your Uvicorn process, handling incoming traffic and routing it to your FastAPI application.
-  - **Latest Version:** 2.8.4
-  - **Official Documentation:** <https://caddyserver.com/docs/>
+- [**Typer**](https://typer.tiangolo.com/)
+  - **Why:** A library for building powerful and user-friendly CLI applications, created by the author of FastAPI. It uses the same Python type-hint philosophy, making it intuitive to create commands for database migrations, user management, or other administrative tasks.
+
+### **6. Deployment**
+
+A self-hosted, secure, and stable production environment.
+
+- [**Ubuntu Server (LTS)**](https://ubuntu.com/server/docs)
+  - **Why:** A popular, stable, and well-documented Linux distribution ideal for web servers. The Long-Term Support (LTS) version guarantees security and maintenance updates for years.
+- [**Caddy**](https://caddyserver.com/docs/)
+  - **Why:** A modern, powerful web server and reverse proxy with a focus on simplicity. Caddy's standout feature is fully automatic HTTPS, effortlessly securing your application with zero-touch TLS certificate provisioning and renewal.
 
 </details>
 
