@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Image Gallery{% endblock %}
+
+{% block content %}
+{# Upload Form Card #}
+<div class="card bg-base-100 shadow-xl max-w-2xl mx-auto mb-8">
+    <div class="card-body">
+        <h2 class="card-title">Upload a New Image</h2>
+        <form
+            hx-post="/upload"
+            hx-encoding="multipart/form-data"
+            hx-target="#image-gallery"
+            hx-swap="innerHTML"
+            class="space-y-4"
+        >
+            <div>
+                <label class="label" for="title">Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="input input-bordered w-full"
+                    required
+                >
+            </div>
+            <div>
+                <label class="label" for="description">Description</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    class="textarea textarea-bordered w-full"
+                ></textarea>
+            </div>
+            <div>
+                <label class="label" for="file">Image File</label>
+                <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    class="file-input file-input-bordered w-full"
+                    accept="image/*"
+                    required
+                >
+            </div>
+            <div class="card-actions justify-end">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{# The gallery of images will be rendered here #}
+<div id="image-gallery">
+    {% include "partials/gallery.html" %}
+</div>
+{% endblock %}

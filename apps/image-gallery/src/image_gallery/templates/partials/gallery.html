@@ -1,0 +1,9 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {% for image in images %}
+        {% include "partials/image_card.html" %}
+    {% else %}
+        <div class="col-span-full text-center p-8 text-base-content/50">
+            <p>No images yet. Upload one to get started!</p>
+        </div>
+    {% endfor %}
+</div>

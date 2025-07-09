@@ -1,0 +1,9 @@
+<div class="space-y-2">
+    {% for todo in todos %}
+        {% include "partials/todo_item.html" %}
+    {% else %}
+        <div class="text-center p-4 text-base-content/50">
+            <p>You're all caught up!</p>
+        </div>
+    {% endfor %}
+</div>

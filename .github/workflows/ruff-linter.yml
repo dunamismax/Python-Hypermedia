@@ -1,0 +1,29 @@
+name: Ruff Linter
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Ruff
+        run: pip install ruff
+      - name: Run ruff
+        # Run ruff on each app directory individually
+        run: |
+          for d in apps/* ; do
+            if [ -d "$d" ]; then
+              echo "Linting $d..."
+              ruff check "$d"
+              ruff format --check "$d"
+            fi
+          done

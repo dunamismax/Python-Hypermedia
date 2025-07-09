@@ -1,0 +1,32 @@
+<div
+    id="todo-{{ todo.id }}"
+    class="flex items-center justify-between p-4 rounded-lg transition-all"
+    {# Add a class to fade out when deleted #}
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+    <div class="flex items-center gap-4">
+        {# Checkbox to toggle completion #}
+        <input
+            type="checkbox"
+            class="checkbox checkbox-primary"
+            {% if todo.is_completed %}checked{% endif %}
+            hx-patch="/todos/{{ todo.id }}"
+        >
+        <span class="{{ 'line-through text-base-content/50' if todo.is_completed else '' }}">
+            {{ todo.content }}
+        </span>
+    </div>
+
+    {# Delete button #}
+    <button
+        class="btn btn-ghost btn-sm"
+        hx-delete="/todos/{{ todo.id }}"
+        hx-confirm="Are you sure you want to delete this item?"
+        {# On successful deletion, the server returns an empty response,
+           and we can tell HTMX to remove the element. #}
+        hx-swap="delete"
+    >
+        🗑️
+    </button>
+</div>
