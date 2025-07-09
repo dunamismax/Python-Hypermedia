@@ -147,6 +147,7 @@ cd Python-Hypermedia
 Next, run the **`project_setup`** script. This is a one-time command that will automatically install `uv`, a `uv`-managed version of Python, and all project dependencies.
 
 **Note:**
+
 (This is the last time we will ever use the 'python' command. going forward all commands will be 'uv run script.py' since uv and it's python version get installed by this setup script.)
 
 ```bash
