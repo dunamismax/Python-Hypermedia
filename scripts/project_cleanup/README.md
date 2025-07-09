@@ -19,10 +19,12 @@ The script will search for and remove all occurrences of the following:
 
 ## How to Use
 
-From the root of the repository, run the script using uv (You must run the setup script first at least once to install uv).
+Before running this script, ensure you have completed the initial repository setup by running the main `project_setup` script from the root directory. This is necessary because the cleanup script is run using `uv`.
+
+From the root of the repository, run the script:
 
 ```bash
-uv run scripts/project_cleanup/cleanup.py
+uv run python scripts/project_cleanup/cleanup.py
 ```
 
 The script has no external dependencies and will immediately begin cleaning the repository.

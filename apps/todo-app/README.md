@@ -10,35 +10,29 @@ The application starts a FastAPI server that renders a main HTML page using Jinj
 
 ## How to Run This App
 
-This app is managed by the central `project_setup` script in the repository's `scripts/` directory.
+Before running, ensure you have completed the initial repository setup by running the main `project_setup` script from the root directory, as described in the main `README.md`.
 
-1. **Run the main setup script** from the root of the repository to install all dependencies for this app.
+Once the one-time setup is complete:
 
-   ```bash
-   python scripts/project_setup/setup.py
-   ```
+1.  **Navigate to this app's directory:**
 
-2. **Navigate to this app's directory:**
+    ```bash
+    cd apps/todo-app
+    ```
 
-   ```bash
-   cd apps/todo-app
-   ```
+2.  **Run the development servers (requires two separate terminals):**
 
-3. **Run the development servers (requires two separate terminals):**
+    -   **Terminal 1 (CSS Watcher):**
+        This command watches for changes in your Tailwind CSS files and rebuilds the stylesheet automatically.
+        ```bash
+        npm run watch
+        ```
 
-   - **Terminal 1 (CSS Watcher):**
+    -   **Terminal 2 (FastAPI Server):**
+        This command starts the Python backend server with live reloading. `uv run` handles the virtual environment automatically.
+        ```bash
+        uv run uvicorn src.todo_app.main:app --reload
+        ```
 
-     ```bash
-     npm run watch
-     ```
-
-   - **Terminal 2 (FastAPI Server):**
-     `uv run` automatically uses the project's virtual environment and dependencies. The `--reload` flag enables live reloading.
-
-     ```bash
-     uv run uvicorn src.todo_app.main:app --reload
-     ```
-
-### What You Get
-
-Once the servers are running, you can access a fully functional To-Do application in your browser at **[http://127.0.0.1:8000](http://127.0.0.1:8000)**.
+3.  **Open the app in your browser:**
+    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).

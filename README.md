@@ -128,13 +128,15 @@ This monorepo is organized with a focus on complete application independence.
 
 ## Getting Started
 
-The development workflow is designed to be simple and consistent across all projects in this repository, powered by **uv**.
+Setting up this monorepo is a simple, automated process. The goal is to get you from a fresh clone to a fully operational development environment with a single command.
 
 ### 1. Prerequisites
 
-- A Unix-like operating system (macOS or Linux)
-- `curl`
-- **Node.js and npm**: For managing frontend dependencies in the web applications.
+- A Unix-like operating system (macOS or Linux).
+- `git` for cloning the repository.
+- An internet connection.
+
+The setup script will handle the installation of all other required tools, including `uv`, `python`, `node`, and `npm`.
 
 ### 2. Initial Repository Setup
 
@@ -145,17 +147,18 @@ git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
 ```
 
-Next, run the **`project_setup`** script. This is a one-time command that will automatically install `uv`, a `uv`-managed version of Python, and all project dependencies.
-
-**Note:**
-
-(This is the last time we will ever use the 'python' command. going forward all commands will be 'uv run script.py' since uv and it's python version get installed by this setup script.)
+Next, run the **`project_setup`** script. This is the **only command you need to run** to get everything set up. It will:
+- Install `uv` (our Python package manager).
+- Install `Node.js` and `npm` (using Homebrew on macOS, with instructions for Linux).
+- Install a `uv`-managed version of Python.
+- Install all Python and Node.js dependencies for every project.
+- Run initial code quality checks.
 
 ```bash
 python scripts/project_setup/setup.py
 ```
 
-After this script completes, every project in the monorepo is ready to be used.
+After this script completes, the entire monorepo is configured and ready for development.
 
 ### 3. Running an Application
 
