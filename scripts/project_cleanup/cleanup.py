@@ -1,12 +1,10 @@
 """
-This script recursively scans the entire monorepo from the project root and
-**immediately deletes** common temporary files and directories.
+This script provides a safe and idempotent way to clean the monorepo.
 
-It is designed to be run from the root of the repository using `uv run`.
-The script is smarter than a simple `rglob` and avoids errors by only
-targeting top-level matches for deletion, which is more efficient and prevents
-errors from trying to delete child directories that have already been removed
-when their parent was.
+It recursively scans the entire project from the root and removes common temporary
+files and build artifacts. It can be run at any time without risk and is the
+recommended first step before running the main setup script to ensure a clean
+environment.
 
 Note: This script runs non-interactively and does not ask for confirmation.
 """

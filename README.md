@@ -191,13 +191,20 @@ Once the initial setup is complete, running any application requires navigating 
 3. **Open the app in your browser:**
    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-### 4. Cleaning the Repository
+### 4. Keeping Your Environment Clean and Up-to-Date
 
-To reset the repository to a clean state, you can use the **`project_cleanup`** script. It will immediately remove all generated files like virtual environments, `node_modules`, and caches.
+To ensure a clean and consistent environment, you can use the `project_cleanup` and `project_setup` scripts together. This is the recommended workflow after pulling new changes, adding a new application, or changing dependencies.
 
-```bash
-uv run scripts/project_cleanup/cleanup.py
-```
+1.  **Run the cleanup script** to remove all temporary files and build artifacts.
+
+    ```bash
+    uv run python scripts/project_cleanup/cleanup.py
+    ```
+
+2.  **Run the setup script** to reinstall and sync all dependencies and configurations.
+    ```bash
+    python scripts/project_setup/setup.py
+    ```
 
 ### 5. Using uv
 

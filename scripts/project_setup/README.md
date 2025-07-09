@@ -2,6 +2,10 @@
 
 This script is a self-sufficient, non-interactive tool that automates the setup process for every project in this monorepo.
 
+## Project Setup
+
+This script is a comprehensive and idempotent tool that automates the complete setup process for every project in this monorepo. It can and should be run whenever you need to sync your development environment.
+
 ## What it Does
 
 When run, the script will automatically:
@@ -18,7 +22,7 @@ When run, the script will automatically:
 
 ## How to Use
 
-From the root of the repository, run the script using your system's Python. This is the only command needed to get the entire monorepo ready for development.
+From the root of the repository, run the script using your system's Python. This is the standard command to get the entire monorepo ready for development or to update it after changes.
 
 ```bash
 python scripts/project_setup/setup.py

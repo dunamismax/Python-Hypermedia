@@ -1,27 +1,12 @@
-# Project Cleanup
+## Project Cleanup
 
-This script recursively scans the entire monorepo from the project root and **immediately deletes** common temporary files and directories.
+This script provides a safe and idempotent way to clean the monorepo by removing all common temporary files and build artifacts. It can be run at any time without risk.
 
-**Note:** This script runs non-interactively and does not ask for confirmation.
-
-## What it Deletes
-
-The script will search for and remove all occurrences of the following:
-
-- `.ruff_cache/`
-- `__pycache__/`
-- `.venv/`
-- `build/`
-- `node_modules/`
-- `package-lock.json`
-- `*.egg-info/`
-- `static/**/main.css`
+It is the recommended first step in the standard workflow for keeping your environment in sync.
 
 ## How to Use
 
-Before running this script, ensure you have completed the initial repository setup by running the main `project_setup` script from the root directory. This is necessary because the cleanup script is run using `uv`.
-
-From the root of the repository, run the script:
+From the root of the repository, run the script using `uv run`:
 
 ```bash
 uv run python scripts/project_cleanup/cleanup.py

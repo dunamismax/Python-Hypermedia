@@ -10,9 +10,9 @@ The application starts a FastAPI server that renders a main HTML page using Jinj
 
 ## How to Run This App
 
-Before running, ensure you have completed the initial repository setup by running the main `project_setup` script from the root directory, as described in the main `README.md`.
+Before running, ensure you have completed the initial repository setup by running the main `project_setup` script from the root directory. If you ever change dependencies or pull new code, it is recommended to run the setup script again.
 
-Once the one-time setup is complete:
+Once the setup is complete:
 
 1.  **Navigate to this app's directory:**
 

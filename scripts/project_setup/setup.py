@@ -1,9 +1,12 @@
 """
-A comprehensive, self-sufficient setup script for the Python-Hypermedia monorepo.
+A comprehensive, idempotent setup script for the Python-Hypermedia monorepo.
 
-This script is designed to be run on a fresh clone of the repository, especially on a
-new macOS or Linux machine. It ensures that all required development tools and
-dependencies for every project in the monorepo are installed and configured.
+This script is designed to be run at any time to ensure the development environment
+is fully configured and up-to-date. It can be run repeatedly with no negative
+side effects, as it will skip installations for tools that are already present.
+
+Running this script is the standard way to onboard a new application or to sync the
+environment after pulling changes or modifying dependencies.
 
 The script will automatically:
 1.  Check for and install `uv`, the project's Python package manager.
@@ -13,9 +16,9 @@ The script will automatically:
 3.  Install a `uv`-managed version of the Python interpreter.
 4.  Scan the `apps/` and `scripts/` directories for valid projects.
 5.  For each project found, it will:
-   - Create a Python virtual environment (`.venv/`) using `uv venv`.
-   - Install all Python dependencies from `pyproject.toml`.
-   - Install all Node.js dependencies from `package.json` (if present).
+   - Create a Python virtual environment (`.venv/`) if one doesn't exist.
+   - Install/sync all Python dependencies from `pyproject.toml`.
+   - Install/sync all Node.js dependencies from `package.json` (if present).
    - Build static assets (e.g., Tailwind CSS).
    - Run Ruff for code formatting and linting to ensure code quality.
 

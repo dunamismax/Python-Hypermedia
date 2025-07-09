@@ -4,5 +4,5 @@ This directory contains various utility scripts for the repository. These can ra
 
 ## Available Scripts
 
-- **[`project_setup/`](./project_setup/)**: A comprehensive, self-sufficient script to set up the entire repository. It automatically installs `uv`, a managed version of Python, `Node.js`, `npm`, and all project dependencies.
-- **[`project_cleanup/`](./project_cleanup/)**: A script to clean temporary files and directories (`.venv`, `node_modules`, `__pycache__`, etc.) from the entire repository.
+- **[`project_setup/`](./project_setup/)**: A comprehensive, idempotent script to set up the entire repository. It can be run repeatedly to ensure the environment is always in sync.
+- **[`project_cleanup/`](./project_cleanup/)**: A script to safely clean temporary files and directories from the entire repository. It is recommended to run this before the setup script.
