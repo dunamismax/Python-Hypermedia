@@ -117,7 +117,7 @@ This monorepo is organized with a focus on complete application independence.
 
 - **`apps/`**: The main directory containing all independent applications. Each subdirectory is a complete, standalone project with its own dependencies, environment, and configuration.
   - **[`todo-app/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/todo-app)**: An example To-Do list application.
-  - **[`image-gallery/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/image-gallery)**: An example image gallery application.
+  - **[`dunamismax/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/dunamismax)**: A personal blog and portfolio website.
 - **[`scripts/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/scripts)**: Contains various utility scripts for development, automation, and management.
 - **`.gitignore`**: A single, top-level gitignore for the whole repository.
 - **`LICENSE`**: The MIT license file for the project.
@@ -156,12 +156,12 @@ After this script completes, every project in the monorepo is ready to be used.
 
 Once the initial setup is complete, running any application requires navigating to its directory and starting its development servers.
 
-**Example using `image-gallery`:**
+**Example using `todo-app`:**
 
 1. **Navigate to the app's directory:**
 
    ```bash
-   cd apps/image-gallery
+   cd apps/todo-app
    ```
 
 2. **Run the development servers (requires two separate terminals):**
@@ -177,7 +177,7 @@ Once the initial setup is complete, running any application requires navigating 
      `uv run` automatically uses the project's virtual environment and dependencies. The `--reload` flag enables live reloading for your Python code.
 
      ```bash
-     uv run uvicorn src.image_gallery.main:app --reload
+     uv run uvicorn src.todo_app.main:app --reload
      ```
 
 3. **Open the app in your browser:**
