@@ -53,23 +53,11 @@ def get_project_directories(root: Path, project_type: str) -> List[Path]:
     return sorted(project_dirs)
 
 
-def run_command(
-    command: List[str],
-    cwd: Path,
-    description: str,
-    clear_env_vars: List[str] = None,
-):
+def run_command(command: List[str], cwd: Path, description: str):
     """
-    Runs a command in a specified directory, optionally clearing environment variables.
+    Runs a command in a specified directory.
     """
     cprint(f"🚀 Starting: {description} in {cwd}...", color="yellow")
-
-    env = os.environ.copy()
-    if clear_env_vars:
-        for var in clear_env_vars:
-            if var in env:
-                del env[var]
-
     try:
         process = subprocess.Popen(
             command,
@@ -77,7 +65,6 @@ def run_command(
             stdout=sys.stdout,
             stderr=sys.stderr,
             text=True,
-            env=env,
         )
         process.wait()
         if process.returncode == 0:
@@ -109,7 +96,6 @@ def setup_project(project_path: Path):
             ["uv", "pip", "sync", "pyproject.toml"],
             cwd=project_path,
             description="Install Python dependencies",
-            clear_env_vars=["VIRTUAL_ENV"],
         )
 
     if (project_path / "package.json").exists():
@@ -129,24 +115,13 @@ def run_quality_checks(project_path: Path):
     """Runs Ruff linter and formatter for a given project."""
     cprint(f"🔬 Running quality checks for: {project_path.name}", color="blue", bold=True)
 
-    venv_python = project_path / ".venv" / "bin" / "python"
-    if sys.platform == "win32":
-        venv_python = project_path / ".venv" / "Scripts" / "python.exe"
-
-    if not venv_python.exists():
-        cprint(
-            f"Could not find python executable in venv for {project_path.name}. Skipping.",
-            color="yellow",
-        )
-        return
-
     run_command(
-        [str(venv_python), "-m", "ruff", "check", ".", "--fix"],
+        ["uv", "run", "ruff", "check", ".", "--fix"],
         cwd=project_path,
         description="Run Ruff linter",
     )
     run_command(
-        [str(venv_python), "-m", "ruff", "format", "."],
+        ["uv", "run", "ruff", "format", "."],
         cwd=project_path,
         description="Run Ruff formatter",
     )

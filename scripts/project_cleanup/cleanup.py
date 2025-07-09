@@ -24,6 +24,7 @@ def cprint(text, color=None, bold=False):
 
 TARGETS_TO_DELETE = [
     ".ruff_cache",
+    "__pycache__",
     ".venv",
     "build",
     "node_modules",
@@ -98,3 +99,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
