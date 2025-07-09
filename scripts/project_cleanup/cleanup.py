@@ -12,7 +12,7 @@ Note: This script runs non-interactively and does not ask for confirmation.
 import shutil
 import sys
 from pathlib import Path
-from typing import List, Set
+from typing import Optional
 
 
 # --- ANSI Color Codes ---
@@ -28,7 +28,7 @@ class Colors:
     END = "\033[0m"
 
 
-def cprint(text: str, color: str = None, bold: bool = False) -> None:
+def cprint(text: str, color: Optional[str] = None, bold: bool = False) -> None:
     """Prints text with specified color and boldness."""
     style = Colors.BOLD if bold else ""
     color_code = getattr(Colors, color.upper(), "") if color else ""
@@ -66,9 +66,9 @@ def get_project_root() -> Path:
     return current_path
 
 
-def find_items_to_delete(root: Path) -> List[Path]:
+def find_items_to_delete(root: Path) -> list[Path]:
     """Finds all top-level files and directories matching the target patterns."""
-    found_items: Set[Path] = set()
+    found_items: set[Path] = set()
     for pattern in TARGETS_TO_DELETE:
         # Use rglob to find all potential matches.
         matches = list(root.rglob(pattern))
@@ -82,7 +82,7 @@ def find_items_to_delete(root: Path) -> List[Path]:
             top_level_matches.add(match)
         found_items.update(top_level_matches)
     # Sort the final list for consistent output.
-    return sorted(list(found_items), key=lambda p: p.as_posix())
+    return sorted(found_items, key=lambda p: p.as_posix())
 
 
 def main() -> None:

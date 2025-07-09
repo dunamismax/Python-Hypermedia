@@ -1,17 +1,65 @@
+# ==============================================================================
+#                                 PROJECT
+# ==============================================================================
 [project]
 name = "project-setup"
 version = "0.1.0"
 description = "A script to set up all projects in the monorepo."
-authors = [{ name = "dunamismax", email = "dunamismax@google.com" }]
-dependencies = [
-    "ruff==0.12.2"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "dunamismax", email = "dunamismax@google.com" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development",
+]
+keywords = ["setup", "script", "automation"]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/dunamismax/Python-Hypermedia"
+Documentation = "https://github.com/dunamismax/Python-Hypermedia#readme"
+Issues = "https://github.com/dunamismax/Python-Hypermedia/issues"
+Source = "https://github.com/dunamismax/Python-Hypermedia"
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
 ]
 
+# ==============================================================================
+#                                  TOOLS
+# ==============================================================================
 [tool.ruff]
+target-version = "py39"
 line-length = 88
-
-[tool.ruff.lint]
-select = ["E", "F", "I"] # Standard checks: pyflakes, pycodestyle, isort
 
 [tool.ruff.format]
 quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "A"]
+ignore = ["E501", "B905"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true

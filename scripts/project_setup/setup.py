@@ -11,16 +11,15 @@ environment after pulling changes or modifying dependencies.
 The script will automatically:
 1.  Check for and install `uv`, the project's Python package manager.
 2.  Check for and install Node.js and npm if they are missing.
-    - On macOS, it uses Homebrew (and installs Homebrew first if needed).
-    - On Linux, it provides instructions for manual installation to avoid sudo.
 3.  Install a `uv`-managed version of the Python interpreter.
-4.  Scan the `apps/` and `scripts/` directories for valid projects.
+4.  Scan the `apps/`, `scripts/`, and `playground/` directories for valid projects.
 5.  For each project found, it will:
-   - Create a Python virtual environment (`.venv/`) if one doesn't exist.
-   - Install/sync all Python dependencies from `pyproject.toml`.
-   - Install/sync all Node.js dependencies from `package.json` (if present).
-   - Build static assets (e.g., Tailwind CSS).
-   - Run Ruff for code formatting and linting to ensure code quality.
+    - Create a Python virtual environment (`.venv/`).
+    - Install all Python dependencies, including optional `[dev]` dependencies.
+    - Install all Node.js dependencies from `package.json` (if present).
+    - Build static assets (e.g., Tailwind CSS).
+    - Run Ruff to format and lint the code.
+    - Run MyPy for static type checking.
 
 Usage:
     python scripts/project_setup/setup.py
@@ -59,7 +58,9 @@ def cprint(text: str, color: str = None, bold: bool = False) -> None:
 def is_command_installed(command: str) -> bool:
     """Checks if a command is installed and available in the system's PATH."""
     try:
-        subprocess.run([command, "--version"], check=True, capture_output=True, text=True)
+        subprocess.run(
+            [command, "--version"], check=True, capture_output=True, text=True
+        )
         return True
     except (subprocess.CalledProcessError, FileNotFoundError):
         return False
@@ -69,7 +70,6 @@ def install_uv() -> None:
     """Installs uv using the official, non-interactive curl script."""
     cprint("uv not found. Installing...", color="blue", bold=True)
     try:
-        # Ensure curl is available before attempting to use it.
         if not is_command_installed("curl"):
             cprint(
                 "Error: `curl` is required to install uv, but it's not found.",
@@ -86,7 +86,6 @@ def install_uv() -> None:
             stderr=sys.stderr,
         )
         cprint("✅ uv installed successfully.", color="green")
-        # Add uv to the current session's PATH for immediate use.
         os.environ["PATH"] = f"{os.path.expanduser('~/.cargo/bin')}:{os.environ['PATH']}"
     except subprocess.CalledProcessError as e:
         cprint(f"❌ Failed to install uv: {e}", color="red")
@@ -98,7 +97,8 @@ def install_homebrew() -> None:
     cprint("Homebrew not found. Installing...", color="blue", bold=True)
     try:
         subprocess.run(
-            '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"',
+            '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+            ,
             shell=True,
             check=True,
             stdout=sys.stdout,
@@ -119,13 +119,12 @@ def ensure_node_npm_installed() -> None:
     cprint("Node.js or npm not found. Attempting installation...", color="yellow")
     platform = sys.platform
 
-    if platform == "darwin":  # macOS
+    if platform == "darwin":
         if not is_command_installed("brew"):
             install_homebrew()
         cprint("Installing Node.js using Homebrew...", color="blue")
         run_command(["brew", "install", "node"], cwd=Path.cwd(), description="Install Node.js")
-
-    elif platform.startswith("linux"):  # Linux
+    elif platform.startswith("linux"):
         cprint(
             "On Linux, please install Node.js and npm using your system's package manager.",
             color="red",
@@ -137,7 +136,6 @@ def ensure_node_npm_installed() -> None:
         )
         cprint("After installation, please re-run this setup script.", color="yellow")
         sys.exit(1)
-
     else:
         cprint(f"Unsupported operating system: {platform}", color="red")
         cprint(
@@ -146,7 +144,6 @@ def ensure_node_npm_installed() -> None:
         )
         sys.exit(1)
 
-    # Verify installation
     if not is_command_installed("node") or not is_command_installed("npm"):
         cprint("❌ Node.js installation failed.", color="red")
         sys.exit(1)
@@ -155,7 +152,6 @@ def ensure_node_npm_installed() -> None:
 
 
 # --- Project Discovery and Setup ---
-
 
 def get_project_root() -> Path:
     """Finds the project root by looking for the .git directory."""
@@ -170,17 +166,15 @@ def get_project_root() -> Path:
 
 
 def get_project_directories(root: Path, project_type: str) -> List[Path]:
-    """Scans a directory ('apps' or 'scripts') and returns a list of valid project directories."""
+    """Scans a directory and returns a list of valid project directories."""
     base_path = root / project_type
     if not base_path.is_dir():
         return []
 
     project_dirs = []
     for d in base_path.iterdir():
-        # A valid project is a directory with a pyproject.toml file.
         if d.is_dir() and (d / "pyproject.toml").exists():
-            # Exclude this setup script itself from being processed.
-            if d.name == "project_setup":
+            if d.name == "project_setup" and d.parent.name == "scripts":
                 continue
             project_dirs.append(d)
     return sorted(project_dirs)
@@ -191,11 +185,7 @@ def run_command(command: List[str], cwd: Path, description: str) -> None:
     cprint(f"🚀 Starting: {description} in {cwd.name}...", color="yellow")
     try:
         process = subprocess.Popen(
-            command,
-            cwd=cwd,
-            stdout=sys.stdout,
-            stderr=sys.stderr,
-            text=True,
+            command, cwd=cwd, stdout=sys.stdout, stderr=sys.stderr, text=True
         )
         process.wait()
         if process.returncode == 0:
@@ -218,26 +208,27 @@ def run_command(command: List[str], cwd: Path, description: str) -> None:
 
 
 def setup_project(project_path: Path) -> None:
-    """Installs Python and Node.js dependencies for a given project."""
+    """Installs dependencies and runs quality checks for a given project."""
     cprint(f"\nProcessing project: {project_path.name}", color="cyan", bold=True)
 
-    # Create Python virtual environment.
     run_command(["uv", "venv"], cwd=project_path, description="Create Python virtual environment")
 
-    # Install Python dependencies if pyproject.toml exists.
     if (project_path / "pyproject.toml").exists():
         run_command(
             ["uv", "pip", "sync", "pyproject.toml"],
             cwd=project_path,
             description="Install Python dependencies",
         )
+        run_command(
+            ["uv", "pip", "install", "-e", ".[dev]"],
+            cwd=project_path,
+            description="Install optional dev dependencies",
+        )
 
-    # Install Node.js dependencies and build assets if package.json exists.
     if (project_path / "package.json").exists():
         run_command(
             ["npm", "install"], cwd=project_path, description="Install Node.js dependencies"
         )
-        # Some projects may not have a build script, so we check for it.
         package_json_path = project_path / "package.json"
         if '"build"' in package_json_path.read_text():
             run_command(
@@ -250,19 +241,25 @@ def setup_project(project_path: Path) -> None:
 
 
 def run_quality_checks(project_path: Path) -> None:
-    """Runs Ruff linter and formatter for a given project."""
+    """Runs Ruff formatter, linter, and MyPy type checker for a given project."""
     cprint(f"🔬 Running quality checks for: {project_path.name}", color="blue", bold=True)
 
+    run_command(
+        ["uv", "run", "ruff", "format", "."], cwd=project_path, description="Run Ruff formatter"
+    )
     run_command(
         ["uv", "run", "ruff", "check", ".", "--fix"],
         cwd=project_path,
         description="Run Ruff linter",
     )
-    run_command(
-        ["uv", "run", "ruff", "format", "."],
-        cwd=project_path,
-        description="Run Ruff formatter",
-    )
+
+    # Only run MyPy if there are Python files in the project to check.
+    if list(project_path.rglob("*.py")):
+        run_command(
+            ["uv", "run", "mypy", "."], cwd=project_path, description="Run MyPy type checker"
+        )
+    else:
+        cprint(f"⚪ Skipping MyPy: No Python files found in {project_path.name}", color="yellow")
 
 
 def main() -> None:
@@ -270,7 +267,6 @@ def main() -> None:
     cprint("Starting repository setup...", color="blue", bold=True)
     cprint("=" * 40, color="blue")
 
-    # --- Step 1: Ensure all prerequisites are met ---
     if not is_command_installed("uv"):
         install_uv()
     else:
@@ -278,12 +274,10 @@ def main() -> None:
 
     ensure_node_npm_installed()
 
-    # --- Step 2: Install uv-managed Python ---
     run_command(
         ["uv", "python", "install"], cwd=Path.cwd(), description="Install uv-managed Python"
     )
 
-    # --- Step 3: Discover and set up all projects ---
     try:
         project_root = get_project_root()
     except FileNotFoundError as e:
