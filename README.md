@@ -132,7 +132,8 @@ The development workflow is designed to be simple and consistent across all proj
 
 #### 1. Prerequisites
 
-- **[uv](https://github.com/astral-sh/uv)**: The only required tool. `uv` will automatically install the correct Python version for you.
+- A Unix-like operating system (macOS or Linux)
+- `curl`
 - **Node.js and npm**: For managing frontend dependencies in the web applications.
 
 #### 2. Initial Repository Setup
@@ -144,10 +145,10 @@ git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
 ```
 
-Next, run the **`project_setup`** script. This is a one-time command that will scan the entire repository and automatically create virtual environments, install all Python and Node.js dependencies, and run quality checks for every application and script.
+Next, run the **`project_setup`** script. This is a one-time command that will automatically install `uv`, a `uv`-managed version of Python, and all project dependencies.
 
 ```bash
-uv run --no-project scripts/project_setup/setup.py
+python scripts/project_setup/setup.py
 ```
 
 After this script completes, every project in the monorepo is ready to be used.
@@ -188,7 +189,7 @@ Once the initial setup is complete, running any application requires navigating 
 To reset the repository to a clean state, you can use the **`project_cleanup`** script. It will immediately remove all generated files like virtual environments, `node_modules`, and caches.
 
 ```bash
-uv run --no-project scripts/project_cleanup/cleanup.py
+python scripts/project_cleanup/cleanup.py
 ```
 
 </details>

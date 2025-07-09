@@ -25,6 +25,33 @@ def cprint(text, color=None, bold=False):
 
 # --- Utility Functions ---
 
+def is_uv_installed() -> bool:
+    """Checks if uv is installed and available in the system's PATH."""
+    try:
+        subprocess.run(["uv", "--version"], check=True, capture_output=True)
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
+
+
+def install_uv():
+    """Installs uv using the official, non-interactive curl script."""
+    cprint("uv not found. Installing...", color="blue", bold=True)
+    try:
+        subprocess.run(
+            "curl -LsSf https://astral.sh/uv/install.sh | sh",
+            shell=True,
+            check=True,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
+        )
+        cprint("✅ uv installed successfully.", color="green")
+        # Add uv to the current session's PATH
+        os.environ["PATH"] = f"{os.path.expanduser('~/.cargo/bin')}:{os.environ['PATH']}"
+    except subprocess.CalledProcessError as e:
+        cprint(f"❌ Failed to install uv: {e}", color="red")
+        sys.exit(1)
+
 
 def get_project_root() -> Path:
     """Finds the project root by looking for the .git directory."""
@@ -131,6 +158,11 @@ def main():
     """
     Main function to set up all projects in the monorepo.
     """
+    if not is_uv_installed():
+        install_uv()
+
+    run_command(["uv", "python", "install"], cwd=Path.cwd(), description="Install uv-managed Python")
+
     try:
         project_root = get_project_root()
     except FileNotFoundError as e:

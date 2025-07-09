@@ -14,7 +14,7 @@ This app is managed by the central `project_setup` script in the repository's `s
 
 1. **Run the main setup script** from the root of the repository to install all dependencies for this app.
    ```bash
-   uv run --no-project scripts/project_setup/setup.py
+   python scripts/project_setup/setup.py
    ```
 
 2. **Navigate to this app's directory:**
