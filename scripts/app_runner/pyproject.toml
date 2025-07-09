@@ -4,12 +4,12 @@ version = "0.1.0"
 description = "Scripts for managing the Python-Hypermedia monorepo."
 authors = [{ name = "Gemini", email = "gemini@google.com" }]
 dependencies = [
-    "typer[all]==0.12.3",
-    "questionary==2.0.1",
-    "prompt-toolkit==3.0.43",
+    "typer[all]==0.16.0",
+    "questionary==2.1.0",
+    "prompt-toolkit==3.0.51",
     "wcwidth==0.2.13",
-    "click==8.1.7",
-    "typing-extensions==4.12.2",
+    "click==8.2.1",
+    "typing-extensions==4.14.1",
 ]
 
 [tool.uv]

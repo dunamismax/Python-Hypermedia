@@ -124,8 +124,8 @@ This monorepo is organized with a focus on complete application independence.
   - **[`todo-app/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/todo-app)**: An example To-Do list application.
   - **[`image-gallery/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/image-gallery)**: An example image gallery application.
 - **[`scripts/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/scripts)**: Contains various utility scripts for development, automation, and management.
-- **`.github/`**: Contains GitHub-specific files, such as workflow definitions and issue templates.
 - **`.gitignore`**: A single, top-level gitignore for the whole repository.
+- **`LICENSE`**: The MIT license file for the project.
 - **`README.md`**: This file.
 
 ---
@@ -148,7 +148,7 @@ cd Python-Hypermedia
 
 #### 3. Running an Application (The Easy Way)
 
-This repository includes a custom CLI tool to automate the setup and running of applications.
+This repository includes a custom CLI tool to automate the setup and running of all projects (applications and scripts).
 
 1. **Navigate to the script directory:**
    ```bash
@@ -173,8 +173,8 @@ This repository includes a custom CLI tool to automate the setup and running of 
    ```
 
 The script will present an interactive menu where you can:
-- **Set up all apps at once**: Choose **"ALL APPS"** to automatically create virtual environments and install all Python/Node.js dependencies for every app in the `apps/` directory.
-- **Run a specific app**: Select any app from the list to automatically install its dependencies and launch its development servers.
+- **Set up all projects at once**: Choose **"ALL PROJECTS"** to automatically create virtual environments and install all Python/Node.js dependencies for every project in the `apps/` and `scripts/` directories.
+- **Run a specific app or script**: Select any project from the list to automatically install its dependencies. If you select an app, it will also launch its development servers.
 
 ---
 

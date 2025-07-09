@@ -101,9 +101,9 @@ def setup_project(project_path: Path):
     # Install Python dependencies using the global uv, but with a cleared VIRTUAL_ENV
     if (project_path / "pyproject.toml").exists():
         run_command(
-            ["uv", "pip", "install", "--no-cache", ".[dev]"],
+            ["uv", "pip", "sync", "pyproject.toml"],
             cwd=project_path,
-            description="Install Python dependencies (including dev)",
+            description="Install Python dependencies",
             clear_env_vars=["VIRTUAL_ENV"],
         )
     else:
@@ -262,7 +262,7 @@ def main():
     ]
 
     typer.secho(f"Starting: Uvicorn server for {selected_project_name}...", fg=typer.colors.YELLOW)
-    typer.secho(f"Running command: {' '.join(uvicorn_command)}", fg=typer.colors.MUTED)
+    typer.secho(f"Running command: {' '.join(uvicorn_command)}", fg=typer.colors.BRIGHT_BLACK)
 
     try:
         # Run Uvicorn in the foreground
