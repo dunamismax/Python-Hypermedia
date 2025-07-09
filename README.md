@@ -144,6 +144,7 @@ The development workflow is designed to be simple and consistent across all proj
 #### 2. Initial Repository Setup
 
 First, clone the repository to your local machine:
+
 ```bash
 git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
@@ -152,11 +153,13 @@ cd Python-Hypermedia
 Next, run the **`project_setup`** script. This is a one-time command that will scan the entire repository and automatically create virtual environments, install all Python and Node.js dependencies, and run quality checks for every application and script.
 
 1. **Navigate to the script's directory:**
+
    ```bash
    cd scripts/project_setup
    ```
 
 2. **Set up the script's own environment (only needs to be done once):**
+
    ```bash
    uv venv
    source .venv/bin/activate
@@ -164,6 +167,7 @@ Next, run the **`project_setup`** script. This is a one-time command that will s
    ```
 
 3. **Run the main setup process:**
+
    ```bash
    python setup.py
    ```
@@ -177,11 +181,13 @@ Once the initial setup is complete, running any application requires navigating 
 **Example using `image-gallery`:**
 
 1. **Navigate to the app's directory:**
+
    ```bash
    cd apps/image-gallery
    ```
 
 2. **Activate the app's virtual environment:**
+
    ```bash
    source .venv/bin/activate
    ```
@@ -190,12 +196,14 @@ Once the initial setup is complete, running any application requires navigating 
 
    - **Terminal 1: Start the Tailwind CSS watcher.**
      This automatically rebuilds your CSS file when you make changes.
+
      ```bash
      npm run watch
      ```
 
    - **Terminal 2: Start the FastAPI server.**
      The `--reload` flag enables live reloading for your Python code.
+
      ```bash
      uvicorn src.image_gallery.main:app --reload
      ```
@@ -208,13 +216,17 @@ Once the initial setup is complete, running any application requires navigating 
 To reset the repository to a clean state, you can use the **`project_cleanup`** script. It will immediately remove all generated files like virtual environments, `node_modules`, and caches.
 
 1. **Navigate to the script's directory:**
+
    ```bash
    cd scripts/project_cleanup
    ```
+
 2. **Run the script:**
+
    ```bash
    python cleanup.py
    ```
+
 </details>
 
 ---
