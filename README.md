@@ -146,6 +146,9 @@ cd Python-Hypermedia
 
 Next, run the **`project_setup`** script. This is a one-time command that will automatically install `uv`, a `uv`-managed version of Python, and all project dependencies.
 
+**Note:**
+(This is the last time we will ever use the 'python' command. going forward all commands will be 'uv run script.py' since uv and it's python version get installed by this setup script.)
+
 ```bash
 python scripts/project_setup/setup.py
 ```
@@ -188,7 +191,7 @@ Once the initial setup is complete, running any application requires navigating 
 To reset the repository to a clean state, you can use the **`project_cleanup`** script. It will immediately remove all generated files like virtual environments, `node_modules`, and caches.
 
 ```bash
-python scripts/project_cleanup/cleanup.py
+uv run scripts/project_cleanup/cleanup.py
 ```
 
 ---
