@@ -35,7 +35,7 @@ This stack is designed for building self-contained, high-performance, and intera
 
 ---
 
-#### **1. Backend**
+### **1. Backend**
 
 The core of the application, responsible for handling logic, routing, and rendering the user interface.
 
@@ -48,7 +48,7 @@ The core of the application, responsible for handling logic, routing, and render
   - **Latest Version:** 0.30.1
   - **Official Documentation:** <https://www.uvicorn.org/>
 
-#### **2. Database & Data Modeling**
+### **2. Database & Data Modeling**
 
 This combination provides a powerful and Python-native way to define, validate, and interact with your database.
 
@@ -65,7 +65,7 @@ This combination provides a powerful and Python-native way to define, validate, 
   - **Latest Version:** 0.1.1
   - **Official Documentation:** <https://sqlmodel.tiangolo.com/>
 
-#### **3. Frontend (The Hypermedia Stack)**
+### **3. Frontend (The Hypermedia Stack)**
 
 This stack creates a rich, interactive user experience by rendering HTML on the server, avoiding the need for a complex client-side JavaScript framework.
 
@@ -90,7 +90,16 @@ This stack creates a rich, interactive user experience by rendering HTML on the 
   - **Latest Version:** 5.5.3
   - **Official Documentation:** <https://www.typescriptlang.org/docs/>
 
-#### **4. Deployment & Hosting**
+### **4. CLI & Management**
+
+Tools for creating command-line interfaces to manage the application, run scripts, and automate tasks.
+
+- **Typer**
+  - **Why:** The sister library to FastAPI, also built by Sebastián Ramírez. Typer makes it incredibly easy to build powerful and elegant CLI applications using the same Python type hints you use in the rest of the stack. It's ideal for creating management commands (e.g., creating a superuser, seeding the database, running maintenance tasks) with automatic help text and argument validation.
+  - **Latest Version:** 0.12.3
+  - **Official Documentation:** <https://typer.tiangolo.com/>
+
+### **5. Deployment & Hosting**
 
 Your specified self-hosted deployment on a Linux virtual machine.
 
