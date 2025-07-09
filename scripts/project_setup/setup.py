@@ -59,9 +59,7 @@ def cprint(text: str, color: str = None, bold: bool = False) -> None:
 def is_command_installed(command: str) -> bool:
     """Checks if a command is installed and available in the system's PATH."""
     try:
-        subprocess.run(
-            [command, "--version"], check=True, capture_output=True, text=True
-        )
+        subprocess.run([command, "--version"], check=True, capture_output=True, text=True)
         return True
     except (subprocess.CalledProcessError, FileNotFoundError):
         return False
@@ -241,10 +239,7 @@ def setup_project(project_path: Path) -> None:
         )
         # Some projects may not have a build script, so we check for it.
         package_json_path = project_path / "package.json"
-        if (
-            '"build"'
-            in package_json_path.read_text()
-        ):
+        if '"build"' in package_json_path.read_text():
             run_command(
                 ["npm", "run", "build"],
                 cwd=project_path,
@@ -297,7 +292,8 @@ def main() -> None:
 
     app_dirs = get_project_directories(project_root, "apps")
     script_dirs = get_project_directories(project_root, "scripts")
-    all_projects = app_dirs + script_dirs
+    playground_dirs = get_project_directories(project_root, "playground")
+    all_projects = app_dirs + script_dirs + playground_dirs
 
     if not all_projects:
         cprint("No applications or scripts found to set up.", color="yellow")

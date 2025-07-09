@@ -1,0 +1,104 @@
+# ==============================================================================
+#                                 PROJECT
+# ==============================================================================
+# Core project metadata as defined by PEP 621. This is read by tools like
+# uv, pip, and PyPI to understand your project's dependencies and metadata.
+# https://peps.python.org/pep-0621/
+# ------------------------------------------------------------------------------
+[project]
+name = "your-project-name"
+version = "0.1.0"
+description = "A short description of your project."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" } # Or use { file = "LICENSE" }
+authors = [
+    { name = "Your Name", email = "your.email@example.com" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development",
+]
+# Add project-specific keywords for better discoverability on PyPI.
+keywords = ["keyword1", "keyword2"]
+
+# Project URLs for documentation, source code, and issue tracking.
+[project.urls]
+Homepage = "https://github.com/your-username/your-project-name"
+Documentation = "https://github.com/your-username/your-project-name#readme"
+Issues = "https://github.com/your-username/your-project-name/issues"
+Source = "https://github.com/your-username/your-project-name"
+
+# Dependencies required for running the project. Leave empty for now.
+dependencies = []
+
+# Optional dependencies for development, linting, and type checking.
+# These can be installed with `uv pip install -e .[dev]`.
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
+]
+
+
+# ==============================================================================
+#                                  TOOLS
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Ruff Configuration (Linter & Formatter)
+# A fast, comprehensive linter and formatter that can replace Black, isort,
+# Flake8, and many other tools. `uv` has first-class support for Ruff.
+# https://docs.astral.build/ruff/
+# ------------------------------------------------------------------------------
+[tool.ruff]
+# The minimum Python version to target for code style and features.
+target-version = "py39"
+line-length = 88
+
+# Ruff's formatter is a drop-in replacement for Black.
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# Ruff's linter configuration.
+[tool.ruff.lint]
+# A curated selection of rules for a high-quality, modern codebase.
+# E, F: Standard pyflakes/pycodestyle checks
+# I: isort (import sorting)
+# UP: pyupgrade (modernize code)
+# B: flake8-bugbear (finds likely bugs)
+# C4: flake8-comprehensions (helps write more idiomatic comprehensions)
+# SIM: flake8-simplify (simplifies code)
+# A: flake8-builtins (prevents shadowing built-ins)
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "A"]
+
+# Ignore rules that may be too opinionated or conflict with other tools.
+# E501 is handled by the formatter.
+# B905: `zip()` without `strict=`. Can be noisy; enable if needed.
+ignore = ["E501", "B905"]
+
+
+# ------------------------------------------------------------------------------
+# MyPy Configuration (Static Type Checker)
+# Helps catch type errors before runtime.
+# https://mypy.readthedocs.io/en/stable/config_file.html
+# ------------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true # Enforce type hints on all functions
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
