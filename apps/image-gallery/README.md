@@ -12,29 +12,33 @@ The application features an upload form that sends image data to a FastAPI backe
 
 This app is managed by the central `project_setup` script in the repository's `scripts/` directory.
 
-1.  **Run the main setup script** from `scripts/project_setup` to install all dependencies and create the virtual environment for this app.
+1. **Run the main setup script** from `scripts/project_setup` to install all dependencies and create the virtual environment for this app.
 
-2.  **Navigate to this app's directory:**
-    ```bash
-    cd apps/image-gallery
-    ```
+2. **Navigate to this app's directory:**
 
-3.  **Activate the virtual environment:**
-    ```bash
-    source .venv/bin/activate
-    ```
+   ```bash
+   cd apps/image-gallery
+   ```
 
-4.  **Run the development servers (requires two separate terminals):**
+3. **Activate the virtual environment:**
 
-    - **Terminal 1 (CSS Watcher):**
-      ```bash
-      npm run watch
-      ```
+   ```bash
+   source .venv/bin/activate
+   ```
 
-    - **Terminal 2 (FastAPI Server):**
-      ```bash
-      uvicorn src.image_gallery.main:app --reload
-      ```
+4. **Run the development servers (requires two separate terminals):**
+
+   - **Terminal 1 (CSS Watcher):**
+
+     ```bash
+     npm run watch
+     ```
+
+   - **Terminal 2 (FastAPI Server):**
+
+     ```bash
+     uvicorn src.image_gallery.main:app --reload
+     ```
 
 ### What You Get
 

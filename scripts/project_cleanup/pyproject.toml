@@ -1,12 +1,6 @@
 [project]
-name = "app-cleaner"
+name = "project-cleanup"
 version = "0.1.0"
 description = "A script to clean temporary files and directories from the monorepo."
 authors = [{ name = "Gemini", email = "gemini@google.com" }]
-dependencies = [
-    "typer[all]==0.16.0",
-    "rich==14.0.0",
-    "click==8.2.1",
-    "typing-extensions==4.14.1",
-    "ruff==0.12.2"
-]
+dependencies = []

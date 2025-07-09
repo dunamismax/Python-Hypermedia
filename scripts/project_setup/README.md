@@ -5,34 +5,28 @@ This script is a non-interactive tool that automates the setup process for every
 ## What it Does
 
 When run, the script will automatically:
-1.  Scan the `apps/` and `scripts/` directories for valid projects.
-2.  For each project found, it will:
-    - Create a Python virtual environment (`.venv/`).
-    - Install all dependencies from `pyproject.toml` using `uv pip sync`.
-    - Install all Node.js dependencies from `package.json` (if present).
-    - Run `ruff format` and `ruff check --fix` to ensure code quality.
+
+1. Scan the `apps/` and `scripts/` directories for valid projects.
+2. For each project found, it will:
+   - Create a Python virtual environment (`.venv/`).
+   - Install all dependencies from `pyproject.toml` using `uv pip sync`.
+   - Install all Node.js dependencies from `package.json` (if present).
+   - Run `ruff format` and `ruff check --fix` to ensure code quality.
 
 ## How to Use
 
-1.  **Navigate to this directory:**
-    ```bash
-    cd scripts/project_setup
-    ```
+Simply navigate to this directory and run the script with Python.
 
-2.  **Set up the script's own environment (only needs to be done once):**
-    ```bash
-    # Create the virtual environment
-    uv venv
+1. **Navigate to this directory:**
 
-    # Activate the environment
-    source .venv/bin/activate
+   ```bash
+   cd scripts/project_setup
+   ```
 
-    # Install dependencies
-    uv pip sync pyproject.toml
-    ```
+2. **Run the script:**
 
-3.  **Run the script:**
-    ```bash
-    python setup.py
-    ```
-The script will then proceed to set up all projects automatically.
+   ```bash
+   python setup.py
+   ```
+
+The script has no external dependencies and will proceed to set up all projects in the repository automatically.

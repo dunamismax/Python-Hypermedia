@@ -1,38 +1,43 @@
+import os
 import shutil
+import sys
 from pathlib import Path
 from typing import List
 
-import typer
-from rich.console import Console
-from rich.table import Table
+# --- ANSI Color Codes ---
+class Colors:
+    YELLOW = '\033[93m'
+    GREEN = '\033[92m'
+    RED = '\033[91m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    BOLD = '\033[1m'
+    END = '\033[0m'
 
-app = typer.Typer(
-    add_completion=False,
-    help="A CLI tool to clean temporary files and directories from the monorepo.",
-)
+def cprint(text, color=None, bold=False):
+    """Prints text with specified color and boldness."""
+    style = Colors.BOLD if bold else ''
+    color_code = getattr(Colors, color.upper(), '') if color else ''
+    print(f"{style}{color_code}{text}{Colors.END}")
 
 TARGETS_TO_DELETE = [
     ".ruff_cache",
     ".venv",
     "build",
     "node_modules",
-    "static",
     "package-lock.json",
     "*.egg-info",
+    "static",
 ]
-
 
 def get_project_root() -> Path:
     """Finds the project root by looking for the .git directory."""
     current_path = Path.cwd().resolve()
     while not (current_path / ".git").exists():
         if current_path.parent == current_path:
-            raise FileNotFoundError(
-                "Could not find project root. Make sure you are inside the repository."
-            )
+            raise FileNotFoundError("Could not find project root. Make sure you are inside the repository.")
         current_path = current_path.parent
     return current_path
-
 
 def find_items_to_delete(root: Path) -> List[Path]:
     """Finds all files and directories matching the target names."""
@@ -41,73 +46,38 @@ def find_items_to_delete(root: Path) -> List[Path]:
         found_items.extend(root.rglob(target))
     return found_items
 
-
-@app.command()
-def main(
-    force: bool = typer.Option(
-        False,
-        "--force",
-        "-f",
-        help="Force deletion without asking for confirmation.",
-    ),
-):
+def main():
     """
-    Finds and deletes temporary project files and directories.
+    Finds and deletes temporary project files and directories automatically.
     """
-    console = Console()
     try:
         project_root = get_project_root()
     except FileNotFoundError as e:
-        console.print(f"[bold red]Error:[/bold red] {e}")
-        raise typer.Exit(1)
+        cprint(f"Error: {e}", color='red')
+        sys.exit(1)
 
-    console.print(f"🔍 Searching for items to delete in [cyan]{project_root}[/cyan]...")
+    cprint(f"🔍 Searching for items to delete in {project_root}...", color='cyan')
 
     items_to_delete = find_items_to_delete(project_root)
 
     if not items_to_delete:
-        console.print(
-            "[bold green]✅ No items to clean up. Project is already clean![/bold green]"
-        )
-        raise typer.Exit()
+        cprint("✅ No items to clean up. Project is already clean!", color='green', bold=True)
+        sys.exit(0)
 
-    table = Table(title="Items to be Deleted", style="yellow")
-    table.add_column("Type", style="magenta")
-    table.add_column("Path", style="cyan")
-
-    for item in items_to_delete:
-        item_type = "Directory" if item.is_dir() else "File"
-        table.add_row(item_type, str(item.relative_to(project_root)))
-
-    console.print(table)
-
-    if not force:
-        confirmed = typer.confirm(
-            "Are you sure you want to permanently delete these items?"
-        )
-        if not confirmed:
-            console.print("[bold yellow]Aborted by user.[/bold yellow]")
-            raise typer.Exit()
-
-    console.print("\n[bold]🚀 Starting cleanup...[/bold]")
+    cprint("\n🚀 Starting cleanup...", bold=True)
 
     for item in items_to_delete:
         try:
             if item.is_dir():
                 shutil.rmtree(item)
-                console.print(
-                    f"🗑️  Deleted directory: [cyan]{item.relative_to(project_root)}[/cyan]"
-                )
+                cprint(f"🗑️  Deleted directory: {item.relative_to(project_root)}", color='yellow')
             else:
                 item.unlink()
-                console.print(
-                    f"🗑️  Deleted file: [cyan]{item.relative_to(project_root)}[/cyan]"
-                )
+                cprint(f"🗑️  Deleted file: {item.relative_to(project_root)}", color='yellow')
         except OSError as e:
-            console.print(f"[bold red]Error deleting {item}: {e}[/bold red]")
+            cprint(f"Error deleting {item}: {e}", color='red')
 
-    console.print("\n[bold green]✅ Cleanup complete![/bold green]")
-
+    cprint("\n✅ Cleanup complete!", color='green', bold=True)
 
 if __name__ == "__main__":
-    app()
+    main()

@@ -4,13 +4,21 @@ import sys
 from pathlib import Path
 from typing import List
 
-import typer
+# --- ANSI Color Codes ---
+class Colors:
+    YELLOW = '\033[93m'
+    GREEN = '\033[92m'
+    RED = '\033[91m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    BOLD = '\033[1m'
+    END = '\033[0m'
 
-# Create a Typer application
-app = typer.Typer(
-    add_completion=False,
-    help="A CLI tool to set up all projects in the Python-Hypermedia monorepo.",
-)
+def cprint(text, color=None, bold=False):
+    """Prints text with specified color and boldness."""
+    style = Colors.BOLD if bold else ''
+    color_code = getattr(Colors, color.upper(), '') if color else ''
+    print(f"{style}{color_code}{text}{Colors.END}")
 
 # --- Utility Functions ---
 
@@ -32,7 +40,6 @@ def get_project_directories(root: Path, project_type: str) -> List[Path]:
     project_dirs = []
     for d in base_path.iterdir():
         if d.is_dir() and (d / "pyproject.toml").exists():
-            # Exclude the setup script's own directory
             if d.name == "project_setup":
                 continue
             project_dirs.append(d)
@@ -47,7 +54,7 @@ def run_command(
     """
     Runs a command in a specified directory, optionally clearing environment variables.
     """
-    typer.secho(f"🚀 Starting: {description} in {cwd}...", fg=typer.colors.YELLOW)
+    cprint(f"🚀 Starting: {description} in {cwd}...", color='yellow')
 
     env = os.environ.copy()
     if clear_env_vars:
@@ -66,31 +73,23 @@ def run_command(
         )
         process.wait()
         if process.returncode == 0:
-            typer.secho(f"✅ Success: {description}", fg=typer.colors.GREEN)
+            cprint(f"✅ Success: {description}", color='green')
         else:
-            typer.secho(
-                f"❌ Error: {description} failed with exit code {process.returncode}",
-                fg=typer.colors.RED,
-            )
-            raise typer.Exit(1)
+            cprint(f"❌ Error: {description} failed with exit code {process.returncode}", color='red')
+            sys.exit(1)
     except FileNotFoundError:
-        typer.secho(
-            f"❌ Error: Command '{command[0]}' not found. Is it installed and in your PATH?",
-            fg=typer.colors.RED,
-        )
-        raise typer.Exit(1)
+        cprint(f"❌ Error: Command '{command[0]}' not found. Is it installed and in your PATH?", color='red')
+        sys.exit(1)
     except Exception as e:
-        typer.secho(f"❌ An unexpected error occurred: {e}", fg=typer.colors.RED)
-        raise typer.Exit(1)
+        cprint(f"❌ An unexpected error occurred: {e}", color='red')
+        sys.exit(1)
 
 def setup_project(project_path: Path):
     """Installs Python and Node.js dependencies for a given project."""
-    typer.secho(f"\nProcessing project: {project_path.name}", bold=True, fg=typer.colors.CYAN)
+    cprint(f"\nProcessing project: {project_path.name}", color='cyan', bold=True)
 
-    # Create virtual environment
     run_command(["uv", "venv"], cwd=project_path, description="Create Python virtual environment")
 
-    # Install Python dependencies
     if (project_path / "pyproject.toml").exists():
         run_command(
             ["uv", "pip", "sync", "pyproject.toml"],
@@ -99,54 +98,49 @@ def setup_project(project_path: Path):
             clear_env_vars=["VIRTUAL_ENV"],
         )
 
-    # Install Node.js dependencies (if applicable)
     if (project_path / "package.json").exists():
         run_command(["npm", "install"], cwd=project_path, description="Install Node.js dependencies")
 
-    # Run quality checks
     run_quality_checks(project_path)
 
 def run_quality_checks(project_path: Path):
     """Runs Ruff linter and formatter for a given project."""
-    typer.secho(f"🔬 Running quality checks for: {project_path.name}", bold=True, fg=typer.colors.BLUE)
+    cprint(f"🔬 Running quality checks for: {project_path.name}", color='blue', bold=True)
 
     venv_python = project_path / ".venv" / "bin" / "python"
     if sys.platform == "win32":
         venv_python = project_path / ".venv" / "Scripts" / "python.exe"
 
     if not venv_python.exists():
-        typer.secho(f"Could not find python executable in venv for {project_path.name}. Skipping.", fg=typer.colors.YELLOW)
+        cprint(f"Could not find python executable in venv for {project_path.name}. Skipping.", color='yellow')
         return
 
-    # Run Ruff linter and formatter
     run_command([str(venv_python), "-m", "ruff", "check", ".", "--fix", "--ignore", "E501"], cwd=project_path, description="Run Ruff linter")
     run_command([str(venv_python), "-m", "ruff", "format", "."], cwd=project_path, description="Run Ruff formatter")
 
-@app.command()
 def main():
     """
-    Sets up all projects in the monorepo by creating virtual environments,
-    installing dependencies, and running quality checks.
+    Main function to set up all projects in the monorepo.
     """
     try:
         project_root = get_project_root()
     except FileNotFoundError as e:
-        typer.secho(str(e), fg=typer.colors.RED)
-        raise typer.Exit(1)
+        cprint(str(e), color='red')
+        sys.exit(1)
 
     app_dirs = get_project_directories(project_root, "apps")
     script_dirs = get_project_directories(project_root, "scripts")
     all_projects = app_dirs + script_dirs
 
     if not all_projects:
-        typer.secho("No applications or scripts found to set up.", fg=typer.colors.YELLOW)
-        raise typer.Exit()
+        cprint("No applications or scripts found to set up.", color='yellow')
+        sys.exit(0)
 
-    typer.secho("Setting up all applications and scripts...", bold=True, fg=typer.colors.BLUE)
+    cprint("Setting up all applications and scripts...", color='blue', bold=True)
     for project_path in all_projects:
         setup_project(project_path)
     
-    typer.secho("\n🎉 All projects have been set up successfully!", bold=True, fg=typer.colors.BRIGHT_GREEN)
+    cprint("\n🎉 All projects have been set up successfully!", color='green', bold=True)
 
 if __name__ == "__main__":
-    app()
+    main()
