@@ -66,7 +66,9 @@ def main(
     items_to_delete = find_items_to_delete(project_root)
 
     if not items_to_delete:
-        console.print("[bold green]✅ No items to clean up. Project is already clean![/bold green]")
+        console.print(
+            "[bold green]✅ No items to clean up. Project is already clean![/bold green]"
+        )
         raise typer.Exit()
 
     table = Table(title="Items to be Deleted", style="yellow")
@@ -80,7 +82,9 @@ def main(
     console.print(table)
 
     if not force:
-        confirmed = typer.confirm("Are you sure you want to permanently delete these items?")
+        confirmed = typer.confirm(
+            "Are you sure you want to permanently delete these items?"
+        )
         if not confirmed:
             console.print("[bold yellow]Aborted by user.[/bold yellow]")
             raise typer.Exit()
@@ -96,7 +100,9 @@ def main(
                 )
             else:
                 item.unlink()
-                console.print(f"🗑️  Deleted file: [cyan]{item.relative_to(project_root)}[/cyan]")
+                console.print(
+                    f"🗑️  Deleted file: [cyan]{item.relative_to(project_root)}[/cyan]"
+                )
         except OSError as e:
             console.print(f"[bold red]Error deleting {item}: {e}[/bold red]")
 
