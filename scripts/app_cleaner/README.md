@@ -10,6 +10,7 @@ The script will search for and remove all occurrences of the following:
 - `build/`
 - `node_modules/`
 - `package-lock.json`
+- `*.egg-info/`
 
 ## How to Use
 

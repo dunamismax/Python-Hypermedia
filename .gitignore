@@ -1,10 +1,21 @@
 # ===================================================================
+# Common Exclusions (for this project)
+# ===================================================================
+.venv/
+node_modules/
+package-lock.json
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.pyc
+.DS_Store
+apps/image-gallery/uploads/
+
+# ===================================================================
 # General & Project-Specific
 # ===================================================================
-
-# App-specific uploads directory for the image gallery
-# This is a runtime directory and should not be versioned.
-/apps/image-gallery/uploads/
 
 # Local documentation build outputs
 /site/
@@ -92,10 +103,10 @@ build/
 .output/
 .svelte-kit/
 
-# Lockfiles (if you prefer not to commit them, though it's often recommended to commit them)
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
+# Lockfiles
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # ===================================================================
 # Sensitive Information & Credentials

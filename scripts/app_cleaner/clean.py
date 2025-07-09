@@ -17,7 +17,9 @@ TARGETS_TO_DELETE = [
     "build",
     "node_modules",
     "package-lock.json",
+    "*.egg-info",
 ]
+
 
 def get_project_root() -> Path:
     """Finds the project root by looking for the .git directory."""
@@ -30,12 +32,14 @@ def get_project_root() -> Path:
         current_path = current_path.parent
     return current_path
 
+
 def find_items_to_delete(root: Path) -> List[Path]:
     """Finds all files and directories matching the target names."""
     found_items = []
     for target in TARGETS_TO_DELETE:
         found_items.extend(root.rglob(target))
     return found_items
+
 
 @app.command()
 def main(
@@ -44,7 +48,7 @@ def main(
         "--force",
         "-f",
         help="Force deletion without asking for confirmation.",
-    )
+    ),
 ):
     """
     Finds and deletes temporary project files and directories.
@@ -61,7 +65,9 @@ def main(
     items_to_delete = find_items_to_delete(project_root)
 
     if not items_to_delete:
-        console.print("[bold green]✅ No items to clean up. Project is already clean![/bold green]")
+        console.print(
+            "[bold green]✅ No items to clean up. Project is already clean![/bold green]"
+        )
         raise typer.Exit()
 
     table = Table(title="Items to be Deleted", style="yellow")
@@ -76,8 +82,11 @@ def main(
 
     if not force:
         confirmed = typer.confirm(
-            "Are you sure you want to permanently delete these items?", abort=True
+            "Are you sure you want to permanently delete these items?"
         )
+        if not confirmed:
+            console.print("[bold yellow]Aborted by user.[/bold yellow]")
+            raise typer.Exit()
 
     console.print("\n[bold]🚀 Starting cleanup...[/bold]")
 
@@ -85,10 +94,14 @@ def main(
         try:
             if item.is_dir():
                 shutil.rmtree(item)
-                console.print(f"🗑️  Deleted directory: [cyan]{item.relative_to(project_root)}[/cyan]")
+                console.print(
+                    f"🗑️  Deleted directory: [cyan]{item.relative_to(project_root)}[/cyan]"
+                )
             else:
                 item.unlink()
-                console.print(f"🗑️  Deleted file: [cyan]{item.relative_to(project_root)}[/cyan]")
+                console.print(
+                    f"🗑️  Deleted file: [cyan]{item.relative_to(project_root)}[/cyan]"
+                )
         except OSError as e:
             console.print(f"[bold red]Error deleting {item}: {e}[/bold red]")
 
