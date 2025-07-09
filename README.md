@@ -125,18 +125,17 @@ This monorepo is organized with a focus on complete application independence.
 
 ---
 
-<details>
-<summary><h3>Getting Started (Click to Expand)</h3></summary>
+## Getting Started
 
 The development workflow is designed to be simple and consistent across all projects in this repository, powered by **uv**.
 
-#### 1. Prerequisites
+### 1. Prerequisites
 
 - A Unix-like operating system (macOS or Linux)
 - `curl`
 - **Node.js and npm**: For managing frontend dependencies in the web applications.
 
-#### 2. Initial Repository Setup
+### 2. Initial Repository Setup
 
 First, clone the repository to your local machine:
 
@@ -153,7 +152,7 @@ python scripts/project_setup/setup.py
 
 After this script completes, every project in the monorepo is ready to be used.
 
-#### 3. Running an Application
+### 3. Running an Application
 
 Once the initial setup is complete, running any application requires navigating to its directory and starting its development servers.
 
@@ -184,26 +183,13 @@ Once the initial setup is complete, running any application requires navigating 
 3. **Open the app in your browser:**
    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-#### 4. Cleaning the Repository
+### 4. Cleaning the Repository
 
 To reset the repository to a clean state, you can use the **`project_cleanup`** script. It will immediately remove all generated files like virtual environments, `node_modules`, and caches.
 
 ```bash
 python scripts/project_cleanup/cleanup.py
 ```
-
-</details>
-
----
-
-## Quality Control
-
-This project uses [Ruff](https://docs.astral.sh/ruff/) for high-performance linting and formatting. The checks are run for each application individually using `uv run`.
-
-- **`uv run ruff check .`**: Run the linter to find potential errors and style issues.
-- **`uv run ruff format .`**: Automatically format the code to a consistent style.
-
-To run these commands, navigate to the specific app's directory (`cd apps/some-app`).
 
 ---
 
