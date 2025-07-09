@@ -30,6 +30,7 @@ TARGETS_TO_DELETE = [
     "node_modules",
     "package-lock.json",
     "*.egg-info",
+    "uv.lock",
     "static/**/main.css",
 ]
 
@@ -88,9 +89,7 @@ def main():
                 )
             else:
                 item.unlink()
-                cprint(
-                    f"🗑️  Deleted file: {item.relative_to(project_root)}", color="yellow"
-                )
+                cprint(f"🗑️  Deleted file: {item.relative_to(project_root)}", color="yellow")
         except OSError as e:
             cprint(f"Error deleting {item}: {e}", color="red")
 
