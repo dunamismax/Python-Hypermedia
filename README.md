@@ -145,26 +145,55 @@ git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
 ```
 
-#### 3. Running an Application
+#### 3. Running an Application (The Easy Way)
 
-Each application is self-contained. To run one, you must first navigate into its directory. The process is the same for all apps.
+This repository includes a custom CLI tool to automate the setup and running of applications.
+
+1. **Navigate to the script directory:**
+   ```bash
+   cd scripts/app_runner
+   ```
+
+2. **Set up the script's environment (only needs to be done once):**
+   ```bash
+   # Create the virtual environment
+   uv venv
+   
+   # Activate the environment
+   source .venv/bin/activate
+   
+   # Install dependencies
+   uv pip sync
+   ```
+
+3. **Run the script:**
+   ```bash
+   python run.py
+   ```
+
+The script will present an interactive menu where you can:
+- **Set up all apps at once**: Choose **"ALL APPS"** to automatically create virtual environments and install all Python/Node.js dependencies for every app in the `apps/` directory.
+- **Run a specific app**: Select any app from the list to automatically install its dependencies and launch its development servers.
+
+---
+
+#### 4. Manual Setup (The Old Way)
+
+If you prefer to run an application manually, the process is the same for all apps.
 
 **Example using `todo-app`:**
 
 1. **Navigate to the app's directory:**
-
    ```bash
    cd apps/todo-app
    ```
 
-2. **Create the Python virtual environment using `uv`:**
-
+2. **Create the Python virtual environment:**
    ```bash
    uv venv
    ```
 
 3. **Activate the environment:**
-
    ```bash
    # On macOS / Linux
    source .venv/bin/activate
@@ -173,38 +202,21 @@ Each application is self-contained. To run one, you must first navigate into its
    .venv\Scripts\activate
    ```
 
-4. **Install Python dependencies using `uv`:**
-   This command reads the `pyproject.toml` file and installs the exact dependencies.
-
+4. **Install Python dependencies:**
    ```bash
    uv pip sync
    ```
 
 5. **Install frontend dependencies:**
-
    ```bash
    npm install
    ```
 
-6. **Run the development servers:**
-   You will need two separate terminals.
+6. **Run the development servers (requires two terminals):**
+   - **Terminal 1 (Tailwind CSS):** `npm run watch`
+   - **Terminal 2 (FastAPI):** `uvicorn src.todo_app.main:app --reload`
 
-   - **Terminal 1: Start the Tailwind CSS watcher.**
-     This will automatically rebuild your CSS file when you make changes to the templates.
-
-     ```bash
-     npm run watch
-     ```
-
-   - **Terminal 2: Start the FastAPI server with Uvicorn.**
-     The `--reload` flag enables live reloading for your Python code.
-
-     ```bash
-     uvicorn src.todo_app.main:app --reload
-     ```
-
-7. **Open the app in your browser:**
-   Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
+7. **Open in browser:** Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 </details>
 

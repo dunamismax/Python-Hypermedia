@@ -1,0 +1,12 @@
+[project]
+name = "hypermedia-scripts"
+version = "0.1.0"
+description = "Scripts for managing the Python-Hypermedia monorepo."
+authors = [{ name = "Gemini", email = "gemini@google.com" }]
+dependencies = [
+    "typer[all]==0.12.3",
+    "questionary==2.0.1",
+]
+
+[tool.uv]
+dev-dependencies = []
