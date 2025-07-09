@@ -122,6 +122,7 @@ This monorepo is organized with a focus on complete application independence.
 - **`.gitignore`**: A single, top-level gitignore for the whole repository.
 - **`LICENSE`**: The MIT license file for the project.
 - **`README.md`**: This file.
+- **[`docs/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/docs)**: Contains additional documentation and reference materials.
 
 ---
 
