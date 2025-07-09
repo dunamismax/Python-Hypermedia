@@ -3,18 +3,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sawyer/Python-Hypermedia">
+  <a href="https://github.com/dunamismax/Python-Hypermedia">
     <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=4B8BBE&center=true&vCenter=true&width=800&lines=The+Python+Hypermedia+Stack;Building+Modern+Server-Rendered+Apps;FastAPI+%2B+HTMX+%2B+Tailwind+CSS;Minimal+JavaScript.+Maximum+Productivity." alt="Typing SVG" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/sawyer/Python-Hypermedia/actions/workflows/ruff-linter.yml"><img src="https://github.com/sawyer/Python-Hypermedia/actions/workflows/ruff-linter.yml/badge.svg" alt="Build Status"></a>
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10+-3776AB.svg" alt="Python Version"></a>
-  <a href="https://img.shields.io/github/repo-size/sawyer/Python-Hypermedia"><img src="https://img.shields.io/github/repo-size/sawyer/Python-Hypermedia" alt="Repo Size"></a>
-  <a href="https://github.com/sawyer/Python-Hypermedia/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  <a href="https://github.com/sawyer/Python-Hypermedia/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
-  <a href="https://github.com/sawyer/Python-Hypermedia/stargazers"><img src="https://img.shields.io/github/stars/sawyer/Python-Hypermedia" alt="GitHub Stars"></a>
+  <a href="https://img.shields.io/github/repo-size/dunamismax/Python-Hypermedia"><img src="https://img.shields.io/github/repo-size/dunamismax/Python-Hypermedia" alt="Repo Size"></a>
+  <a href="https://github.com/dunamismax/Python-Hypermedia/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://github.com/dunamismax/Python-Hypermedia/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://github.com/dunamismax/Python-Hypermedia/stargazers"><img src="https://img.shields.io/github/stars/dunamismax/Python-Hypermedia" alt="GitHub Stars"></a>
 </p>
 
 ---
@@ -113,8 +112,8 @@ Your specified self-hosted deployment on a Linux virtual machine.
 This monorepo is organized with a focus on complete application independence.
 
 - **`apps/`**: The main directory containing all independent applications. Each subdirectory is a complete, standalone project with its own dependencies, environment, and configuration.
-  - **`todo-app/`**: An example To-Do list application.
-  - **`image-gallery/`**: An example image gallery application.
+  - **[`todo-app/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/todo-app)**: An example To-Do list application.
+  - **[`image-gallery/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/image-gallery)**: An example image gallery application.
 - **`.github/`**: Contains GitHub-specific files, such as workflow definitions and issue templates.
 - **`.gitignore`**: A single, top-level gitignore for the whole repository.
 - **`README.md`**: This file.
@@ -133,7 +132,7 @@ This monorepo is organized with a focus on complete application independence.
 #### 2. Clone the Repository
 
 ```bash
-git clone https://github.com/sawyer/Python-Hypermedia.git
+git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
 ```
 
