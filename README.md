@@ -205,15 +205,15 @@ Once the initial setup is complete, running any application requires navigating 
 
 #### 4. Cleaning the Repository
 
-To reset the repository to a clean state, you can use the **`app_cleaner`** script. It will remove all generated files like virtual environments, `node_modules`, and caches.
+To reset the repository to a clean state, you can use the **`project_cleanup`** script. It will remove all generated files like virtual environments, `node_modules`, and caches.
 
 1. **Navigate to the script's directory:**
    ```bash
-   cd scripts/app_cleaner
+   cd scripts/project_cleanup
    ```
 2. **Run the script (after its initial setup):**
    ```bash
-   python clean.py
+   python cleanup.py
    ```
 </details>
 
