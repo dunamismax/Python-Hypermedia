@@ -4,5 +4,5 @@ version = "0.1.0"
 description = "A script to clean temporary files and directories from the monorepo."
 authors = [{ name = "Gemini", email = "gemini@google.com" }]
 dependencies = [
-    "ruff==0.4.10"
+    "ruff==0.12.2"
 ]
