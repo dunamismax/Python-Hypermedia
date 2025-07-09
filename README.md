@@ -44,23 +44,29 @@ A streamlined toolchain for a productive and consistent development environment.
 
 ### **2. Backend**
 
-The application's core, built for speed and ease of use.
+The application's core, built for speed, resilience, and connectivity.
 
 - [**FastAPI**](https://fastapi.tiangolo.com/)
   - **Why:** A modern, high-performance Python web framework. It uses standard Python type hints to build robust APIs and render server-side HTML templates, providing automatic data validation and documentation.
+- [**Gunicorn**](https://gunicorn.org/)
+  - **Why:** A battle-tested WSGI HTTP server used as a process manager for Uvicorn in production. Gunicorn manages multiple Uvicorn worker processes, enabling you to leverage multi-core CPUs, increase capacity, and improve fault tolerance.
 - [**Uvicorn**](https://www.uvicorn.org/)
-  - **Why:** A lightning-fast ASGI server that runs the FastAPI application, enabling its high-performance asynchronous capabilities.
+  - **Why:** A lightning-fast ASGI server that runs the FastAPI application. In production, it is managed by Gunicorn to run multiple worker processes, enabling high-performance asynchronous capabilities.
+- [**HTTPX**](https://www.python-httpx.org/)
+  - **Why:** A fully featured, modern HTTP client for Python. It provides both sync and async APIs, making it the ideal choice for a FastAPI application to interact with external services without blocking the event loop.
 
 ### **3. Database**
 
-A unified and Pythonic approach to data modeling and database interaction.
+A unified and Pythonic approach to data modeling, interaction, and evolution.
 
 - [**SQLModel**](https://sqlmodel.tiangolo.com/)
   - **Why:** The primary tool for database interaction, built by the creator of FastAPI. SQLModel cleverly combines Pydantic and SQLAlchemy, allowing you to define data, database tables, and API models in a single Python class. This significantly reduces code duplication and simplifies data management.
+- [**Alembic**](https://alembic.sqlalchemy.org/en/latest/)
+  - **Why:** A powerful database migration tool from the creator of SQLAlchemy. Alembic provides a reliable and systematic way to manage and version changes to your database schema as your application's models evolve.
 - [**Pydantic**](https://docs.pydantic.dev/latest/)
-  - **Why:** The foundational libraries that power SQLModel. Pydantic provides robust data validation, while SQLAlchemy offers a powerful and flexible SQL toolkit and Object Relational Mapper (ORM).
+  - **Why:** One of the foundational libraries that power SQLModel. Pydantic provides robust data validation and settings management using Python type hints.
 - [**SQLAlchemy**](https://www.sqlalchemy.org/)
-  - **Why:** The foundational libraries that power SQLModel. Pydantic provides robust data validation, while SQLAlchemy offers a powerful and flexible SQL toolkit and Object Relational Mapper (ORM).
+  - **Why:** One of the foundational libraries that power SQLModel. SQLAlchemy offers a powerful and flexible SQL toolkit and Object Relational Mapper (ORM) for comprehensive database control.
 
 ### **4. Frontend**
 
@@ -70,7 +76,7 @@ A hypermedia-driven frontend that delivers a rich user experience without requir
   - **Why:** A fast and expressive templating engine used by FastAPI to render dynamic HTML, injecting backend data directly into the user interface.
 - [**HTMX**](https://htmx.org/)
   - **Why:** The core of the interactive experience. HTMX allows you to trigger AJAX requests directly from HTML attributes, enabling smooth UI updates by swapping server-rendered HTML fragments without writing complex JavaScript.
-- [**Tailwind CSS**](https://tailwindcss.com/docs)
+- [**Tailwind CSS**](https://tailwindcss.com/docs/)
   - **Why:** A utility-first CSS framework for rapidly building custom user interfaces directly within your HTML, promoting speed and consistency in design.
 - [**DaisyUI**](https://daisyui.com/)
   - **Why:** A plugin for Tailwind CSS that provides a library of pre-styled components (like buttons, cards, and menus). It accelerates development by offering ready-to-use UI elements that are fully customizable with Tailwind utilities.
@@ -79,10 +85,12 @@ A hypermedia-driven frontend that delivers a rich user experience without requir
 
 ### **5. CLI & Task Management**
 
-A modern tool for building command-line interfaces to manage the application.
+Modern tools for building command-line interfaces and automating development tasks.
 
 - [**Typer**](https://typer.tiangolo.com/)
   - **Why:** A library for building powerful and user-friendly CLI applications, created by the author of FastAPI. It uses the same Python type-hint philosophy, making it intuitive to create commands for database migrations, user management, or other administrative tasks.
+- [**Invoke**](https://www.pyinvoke.org/)
+  - **Why:** A Python task execution library for defining and running administrative tasks. Invoke is excellent for creating a clean, organized collection of commands for common operations like starting a dev server, running tests, or deploying the application.
 
 ### **6. Deployment**
 
