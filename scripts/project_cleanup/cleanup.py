@@ -1,11 +1,26 @@
+"""
+This script recursively scans the entire monorepo from the project root and
+**immediately deletes** common temporary files and directories.
+
+It is designed to be run from the root of the repository using `uv run`.
+The script is smarter than a simple `rglob` and avoids errors by only
+targeting top-level matches for deletion, which is more efficient and prevents
+errors from trying to delete child directories that have already been removed
+when their parent was.
+
+Note: This script runs non-interactively and does not ask for confirmation.
+"""
+
 import shutil
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, Set
 
 
 # --- ANSI Color Codes ---
 class Colors:
+    """A class for storing ANSI color codes for printing formatted output."""
+
     YELLOW = "\033[93m"
     GREEN = "\033[92m"
     RED = "\033[91m"
@@ -15,13 +30,16 @@ class Colors:
     END = "\033[0m"
 
 
-def cprint(text, color=None, bold=False):
+def cprint(text: str, color: str = None, bold: bool = False) -> None:
     """Prints text with specified color and boldness."""
     style = Colors.BOLD if bold else ""
     color_code = getattr(Colors, color.upper(), "") if color else ""
     print(f"{style}{color_code}{text}{Colors.END}")
 
 
+# --- Constants ---
+
+# Directories and files to be deleted across the monorepo.
 TARGETS_TO_DELETE = [
     ".ruff_cache",
     "__pycache__",
@@ -33,6 +51,9 @@ TARGETS_TO_DELETE = [
     "uv.lock",
     "static/**/main.css",
 ]
+
+
+# --- Core Logic ---
 
 
 def get_project_root() -> Path:
@@ -48,14 +69,25 @@ def get_project_root() -> Path:
 
 
 def find_items_to_delete(root: Path) -> List[Path]:
-    """Finds all files and directories matching the target names."""
-    found_items = []
-    for target in TARGETS_TO_DELETE:
-        found_items.extend(root.rglob(target))
-    return found_items
+    """Finds all top-level files and directories matching the target patterns."""
+    found_items: Set[Path] = set()
+    for pattern in TARGETS_TO_DELETE:
+        # Use rglob to find all potential matches.
+        matches = list(root.rglob(pattern))
+        # Filter out nested matches. For example, if we match `a/b/node_modules`
+        # and `a/node_modules`, we only want to keep `a/node_modules`.
+        top_level_matches = set()
+        for match in sorted(matches, key=lambda p: len(p.parts)):
+            # If a parent of the current match is already in our set, skip it.
+            if any(parent in top_level_matches for parent in match.parents):
+                continue
+            top_level_matches.add(match)
+        found_items.update(top_level_matches)
+    # Sort the final list for consistent output.
+    return sorted(list(found_items), key=lambda p: p.as_posix())
 
 
-def main():
+def main() -> None:
     """
     Finds and deletes temporary project files and directories automatically.
     """
@@ -81,6 +113,10 @@ def main():
 
     for item in items_to_delete:
         try:
+            if not item.exists():
+                # This can happen if a parent directory was already deleted.
+                continue
+
             if item.is_dir():
                 shutil.rmtree(item)
                 cprint(
