@@ -107,6 +107,8 @@ Your specified self-hosted deployment on a Linux virtual machine.
   - **Latest Version:** 2.8.4
   - **Official Documentation:** <https://caddyserver.com/docs/>
 
+</details>
+
 ---
 
 ## Project Structure
@@ -203,8 +205,6 @@ With `uv`, you can:
 - Create and manage virtual environments.
 - Install and synchronize project dependencies from `pyproject.toml`.
 - Run Python scripts and tools within managed environments.
-
-</details>
 
 ---
 
