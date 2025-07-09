@@ -12,32 +12,27 @@ The application starts a FastAPI server that renders a main HTML page using Jinj
 
 This app is managed by the central `project_setup` script in the repository's `scripts/` directory.
 
-1. **Run the main setup script** from `scripts/project_setup` to install all dependencies and create the virtual environment for this app.
+1. **Run the main setup script** from the root of the repository to install all dependencies for this app.
+   ```bash
+   uv run --no-project scripts/project_setup/setup.py
+   ```
 
 2. **Navigate to this app's directory:**
-
    ```bash
    cd apps/todo-app
    ```
 
-3. **Activate the virtual environment:**
-
-   ```bash
-   source .venv/bin/activate
-   ```
-
-4. **Run the development servers (requires two separate terminals):**
+3. **Run the development servers (requires two separate terminals):**
 
    - **Terminal 1 (CSS Watcher):**
-
      ```bash
      npm run watch
      ```
 
    - **Terminal 2 (FastAPI Server):**
-
+     `uv run` automatically uses the project's virtual environment and dependencies. The `--reload` flag enables live reloading.
      ```bash
-     uvicorn src.todo_app.main:app --reload
+     uv run uvicorn src.todo_app.main:app --reload
      ```
 
 ### What You Get

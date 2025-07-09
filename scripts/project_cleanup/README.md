@@ -18,18 +18,10 @@ The script will search for and remove all occurrences of the following:
 
 ## How to Use
 
-Simply navigate to this directory and run the script with Python.
+From the root of the repository, run the script using `uv run`.
 
-1. **Navigate to this directory:**
-
-   ```bash
-   cd scripts/project_cleanup
-   ```
-
-2. **Run the script:**
-
-   ```bash
-   python cleanup.py
-   ```
+```bash
+uv run --no-project scripts/project_cleanup/cleanup.py
+```
 
 The script has no external dependencies and will immediately begin cleaning the repository.

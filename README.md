@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10+-3776AB.svg" alt="Python Version"></a>
+  <a href="https://github.com/astral-sh/uv"><img src="https://img.shields.io/badge/uv-0.1-blue.svg" alt="uv version"></a>
   <a href="https://img.shields.io/github/repo-size/dunamismax/Python-Hypermedia"><img src="https://img.shields.io/github/repo-size/dunamismax/Python-Hypermedia" alt="Repo Size"></a>
   <a href="https://github.com/dunamismax/Python-Hypermedia/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
   <a href="https://github.com/dunamismax/Python-Hypermedia/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
@@ -92,12 +92,7 @@ This stack creates a rich, interactive user experience by rendering HTML on the 
 
 ### **4. CLI & Management**
 
-Tools for creating command-line interfaces to manage the application, run scripts, and automate tasks.
-
-- **argparse (Python Standard Library)**
-  - **Why:** As the built-in, standard library solution, argparse is the canonical way to build command-line interfaces in Python without any external dependencies. It provides a robust way to define arguments, options, and sub-commands, making it ideal for creating management scripts (e.g., creating a superuser, seeding the database, running maintenance tasks). It automatically generates help and usage messages and issues errors when users provide invalid arguments.
-  - **Version:** Part of the Python Standard Library
-  - **Official Documentation:** [**https://docs.python.org/3/library/argparse.html**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fdocs.python.org%2F3%2Flibrary%2Fargparse.html)
+This project uses **uv** for all Python-related tasks, including script running, dependency management, and environment setup. Scripts are executed directly with `uv run`, which automatically handles the environment and dependencies.
 
 ### **5. Deployment & Hosting**
 
@@ -133,12 +128,11 @@ This monorepo is organized with a focus on complete application independence.
 <details>
 <summary><h3>Getting Started (Click to Expand)</h3></summary>
 
-The development workflow is designed to be simple and consistent across all projects in this repository.
+The development workflow is designed to be simple and consistent across all projects in this repository, powered by **uv**.
 
 #### 1. Prerequisites
 
-- **Python 3.10+**
-- **[uv](https://github.com/astral-sh/uv)**: The fast Python package installer used in this project.
+- **[uv](https://github.com/astral-sh/uv)**: The only required tool. `uv` will automatically install the correct Python version for you.
 - **Node.js and npm**: For managing frontend dependencies in the web applications.
 
 #### 2. Initial Repository Setup
@@ -152,25 +146,9 @@ cd Python-Hypermedia
 
 Next, run the **`project_setup`** script. This is a one-time command that will scan the entire repository and automatically create virtual environments, install all Python and Node.js dependencies, and run quality checks for every application and script.
 
-1. **Navigate to the script's directory:**
-
-   ```bash
-   cd scripts/project_setup
-   ```
-
-2. **Set up the script's own environment (only needs to be done once):**
-
-   ```bash
-   uv venv
-   source .venv/bin/activate
-   uv pip sync pyproject.toml
-   ```
-
-3. **Run the main setup process:**
-
-   ```bash
-   python setup.py
-   ```
+```bash
+uv run --no-project scripts/project_setup/setup.py
+```
 
 After this script completes, every project in the monorepo is ready to be used.
 
@@ -186,13 +164,7 @@ Once the initial setup is complete, running any application requires navigating 
    cd apps/image-gallery
    ```
 
-2. **Activate the app's virtual environment:**
-
-   ```bash
-   source .venv/bin/activate
-   ```
-
-3. **Run the development servers (requires two separate terminals):**
+2. **Run the development servers (requires two separate terminals):**
 
    - **Terminal 1: Start the Tailwind CSS watcher.**
      This automatically rebuilds your CSS file when you make changes.
@@ -202,30 +174,22 @@ Once the initial setup is complete, running any application requires navigating 
      ```
 
    - **Terminal 2: Start the FastAPI server.**
-     The `--reload` flag enables live reloading for your Python code.
+     `uv run` automatically uses the project's virtual environment and dependencies. The `--reload` flag enables live reloading for your Python code.
 
      ```bash
-     uvicorn src.image_gallery.main:app --reload
+     uv run uvicorn src.image_gallery.main:app --reload
      ```
 
-4. **Open the app in your browser:**
+3. **Open the app in your browser:**
    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 #### 4. Cleaning the Repository
 
 To reset the repository to a clean state, you can use the **`project_cleanup`** script. It will immediately remove all generated files like virtual environments, `node_modules`, and caches.
 
-1. **Navigate to the script's directory:**
-
-   ```bash
-   cd scripts/project_cleanup
-   ```
-
-2. **Run the script:**
-
-   ```bash
-   python cleanup.py
-   ```
+```bash
+uv run --no-project scripts/project_cleanup/cleanup.py
+```
 
 </details>
 
@@ -233,12 +197,12 @@ To reset the repository to a clean state, you can use the **`project_cleanup`** 
 
 ## Quality Control
 
-This project uses [Ruff](https://docs.astral.sh/ruff/) for high-performance linting and formatting. The checks are run for each application individually.
+This project uses [Ruff](https://docs.astral.sh/ruff/) for high-performance linting and formatting. The checks are run for each application individually using `uv run`.
 
-- **`ruff check .`**: Run the linter to find potential errors and style issues.
-- **`ruff format .`**: Automatically format the code to a consistent style.
+- **`uv run ruff check .`**: Run the linter to find potential errors and style issues.
+- **`uv run ruff format .`**: Automatically format the code to a consistent style.
 
-To run these commands, navigate to the specific app's directory (`cd apps/some-app`) and ensure your virtual environment is activated.
+To run these commands, navigate to the specific app's directory (`cd apps/some-app`).
 
 ---
 
