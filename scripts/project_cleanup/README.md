@@ -9,7 +9,7 @@ It is the recommended first step in the standard workflow for keeping your envir
 From the root of the repository, run the script using `uv run`:
 
 ```bash
-uv run python scripts/project_cleanup/cleanup.py
+uv run scripts/project_cleanup/cleanup.py
 ```
 
 The script has no external dependencies and will immediately begin cleaning the repository.

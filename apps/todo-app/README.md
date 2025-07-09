@@ -14,25 +14,27 @@ Before running, ensure you have completed the initial repository setup by runnin
 
 Once the setup is complete:
 
-1.  **Navigate to this app's directory:**
+1. **Navigate to this app's directory:**
 
-    ```bash
-    cd apps/todo-app
-    ```
+   ```bash
+   cd apps/todo-app
+   ```
 
-2.  **Run the development servers (requires two separate terminals):**
+2. **Run the development servers (requires two separate terminals):**
 
-    -   **Terminal 1 (CSS Watcher):**
-        This command watches for changes in your Tailwind CSS files and rebuilds the stylesheet automatically.
-        ```bash
-        npm run watch
-        ```
+   - **Terminal 1 (CSS Watcher):**
+     This command watches for changes in your Tailwind CSS files and rebuilds the stylesheet automatically.
 
-    -   **Terminal 2 (FastAPI Server):**
-        This command starts the Python backend server with live reloading. `uv run` handles the virtual environment automatically.
-        ```bash
-        uv run uvicorn src.todo_app.main:app --reload
-        ```
+     ```bash
+     npm run watch
+     ```
 
-3.  **Open the app in your browser:**
-    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
+   - **Terminal 2 (FastAPI Server):**
+     This command starts the Python backend server with live reloading. `uv run` handles the virtual environment automatically.
+
+     ```bash
+     uv run uvicorn src.todo_app.main:app --reload
+     ```
+
+3. **Open the app in your browser:**
+   Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).

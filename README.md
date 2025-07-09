@@ -20,13 +20,13 @@
 
 ## About This Project
 
-This monorepo serves as a centralized showcase for a variety of Python web applications, each demonstrating a modern, robust, and productive approach to building server-rendered applications. It is built on the principle of project-level isolation, with each app being a completely independent entity.
+This monorepo is a collection of Python web applications that demonstrate a modern, server-rendered approach to web development. Each application is a standalone project with its own dependencies and environment, but all share a common set of tools and a unified development workflow.
 
-The primary goal is to provide a structured, maintainable, and scalable environment for building modern web applications with a focus on performance, developer experience, and minimal frontend complexity, using **The Python Hypermedia Stack**.
+The primary goal is to provide a structured and scalable environment for building web applications with a focus on performance, developer experience, and minimal frontend complexity.
 
 ### Target Environments
 
-All code in this repository primarily targets **macOS** for development and testing. **Linux (Ubuntu)** is the target for production deployments.
+All code in this repository is developed and tested on **macOS** and is intended for production deployment on **Linux (Ubuntu)**.
 
 <details>
 <summary><h3>The Python Hypermedia Stack (Click to Expand)</h3></summary>
@@ -101,11 +101,12 @@ A self-hosted, secure, and stable production environment.
 
 This monorepo is organized with a focus on complete application independence.
 
-- **`apps/`**: The main directory containing all independent applications. Each subdirectory is a complete, standalone project with its own dependencies, environment, and configuration.
+- **`apps/`**: Contains all independent applications. Each subdirectory is a complete, standalone project with its own dependencies, environment, and configuration.
   - **[`todo-app/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/todo-app)**: An example To-Do list application.
   - **[`dunamismax/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/dunamismax)**: A personal blog and portfolio website.
 - **[`docs/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/docs)**: Contains additional documentation and reference materials.
-- **[`scripts/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/scripts)**: Contains various utility scripts for development, automation, and management.
+- **[`playground/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/playground)**: A space for experimental projects and proofs-of-concept.
+- **[`scripts/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/scripts)**: Contains utility scripts for development, automation, and management.
 - **`.gitignore`**: A single, top-level gitignore for the whole repository.
 - **`LICENSE`**: The MIT license file for the project.
 - **`README.md`**: This file.
@@ -114,7 +115,7 @@ This monorepo is organized with a focus on complete application independence.
 
 ## Getting Started
 
-Setting up this monorepo is a simple, automated process. The goal is to get you from a fresh clone to a fully operational development environment with a single command.
+Setting up this monorepo is an automated process designed to get you from a fresh clone to a fully operational development environment with a single command.
 
 ### 1. Prerequisites
 
@@ -133,13 +134,7 @@ git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
 ```
 
-Next, run the **`project_setup`** script. This is the **only command you need to run** to get everything set up. It will:
-
-- Install `uv` (our Python package manager).
-- Install `Node.js` and `npm` (using Homebrew on macOS, with instructions for Linux).
-- Install a `uv`-managed version of Python.
-- Install all Python and Node.js dependencies for every project.
-- Run initial code quality checks.
+Next, run the **`project_setup`** script. This is the **only time you should use the `python` command directly**. This script will install `uv` and a managed version of Python, which you will use for all subsequent commands.
 
 ```bash
 python scripts/project_setup/setup.py
@@ -147,7 +142,31 @@ python scripts/project_setup/setup.py
 
 After this script completes, the entire monorepo is configured and ready for development.
 
-### 3. Running an Application
+### 3. Using uv: The Only Python Command You Need
+
+After you run the initial `python scripts/project_setup/setup.py` command, you should **no longer use the `python` command directly**. The setup script installs a managed version of Python via `uv`, and from that point on, `uv` should be used to run all Python-related tasks.
+
+This ensures that you are always using the correct, project-defined version of Python and its dependencies, creating a perfectly consistent environment.
+
+**From now on, to run any Python script, you will use `uv run`:**
+
+```bash
+# Example: Running a script
+uv run some_script.py
+
+# Example: Running the cleanup script
+uv run scripts/project_cleanup/cleanup.py
+```
+
+`uv` is a powerful and extremely fast Python package installer, resolver, and version manager. It replaces `pip`, `pip-tools`, `virtualenv`, and `pyenv`. By using `uv run`, you gain:
+
+- **Consistency**: Always use the correct Python version and dependencies for the project.
+- **Speed**: `uv` is significantly faster than traditional Python tooling.
+- **Simplicity**: A single tool for all your Python environment needs.
+
+For a comprehensive overview of its capabilities, refer to the official [uv features documentation](https://docs.astral.sh/uv/getting-started/features/).
+
+### 4. Running an Application
 
 Once the initial setup is complete, running any application requires navigating to its directory and starting its development servers.
 
@@ -178,7 +197,7 @@ Once the initial setup is complete, running any application requires navigating 
 3. **Open the app in your browser:**
    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-### 4. Keeping Your Environment Clean and Up-to-Date
+### 5. Keeping Your Environment Clean and Up-to-Date
 
 To ensure a clean and consistent environment, you can use the `project_cleanup` and `project_setup` scripts together. This is the recommended workflow after pulling new changes, adding a new application, or changing dependencies.
 
@@ -193,30 +212,6 @@ To ensure a clean and consistent environment, you can use the `project_cleanup` 
    ```bash
    uv run scripts/project_setup/setup.py
    ```
-
-### 5. Using uv: The Only Python Command You Need
-
-After you run the initial `python scripts/project_setup/setup.py` command, you should **no longer use the `python` command directly**. The setup script installs a managed version of Python via `uv`, and from that point on, `uv` should be used to run all Python-related tasks.
-
-This ensures that you are always using the correct, project-defined version of Python and its dependencies, creating a perfectly consistent environment.
-
-**From now on, to run any Python script, you will use `uv run`:**
-
-```bash
-# Example: Running a script
-uv run some_script.py
-
-# Example: Running the cleanup script
-uv run scripts/project_cleanup/cleanup.py
-```
-
-`uv` is a powerful and extremely fast Python package installer, resolver, and version manager. It replaces `pip`, `pip-tools`, `virtualenv`, and `pyenv`. By using `uv run`, you gain:
-
-- **Consistency**: Always use the correct Python version and dependencies for the project.
-- **Speed**: `uv` is significantly faster than traditional Python tooling.
-- **Simplicity**: A single tool for all your Python environment needs.
-
-For a comprehensive overview of its capabilities, refer to the official [uv features documentation](https://docs.astral.sh/uv/getting-started/features/).
 
 ---
 
