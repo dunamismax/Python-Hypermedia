@@ -107,8 +107,6 @@ Your specified self-hosted deployment on a Linux virtual machine.
   - **Latest Version:** 2.8.4
   - **Official Documentation:** <https://caddyserver.com/docs/>
 
-</details>
-
 ---
 
 ## Project Structure
@@ -194,6 +192,19 @@ To reset the repository to a clean state, you can use the **`project_cleanup`** 
 ```bash
 uv run scripts/project_cleanup/cleanup.py
 ```
+
+### 5. Using uv
+
+`uv` is a powerful and extremely fast Python package installer and resolver, designed to be a direct replacement for `pip`, `pip-tools`, and `virtualenv`. It can also manage Python versions, effectively replacing tools like `pyenv`. For a comprehensive overview of its capabilities, refer to the official [uv features documentation](https://docs.astral.sh/uv/getting-started/features/).
+
+With `uv`, you can:
+
+- Install and manage Python versions.
+- Create and manage virtual environments.
+- Install and synchronize project dependencies from `pyproject.toml`.
+- Run Python scripts and tools within managed environments.
+
+</details>
 
 ---
 
