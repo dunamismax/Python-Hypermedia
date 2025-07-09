@@ -33,6 +33,7 @@ env/
 .env/
 ENV/
 activate_this.py
+*uv.lock
 
 # Compiled Python files
 *.pyc

@@ -9,6 +9,7 @@ This script recursively scans the entire monorepo from the project root and **im
 The script will search for and remove all occurrences of the following:
 
 - `.ruff_cache/`
+- `.__pycache__/`
 - `.venv/`
 - `build/`
 - `node_modules/`
