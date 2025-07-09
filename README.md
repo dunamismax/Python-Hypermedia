@@ -148,6 +148,7 @@ cd Python-Hypermedia
 ```
 
 Next, run the **`project_setup`** script. This is the **only command you need to run** to get everything set up. It will:
+
 - Install `uv` (our Python package manager).
 - Install `Node.js` and `npm` (using Homebrew on macOS, with instructions for Linux).
 - Install a `uv`-managed version of Python.
@@ -195,27 +196,41 @@ Once the initial setup is complete, running any application requires navigating 
 
 To ensure a clean and consistent environment, you can use the `project_cleanup` and `project_setup` scripts together. This is the recommended workflow after pulling new changes, adding a new application, or changing dependencies.
 
-1.  **Run the cleanup script** to remove all temporary files and build artifacts.
+1. **Run the cleanup script** to remove all temporary files and build artifacts.
 
-    ```bash
-    uv run python scripts/project_cleanup/cleanup.py
-    ```
+   ```bash
+   uv run scripts/project_cleanup/cleanup.py
+   ```
 
-2.  **Run the setup script** to reinstall and sync all dependencies and configurations.
-    ```bash
-    python scripts/project_setup/setup.py
-    ```
+2. **Run the setup script** to reinstall and sync all dependencies and configurations.
 
-### 5. Using uv
+   ```bash
+   uv run scripts/project_setup/setup.py
+   ```
 
-`uv` is a powerful and extremely fast Python package installer and resolver, designed to be a direct replacement for `pip`, `pip-tools`, and `virtualenv`. It can also manage Python versions, effectively replacing tools like `pyenv`. For a comprehensive overview of its capabilities, refer to the official [uv features documentation](https://docs.astral.sh/uv/getting-started/features/).
+### 5. Using uv: The Only Python Command You Need
 
-With `uv`, you can:
+After you run the initial `python scripts/project_setup/setup.py` command, you should **no longer use the `python` command directly**. The setup script installs a managed version of Python via `uv`, and from that point on, `uv` should be used to run all Python-related tasks.
 
-- Install and manage Python versions.
-- Create and manage virtual environments.
-- Install and synchronize project dependencies from `pyproject.toml`.
-- Run Python scripts and tools within managed environments.
+This ensures that you are always using the correct, project-defined version of Python and its dependencies, creating a perfectly consistent environment.
+
+**From now on, to run any Python script, you will use `uv run`:**
+
+```bash
+# Example: Running a script
+uv run python some_script.py
+
+# Example: Running the cleanup script
+uv run python scripts/project_cleanup/cleanup.py
+```
+
+`uv` is a powerful and extremely fast Python package installer, resolver, and version manager. It replaces `pip`, `pip-tools`, `virtualenv`, and `pyenv`. By using `uv run`, you gain:
+
+- **Consistency**: Always use the correct Python version and dependencies for the project.
+- **Speed**: `uv` is significantly faster than traditional Python tooling.
+- **Simplicity**: A single tool for all your Python environment needs.
+
+For a comprehensive overview of its capabilities, refer to the official [uv features documentation](https://docs.astral.sh/uv/getting-started/features/).
 
 ---
 
