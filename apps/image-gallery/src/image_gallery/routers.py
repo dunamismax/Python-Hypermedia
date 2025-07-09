@@ -25,12 +25,16 @@ def get_session():
 
 
 @router.get("/", response_class=HTMLResponse)
-def get_image_gallery(request: Request, session: Annotated[Session, Depends(get_session)]):
+def get_image_gallery(
+    request: Request, session: Annotated[Session, Depends(get_session)]
+):
     """
     Renders the main page with the image gallery.
     """
     images = session.exec(select(Image).order_by(Image.id.desc())).all()
-    return templates.TemplateResponse("index.html", {"request": request, "images": images})
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "images": images}
+    )
 
 
 @router.post("/upload", response_class=HTMLResponse)
