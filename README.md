@@ -40,68 +40,68 @@ This stack is designed for building self-contained, high-performance, and intera
 The core of the application, responsible for handling logic, routing, and rendering the user interface.
 
 - **FastAPI**
-    - **Why:** A modern, high-performance Python web framework ideal for building APIs and, in this case, serving server-rendered HTML. It uses standard Python type hints for data validation, which leads to robust, editor-friendly code. It will handle the routes and render the Jinja2 templates.
-    - **Latest Version:** 0.111.0
-    - **Official Documentation:** https://fastapi.tiangolo.com/
+  - **Why:** A modern, high-performance Python web framework ideal for building APIs and, in this case, serving server-rendered HTML. It uses standard Python type hints for data validation, which leads to robust, editor-friendly code. It will handle the routes and render the Jinja2 templates.
+  - **Latest Version:** 0.111.0
+  - **Official Documentation:** <https://fastapi.tiangolo.com/>
 - **Uvicorn**
-    - **Why:** A lightning-fast ASGI (Asynchronous Server Gateway Interface) server that is required to run FastAPI's asynchronous capabilities. It acts as the direct process manager for the Python application on your server.
-    - **Latest Version:** 0.30.1
-    - **Official Documentation:** https://www.uvicorn.org/
+  - **Why:** A lightning-fast ASGI (Asynchronous Server Gateway Interface) server that is required to run FastAPI's asynchronous capabilities. It acts as the direct process manager for the Python application on your server.
+  - **Latest Version:** 0.30.1
+  - **Official Documentation:** <https://www.uvicorn.org/>
 
 #### **2. Database & Data Modeling**
 
 This combination provides a powerful and Python-native way to define, validate, and interact with your database.
 
 - **Pydantic**
-    - **Why:** The backbone for data validation in FastAPI. It uses Python type hints to validate, serialize, and deserialize data, ensuring that all data flowing through your application is well-structured and correct. It's a core dependency of FastAPI.
-    - **Latest Version:** 2.8.2
-    - **Official Documentation:** https://docs.pydantic.dev/
+  - **Why:** The backbone for data validation in FastAPI. It uses Python type hints to validate, serialize, and deserialize data, ensuring that all data flowing through your application is well-structured and correct. It's a core dependency of FastAPI.
+  - **Latest Version:** 2.8.2
+  - **Official Documentation:** <https://docs.pydantic.dev/>
 - **SQLAlchemy**
-    - **Why:** The premier SQL toolkit and Object Relational Mapper (ORM) for Python. It provides a full suite of powerful tools for interacting with your database, offering both a high-level ORM and a low-level SQL expression language for maximum flexibility and performance.
-    - **Latest Version:** 2.0.31
-    - **Official Documentation:** https://www.sqlalchemy.org/
+  - **Why:** The premier SQL toolkit and Object Relational Mapper (ORM) for Python. It provides a full suite of powerful tools for interacting with your database, offering both a high-level ORM and a low-level SQL expression language for maximum flexibility and performance.
+  - **Latest Version:** 2.0.31
+  - **Official Documentation:** <https://www.sqlalchemy.org/>
 - **SQLModel**
-    - **Why:** Created by the author of FastAPI, SQLModel simplifies interaction between the database and the API. It is built on top of Pydantic and SQLAlchemy, allowing you to define your data models, database tables, and API responses from a single, clear Python class. This reduces code duplication significantly.
-    - **Latest Version:** 0.1.1
-    - **Official Documentation:** https://sqlmodel.tiangolo.com/
+  - **Why:** Created by the author of FastAPI, SQLModel simplifies interaction between the database and the API. It is built on top of Pydantic and SQLAlchemy, allowing you to define your data models, database tables, and API responses from a single, clear Python class. This reduces code duplication significantly.
+  - **Latest Version:** 0.1.1
+  - **Official Documentation:** <https://sqlmodel.tiangolo.com/>
 
 #### **3. Frontend (The Hypermedia Stack)**
 
 This stack creates a rich, interactive user experience by rendering HTML on the server, avoiding the need for a complex client-side JavaScript framework.
 
 - **Jinja2**
-    - **Why:** A fast, expressive, and widely-used templating engine for Python. FastAPI will use Jinja2 to render your HTML templates, injecting dynamic data from the backend before sending the final HTML page to the user's browser.
-    - **Latest Version:** 3.1.4
-    - **Official Documentation:** https://jinja.palletsprojects.com/
+  - **Why:** A fast, expressive, and widely-used templating engine for Python. FastAPI will use Jinja2 to render your HTML templates, injecting dynamic data from the backend before sending the final HTML page to the user's browser.
+  - **Latest Version:** 3.1.4
+  - **Official Documentation:** <https://jinja.palletsprojects.com/>
 - **HTMX**
-    - **Why:** This is the key to modern interactivity in this stack. HTMX allows you to access modern browser features like AJAX directly from HTML attributes. Instead of writing JavaScript to fetch data and update the UI, you can add simple attributes to your HTML elements that tell HTMX to fetch a new piece of HTML from the server and swap it into the page.
-    - **Latest Version:** 2.0.1
-    - **Official Documentation:** https://htmx.org/
+  - **Why:** This is the key to modern interactivity in this stack. HTMX allows you to access modern browser features like AJAX directly from HTML attributes. Instead of writing JavaScript to fetch data and update the UI, you can add simple attributes to your HTML elements that tell HTMX to fetch a new piece of HTML from the server and swap it into the page.
+  - **Latest Version:** 2.0.1
+  - **Official Documentation:** <https://htmx.org/>
 - **Tailwind CSS**
-    - **Why:** A utility-first CSS framework that allows for rapid UI development directly within your HTML. Instead of writing custom CSS files, you use pre-defined utility classes. This is highly efficient for prototyping and building custom designs without leaving your Jinja2 templates.
-    - **Latest Version:** 3.4.4
-    - **Official Documentation:** https://tailwindcss.com/docs/
+  - **Why:** A utility-first CSS framework that allows for rapid UI development directly within your HTML. Instead of writing custom CSS files, you use pre-defined utility classes. This is highly efficient for prototyping and building custom designs without leaving your Jinja2 templates.
+  - **Latest Version:** 3.4.4
+  - **Official Documentation:** <https://tailwindcss.com/docs/>
 - **DaisyUI**
-    - **Why:** A plugin for Tailwind CSS that provides pre-styled components (like buttons, cards, menus, etc.) as Tailwind utility classes. This dramatically speeds up development by giving you beautifully designed components out-of-the-box, while still allowing for full customization through standard Tailwind utilities.
-    - **Latest Version:** 4.12.10
-    - **Official Documentation:** https://daisyui.com/
+  - **Why:** A plugin for Tailwind CSS that provides pre-styled components (like buttons, cards, menus, etc.) as Tailwind utility classes. This dramatically speeds up development by giving you beautifully designed components out-of-the-box, while still allowing for full customization through standard Tailwind utilities.
+  - **Latest Version:** 4.12.10
+  - **Official Documentation:** <https://daisyui.com/>
 - **TypeScript (Vanilla)**
-    - **Why:** As requested, for minimal, "sprinkled-in" use. While HTMX handles the vast majority of interactivity, you might occasionally need a small, self-contained script for a purely client-side interaction (e.g., toggling a class on a complex element without a server trip). Using vanilla TypeScript provides type-safety for these small, targeted use cases.
-    - **Latest Version:** 5.5.3
-    - **Official Documentation:** https://www.typescriptlang.org/docs/
+  - **Why:** As requested, for minimal, "sprinkled-in" use. While HTMX handles the vast majority of interactivity, you might occasionally need a small, self-contained script for a purely client-side interaction (e.g., toggling a class on a complex element without a server trip). Using vanilla TypeScript provides type-safety for these small, targeted use cases.
+  - **Latest Version:** 5.5.3
+  - **Official Documentation:** <https://www.typescriptlang.org/docs/>
 
 #### **4. Deployment & Hosting**
 
 Your specified self-hosted deployment on a Linux virtual machine.
 
 - **Ubuntu Server**
-    - **Why:** A stable, popular, and well-documented Linux distribution, making it an excellent choice for a web server. The Long-Term Support (LTS) version ensures security updates and stability for years.
-    - **Latest Version:** 24.04 LTS ("Noble Numbat")
-    - **Official Documentation:** https://ubuntu.com/server/docs
+  - **Why:** A stable, popular, and well-documented Linux distribution, making it an excellent choice for a web server. The Long-Term Support (LTS) version ensures security updates and stability for years.
+  - **Latest Version:** 24.04 LTS ("Noble Numbat")
+  - **Official Documentation:** <https://ubuntu.com/server/docs>
 - **Caddy**
-    - **Why:** An incredibly powerful and easy-to-use web server that excels as a reverse proxy. Its killer feature is automatic HTTPS, meaning it will provision and renew TLS certificates for your domains automatically. Its configuration file (the Caddyfile) is famously simple compared to alternatives. It will sit in front of your Uvicorn process, handling incoming traffic and routing it to your FastAPI application.
-    - **Latest Version:** 2.8.4
-    - **Official Documentation:** https://caddyserver.com/docs/
+  - **Why:** An incredibly powerful and easy-to-use web server that excels as a reverse proxy. Its killer feature is automatic HTTPS, meaning it will provision and renew TLS certificates for your domains automatically. Its configuration file (the Caddyfile) is famously simple compared to alternatives. It will sit in front of your Uvicorn process, handling incoming traffic and routing it to your FastAPI application.
+  - **Latest Version:** 2.8.4
+  - **Official Documentation:** <https://caddyserver.com/docs/>
 
 </details>
 
@@ -142,53 +142,60 @@ Each application is self-contained. To run one, you must first navigate into its
 
 **Example using `todo-app`:**
 
-1.  **Navigate to the app's directory:**
-    ```bash
-    cd apps/todo-app
-    ```
+1. **Navigate to the app's directory:**
 
-2.  **Create the Python virtual environment using `uv`:**
-    ```bash
-    uv venv
-    ```
+   ```bash
+   cd apps/todo-app
+   ```
 
-3.  **Activate the environment:**
-    ```bash
-    # On macOS / Linux
-    source .venv/bin/activate
+2. **Create the Python virtual environment using `uv`:**
 
-    # On Windows
-    .venv\Scripts\activate
-    ```
+   ```bash
+   uv venv
+   ```
 
-4.  **Install Python dependencies using `uv`:**
-    This command reads the `pyproject.toml` file and installs the exact dependencies.
-    ```bash
-    uv pip sync
-    ```
+3. **Activate the environment:**
 
-5.  **Install frontend dependencies:**
-    ```bash
-    npm install
-    ```
+   ```bash
+   # On macOS / Linux
+   source .venv/bin/activate
 
-6.  **Run the development servers:**
-    You will need two separate terminals.
+   # On Windows
+   .venv\Scripts\activate
+   ```
 
-    - **Terminal 1: Start the Tailwind CSS watcher.**
-      This will automatically rebuild your CSS file when you make changes to the templates.
-      ```bash
-      npm run watch
-      ```
+4. **Install Python dependencies using `uv`:**
+   This command reads the `pyproject.toml` file and installs the exact dependencies.
 
-    - **Terminal 2: Start the FastAPI server with Uvicorn.**
-      The `--reload` flag enables live reloading for your Python code.
-      ```bash
-      uvicorn src.todo_app.main:app --reload
-      ```
+   ```bash
+   uv pip sync
+   ```
 
-7.  **Open the app in your browser:**
-    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
+5. **Install frontend dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+6. **Run the development servers:**
+   You will need two separate terminals.
+
+   - **Terminal 1: Start the Tailwind CSS watcher.**
+     This will automatically rebuild your CSS file when you make changes to the templates.
+
+     ```bash
+     npm run watch
+     ```
+
+   - **Terminal 2: Start the FastAPI server with Uvicorn.**
+     The `--reload` flag enables live reloading for your Python code.
+
+     ```bash
+     uvicorn src.todo_app.main:app --reload
+     ```
+
+7. **Open the app in your browser:**
+   Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 </details>
 

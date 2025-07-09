@@ -12,33 +12,38 @@ The application starts a FastAPI server that renders a main HTML page using Jinj
 
 You can run the application by following the steps below.
 
-1.  **Navigate to the app directory:**
-    ```bash
-    cd apps/todo-app
-    ```
+1. **Navigate to the app directory:**
 
-2.  **Set up the environment and install dependencies:**
-    ```bash
-    # Create and activate a virtual environment
-    uv venv
-    source .venv/bin/activate
+   ```bash
+   cd apps/todo-app
+   ```
 
-    # Install Python and Node.js packages
-    uv pip sync
-    npm install
-    ```
+2. **Set up the environment and install dependencies:**
 
-3.  **Run the development servers:**
-    You will need two separate terminals running in this directory.
+   ```bash
+   # Create and activate a virtual environment
+   uv venv
+   source .venv/bin/activate
 
-    *   **Terminal 1 (CSS Watcher):**
-        ```bash
-        npm run watch
-        ```
-    *   **Terminal 2 (FastAPI Server):**
-        ```bash
-        uvicorn src.todo_app.main:app --reload
-        ```
+   # Install Python and Node.js packages
+   uv pip sync
+   npm install
+   ```
+
+3. **Run the development servers:**
+   You will need two separate terminals running in this directory.
+
+   - **Terminal 1 (CSS Watcher):**
+
+     ```bash
+     npm run watch
+     ```
+
+   - **Terminal 2 (FastAPI Server):**
+
+     ```bash
+     uvicorn src.todo_app.main:app --reload
+     ```
 
 ### What You Get
 
