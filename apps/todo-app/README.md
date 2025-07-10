@@ -14,35 +14,27 @@ Before running, ensure you have completed the initial repository setup by runnin
 
 Once the setup is complete:
 
-1. **Navigate to this app's directory:**
+1.  **Navigate to this app's directory:**
 
-   ```bash
-   cd apps/todo-app
-   ```
+    ```bash
+    cd apps/todo-app
+    ```
 
-2. **Apply database migrations:**
+2.  **Run the development servers (requires two separate terminals):**
 
-   ```bash
-   invoke db-upgrade
-   ```
+    -   **Terminal 1 (CSS Watcher):**
+        This command watches for changes in your Tailwind CSS files and rebuilds the stylesheet automatically.
 
-3. **Run the development server:**
+        ```bash
+        npm run watch
+        ```
 
-   This command will start the FastAPI backend server and the Tailwind CSS watcher concurrently.
+    -   **Terminal 2 (FastAPI Server):**
+        This command starts the Python backend server with live reloading. `uv run` handles the virtual environment automatically.
 
-   ```bash
-   invoke dev
-   ```
+        ```bash
+        uv run uvicorn src.todo_app.main:app --reload
+        ```
 
-4. **Open the app in your browser:**
-   Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
-
-## Development Tasks
-
-This project uses `invoke` to automate common development tasks. Here are the available commands:
-
-*   `invoke dev`: Starts the development server with auto-reloading and the Tailwind CSS watcher.
-*   `invoke db-migrate -m "<your migration message>"`: Creates a new database migration.
-*   `invoke db-upgrade`: Applies the latest database migrations.
-*   `invoke build-css`: Builds the Tailwind CSS assets.
-*   `invoke format`: Formats the frontend code with Prettier.
+3.  **Open the app in your browser:**
+    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).

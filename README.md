@@ -31,75 +31,83 @@ All code in this repository is developed and tested on **macOS** and is intended
 <details>
 <summary><h3>The Python Hypermedia Stack (Click to Expand)</h3></summary>
 
-This stack is designed for building fast, modern web applications with server-rendered HTML, enhanced with dynamic interactivity. It prioritizes developer experience, performance, and maintainability by leveraging a curated set of modern tools.
+This stack is designed for building fast, secure, and maintainable web applications with server-rendered HTML enhanced with dynamic interactivity. It prioritizes developer experience, performance, and simplicity by leveraging a curated set of modern, cohesive tools. The entire architecture is built on a fully asynchronous foundation and embraces a philosophy of minimizing frontend complexity by keeping logic on the server.
+
+---
 
 ### **1. Development & Tooling**
 
 A streamlined toolchain for a productive and consistent development environment.
 
 - [**uv**](https://astral.sh/uv)
-  - **Why:** A next-generation, high-performance Python packaging tool. `uv` handles project dependency management and virtual environments with exceptional speed, replacing traditional tools like `pip` and `venv` for a faster, more efficient workflow.
+  - **Why:** A next-generation, high-performance Python packaging tool. `uv` is used for all project environment and dependency management, providing a single, incredibly fast tool for creating reproducible environments.
 - [**Ruff**](https://docs.astral.sh/ruff/)
-  - **Why:** An extremely fast, all-in-one Python linter and code formatter. Ruff replaces multiple tools (like Black, isort, and Flake8) with a single, cohesive, and blazing-fast utility, ensuring consistent code quality and style across the project.
+  - **Why:** An extremely fast, all-in-one Python linter and code formatter. Ruff ensures consistent code quality and style across the project with a single, cohesive, and blazing-fast utility.
 
 ### **2. Backend**
 
-The application's core, built for speed, resilience, and connectivity.
+The application's core, built on a fully asynchronous foundation for maximum speed and concurrency.
 
 - [**FastAPI**](https://fastapi.tiangolo.com/)
-  - **Why:** A modern, high-performance Python web framework. It uses standard Python type hints to build robust APIs and render server-side HTML templates, providing automatic data validation and documentation.
-- [**Gunicorn**](https://gunicorn.org/)
-  - **Why:** A battle-tested WSGI HTTP server used as a process manager for Uvicorn in production. Gunicorn manages multiple Uvicorn worker processes, enabling you to leverage multi-core CPUs, increase capacity, and improve fault tolerance.
+  - **Why:** A modern, high-performance Python web framework. It leverages standard Python type hints for robust APIs and server-side HTML template rendering.
 - [**Uvicorn**](https://www.uvicorn.org/)
-  - **Why:** A lightning-fast ASGI server that runs the FastAPI application. In production, it is managed by Gunicorn to run multiple worker processes, enabling high-performance asynchronous capabilities.
+  - **Why:** A lightning-fast ASGI server that runs the FastAPI application, serving as the high-performance process manager for both development and production.
 - [**HTTPX**](https://www.python-httpx.org/)
   - **Why:** A fully featured, modern HTTP client for Python. It provides both sync and async APIs, making it the ideal choice for a FastAPI application to interact with external services without blocking the event loop.
 
-### **3. Database**
+### **3. Database & Migrations**
 
-A unified and Pythonic approach to data modeling, interaction, and evolution.
+A unified and fully asynchronous approach to data modeling, interaction, and evolution.
 
+- [**PostgreSQL**](https://www.postgresql.org/docs/)
+  - **Why:** A powerful, open-source object-relational database system with a strong reputation for reliability, feature robustness, and performance.
 - [**SQLModel**](https://sqlmodel.tiangolo.com/)
-  - **Why:** The primary tool for database interaction, built by the creator of FastAPI. SQLModel cleverly combines Pydantic and SQLAlchemy, allowing you to define data, database tables, and API models in a single Python class. This significantly reduces code duplication and simplifies data management.
+  - **Why:** The primary tool for database interaction. SQLModel cleverly combines Pydantic and SQLAlchemy, allowing you to define data models, database tables, and API models in a single Python class.
 - [**Alembic**](https://alembic.sqlalchemy.org/en/latest/)
-  - **Why:** A powerful database migration tool from the creator of SQLAlchemy. Alembic provides a reliable and systematic way to manage and version changes to your database schema as your application's models evolve.
-- [**Pydantic**](https://docs.pydantic.dev/latest/)
-  - **Why:** One of the foundational libraries that power SQLModel. Pydantic provides robust data validation and settings management using Python type hints.
-- [**SQLAlchemy**](https://www.sqlalchemy.org/)
-  - **Why:** One of the foundational libraries that power SQLModel. SQLAlchemy offers a powerful and flexible SQL toolkit and Object Relational Mapper (ORM) for comprehensive database control.
+  - **Why:** A lightweight database migration tool designed for SQLAlchemy (which powers SQLModel) to manage the lifecycle of your database schema.
+- [**asyncpg**](https://magicstack.github.io/asyncpg/current/)
+  - **Why:** A high-performance, asyncio-native database driver for PostgreSQL. `asyncpg` is the essential link between the async framework and the database, ensuring all database communication is non-blocking.
 
-### **4. Frontend**
+### **4. Asynchronous Task Processing**
 
-A hypermedia-driven frontend that delivers a rich user experience without requiring a heavy client-side JavaScript framework.
+A native, lightweight system for handling background tasks that should not block the response to the client.
+
+- [**FastAPI BackgroundTasks**](https://fastapi.tiangolo.com/tutorial/background-tasks/)
+  - **Why:** For short-lived, in-process background tasks, FastAPI's native `BackgroundTasks` feature is the perfect fit. It allows you to run operations like sending notifications or processing data after returning a response, simplifying the architecture by avoiding the need for external dependencies.
+
+### **5. Frontend**
+
+A pure hypermedia-driven frontend that delivers a rich user experience without requiring a JavaScript framework or a build step.
 
 - [**Jinja2**](https://jinja.palletsprojects.com/)
   - **Why:** A fast and expressive templating engine used by FastAPI to render dynamic HTML, injecting backend data directly into the user interface.
 - [**HTMX**](https://htmx.org/)
   - **Why:** The core of the interactive experience. HTMX allows you to trigger AJAX requests directly from HTML attributes, enabling smooth UI updates by swapping server-rendered HTML fragments without writing complex JavaScript.
-- [**Tailwind CSS**](https://tailwindcss.com/docs/)
-  - **Why:** A utility-first CSS framework for rapidly building custom user interfaces directly within your HTML, promoting speed and consistency in design.
-- [**DaisyUI**](https://daisyui.com/)
-  - **Why:** A plugin for Tailwind CSS that provides a library of pre-styled components (like buttons, cards, and menus). It accelerates development by offering ready-to-use UI elements that are fully customizable with Tailwind utilities.
-- [**TypeScript**](https://www.typescriptlang.org/docs/)
-  - **Why:** Used for minimal, targeted client-side interactions where HTMX may not be suitable. Vanilla TypeScript offers type safety for small, self-contained scripts without adding framework overhead.
+- [**Pico.css**](https://picocss.com/)
+  - **Why:** A minimalist CSS framework that makes semantic HTML look beautiful by default. By linking to a single CSS file, you get elegant styling for raw HTML elements, automatic dark mode, and responsive design, all without dependencies or a complex setup.
 
-### **5. CLI & Task Management**
+### **6. Testing**
 
-Modern tools for building command-line interfaces and automating development tasks.
+A powerful and standard framework for ensuring code quality and correctness.
+
+- [**Pytest**](https://docs.pytest.org/en/stable/)
+  - **Why:** The de facto standard testing framework for Python. Pytest makes it easy to write small, readable tests and scales to support complex functional testing, with excellent support for asynchronous code via plugins like `pytest-asyncio`.
+
+### **7. CLI, Security & Configuration**
+
+Modern tools for building command-line interfaces, securing the application, and managing configuration.
 
 - [**Typer**](https://typer.tiangolo.com/)
-  - **Why:** A library for building powerful and user-friendly CLI applications, created by the author of FastAPI. It uses the same Python type-hint philosophy, making it intuitive to create commands for database migrations, user management, or other administrative tasks.
-- [**Invoke**](https://www.pyinvoke.org/)
-  - **Why:** A Python task execution library for defining and running administrative tasks. Invoke is excellent for creating a clean, organized collection of commands for common operations like starting a dev server, running tests, or deploying the application.
+  - **Why:** A library for building powerful and user-friendly CLI applications. It uses the same Python type-hint philosophy as FastAPI, making it intuitive to create administrative commands.
 
-### **6. Deployment**
+### **8. Deployment**
 
 A self-hosted, secure, and stable production environment.
 
-- [**Ubuntu Server (LTS)**](https://ubuntu.com/server/docs)
-  - **Why:** A popular, stable, and well-documented Linux distribution ideal for web servers. The Long-Term Support (LTS) version guarantees security and maintenance updates for years.
+- [**Ubuntu Server (LTS)**](https://ubuntu.com/server)
+  - **Why:** A popular, stable, and well-documented Linux distribution ideal for web servers, with long-term support for security and maintenance updates.
 - [**Caddy**](https://caddyserver.com/docs/)
-  - **Why:** A modern, powerful web server and reverse proxy with a focus on simplicity. Caddy's standout feature is fully automatic HTTPS, effortlessly securing your application with zero-touch TLS certificate provisioning and renewal.
+  - **Why:** A modern, powerful web server and reverse proxy with a focus on simplicity. Caddy manages incoming traffic, serves static files, and acts as a reverse proxy for Uvicorn. Its standout feature is fully automatic HTTPS.
 
 </details>
 
