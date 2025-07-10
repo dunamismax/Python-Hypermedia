@@ -8,3 +8,13 @@ description = "A script to set up all projects in the monorepo."
 requires-python = ">=3.9"
 # Add your project's core dependencies here.
 dependencies = []
+
+# To install dev dependencies, run: `uv pip install -e .[dev]`
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
+    "pytest",
+    "pytest-asyncio",
+    "typer",
+]

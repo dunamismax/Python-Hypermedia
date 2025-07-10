@@ -18,3 +18,13 @@ dependencies = [
     "httpx",
     "pydantic-settings>=2.4.0",
 ]
+
+# To install dev dependencies, run: `uv pip install -e .[dev]`
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
+    "pytest",
+    "pytest-asyncio",
+    "typer",
+]

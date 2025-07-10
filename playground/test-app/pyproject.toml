@@ -17,3 +17,13 @@ dependencies = [
     "alembic>=1.13.1",
     "httpx",
 ]
+
+# To install dev dependencies, run: `uv pip install -e .[dev]`
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
+    "pytest",
+    "pytest-asyncio",
+    "typer",
+]

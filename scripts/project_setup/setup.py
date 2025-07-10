@@ -110,7 +110,7 @@ def run_command(command: list[str], cwd: Path, description: str) -> None:
 
 
 def run_quality_checks(project_path: Path) -> None:
-    """Runs Ruff formatter and linter for a given project."""
+    """Runs Ruff formatter, linter, and MyPy for a given project."""
     _print_blue(f"🔬 Running quality checks for: {project_path.name}")
 
     run_command(
@@ -120,6 +120,11 @@ def run_quality_checks(project_path: Path) -> None:
         ["uv", "run", "ruff", "check", ".", "--fix"],
         cwd=project_path,
         description="Run Ruff linter",
+    )
+    run_command(
+        ["uv", "run", "mypy", "."],
+        cwd=project_path,
+        description="Run MyPy type checker",
     )
 
 
