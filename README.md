@@ -137,20 +137,32 @@ This guide covers the one-time setup and the daily development workflow for this
 
 - A Unix-like OS (macOS/Linux)
 - `git`
+- Python 3.9+
 
-### 1. One-Time Setup
+### 1. Initial Setup
 
-Clone the repository and run the initial setup script. This script will install `uv` (if not already present), set up a `uv`-managed Python environment, and install all project dependencies. **This is the only time you should use the `python` command directly for setup.**
+Clone the repository and set up the initial environment for the `project_setup` script. This script will then guide you through setting up the main monorepo environment, including installing `uv`.
 
 ```bash
 git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
+
+# Create a virtual environment specifically for the setup script
+python3 -m venv scripts/project_setup/.venv
+
+# Activate the virtual environment
+source scripts/project_setup/.venv/bin/activate
+
+# Install dependencies for the setup script (e.g., 'typer')
+pip install -e scripts/project_setup
+
+# Run the main setup script. This script will install 'uv' and set up the primary monorepo environment.
 python scripts/project_setup/setup.py
 ```
 
 ### 2. The `uv` Workflow: Your Primary Tool
 
-From this point forward, **do not use the `python` command directly**. The setup script installed `uv`, a next-generation Python toolkit that now manages the project's environment and Python versions. `uv` is designed for speed, consistency, and simplicity, replacing the need for tools like `pip`, `virtualenv`, and `pyenv`.
+After the initial setup (which installed `uv`), `uv` becomes your primary tool for managing the monorepo's Python environments and running scripts. `uv` is designed for speed, consistency, and simplicity, replacing the need for tools like `pip`, `virtualenv`, and `pyenv` for most tasks within this project.
 
 All Python-related tasks, whether running scripts within this monorepo or any other Python script on your system, should now be executed through `uv run`. This ensures you're always using the correct project-defined Python version and dependencies.
 
@@ -170,9 +182,9 @@ cd apps/todo-app
 uv run uvicorn src.todo_app.main:app --reload
 ```
 
-### 3. Keeping the Environment Fresh
+### 3. Keeping Environments Fresh
 
-After pulling changes or modifying dependencies, you can reset and resync your environment by running the cleanup script followed by the setup script again using `uv run`:
+After pulling changes or modifying dependencies, you can reset and resync your monorepo environment by running the cleanup script followed by the setup script again using `uv run`:
 
 ```bash
 uv run scripts/project_cleanup/cleanup.py
