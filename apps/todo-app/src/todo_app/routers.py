@@ -37,6 +37,11 @@ async def create_todo(
     Creates a new To-Do item and returns the new todo as an HTML partial.
     This endpoint is called by HTMX from the form submission.
     """
+    if not content.strip():
+        return HTMLResponse(
+            content="<div class='error'>Todo content cannot be empty.</div>",
+            status_code=400,
+        )
     # Create the new todo and add it to the database
     new_todo = Todo(content=content)
     session.add(new_todo)

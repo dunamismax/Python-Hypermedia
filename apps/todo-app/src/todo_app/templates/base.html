@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple To-Do application built with the Python Hypermedia Stack.">
+    <meta name="keywords" content="Python, FastAPI, HTMX, Hypermedia, To-Do App">
     <title>{% block title %}Todo App{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <script src="https://unpkg.com/htmx.org@2.0.1" integrity="sha384-QWGpdj55iB3umj695N4GzB12LcLrChKPPV6Im2EldHyAF7mcrRif3B12K2G6MLg4" crossorigin="anonymous"></script>
@@ -16,9 +18,9 @@
             </p>
         </header>
 
-        <main>
+        <div>
             {% block content %}{% endblock %}
-        </main>
+        </div>
 
         <footer class="text-center mt-12 text-sm text-base-content/50">
             <p>&copy; 2025 dunamismax - A Hypermedia Showcase Project</p>
