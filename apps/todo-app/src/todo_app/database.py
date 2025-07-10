@@ -1,9 +1,14 @@
-from sqlmodel import SQLModel, create_engine
+from collections.abc import AsyncGenerator
 
-DATABASE_URL = "postgresql+asyncpg://postgres:postgres@localhost/todo_app"
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio.engine import AsyncEngine
+from sqlmodel.ext.asyncio.session import AsyncSession
 
-engine = create_engine(DATABASE_URL, echo=True)
+from .config import settings
 
-def get_session():
-    with Session(engine) as session:
+engine: AsyncEngine = create_async_engine(settings.database_url, echo=True)
+
+
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    async with AsyncSession(engine) as session:
         yield session

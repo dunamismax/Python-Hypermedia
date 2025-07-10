@@ -9,7 +9,7 @@
         <form
             hx-post="/todos"
             hx-target="#todo-list"
-            hx-swap="innerHTML"
+            hx-swap="beforeend"
             hx-on="htmx:afterRequest: this.reset()"
             class="grid"
         >

@@ -1,4 +1,3 @@
-from collections.abc import AsyncGenerator
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Form, Request
@@ -7,21 +6,12 @@ from fastapi.templating import Jinja2Templates
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from .database import engine
+from .database import get_session
 from .models import Todo
 
 # Configure templates
 templates = Jinja2Templates(directory="src/todo_app/templates")
 router = APIRouter()
-
-
-async def get_session() -> AsyncGenerator[AsyncSession, None]:
-    """
-    Dependency to get a new async database session for each request.
-    Ensures the session is closed after the request is finished.
-    """
-    async with AsyncSession(engine) as session:
-        yield session
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -31,7 +21,7 @@ async def get_all_todos(
     """
     Renders the main page with all To-Do items.
     """
-    todos = await session.exec(select(Todo).order_by(Todo.id.asc()))
+    todos = await session.exec(select(Todo).order_by(Todo.id))
     return templates.TemplateResponse(
         "index.html", {"request": request, "todos": todos.all()}
     )
@@ -44,7 +34,7 @@ async def create_todo(
     session: Annotated[AsyncSession, Depends(get_session)],
 ) -> HTMLResponse:
     """
-    Creates a new To-Do item and returns the updated list of todos.
+    Creates a new To-Do item and returns the new todo as an HTML partial.
     This endpoint is called by HTMX from the form submission.
     """
     # Create the new todo and add it to the database
@@ -53,10 +43,11 @@ async def create_todo(
     await session.commit()
     await session.refresh(new_todo)
 
-    # Return the full list of todos to be swapped into the DOM
-    todos = await session.exec(select(Todo).order_by(Todo.id.asc()))
+    # Return the new todo item to be appended to the list
     return templates.TemplateResponse(
-        "partials/todos.html", {"request": request, "todos": todos.all()}
+        "partials/todo_item.html",
+        {"request": request, "todo": new_todo},
+        headers={"HX-Trigger": "todo-added"},
     )
 
 
@@ -71,11 +62,13 @@ async def toggle_todo(
     Returns the updated todo item partial to be swapped into the DOM.
     """
     todo = await session.get(Todo, todo_id)
-    if todo:
-        todo.is_completed = not todo.is_completed
-        session.add(todo)
-        await session.commit()
-        await session.refresh(todo)
+    if not todo:
+        return HTMLResponse(content="Todo not found", status_code=404)
+
+    todo.is_completed = not todo.is_completed
+    session.add(todo)
+    await session.commit()
+    await session.refresh(todo)
 
     return templates.TemplateResponse(
         "partials/todo_item.html", {"request": request, "todo": todo}
@@ -91,9 +84,11 @@ async def delete_todo(
     Returns an empty response because HTMX will remove the element from the DOM.
     """
     todo = await session.get(Todo, todo_id)
-    if todo:
-        await session.delete(todo)
-        await session.commit()
+    if not todo:
+        return HTMLResponse(content="Todo not found", status_code=404)
+
+    await session.delete(todo)
+    await session.commit()
 
     # Return an empty response with a 200 status code
     return HTMLResponse(content="", status_code=200)

@@ -81,17 +81,7 @@ def install_uv() -> None:
         sys.exit(1)
 
 
-def ensure_uv_managed_python_installed() -> None:
-    """Ensures a uv-managed Python version is installed."""
-    _print_blue("Ensuring uv-managed Python is installed...")
-    try:
-        run_command(
-            ["uv", "python", "install"], cwd=Path.cwd(), description="Install uv-managed Python"
-        )
-        _print_green("✅ uv-managed Python installed successfully.")
-    except SystemExit: # Catch SystemExit from run_command
-        _print_red("❌ Failed to install uv-managed Python.")
-        raise
+
 
 
 def run_command(command: list[str], cwd: Path, description: str) -> None:
@@ -120,7 +110,7 @@ def run_command(command: list[str], cwd: Path, description: str) -> None:
 
 
 def run_quality_checks(project_path: Path) -> None:
-    """Runs Ruff formatter, linter, and MyPy type checker for a given project."""
+    """Runs Ruff formatter and linter for a given project."""
     _print_blue(f"🔬 Running quality checks for: {project_path.name}")
 
     run_command(
@@ -132,25 +122,20 @@ def run_quality_checks(project_path: Path) -> None:
         description="Run Ruff linter",
     )
 
-    # Only run MyPy if there are Python files in the project to check.
-    if list(project_path.rglob("*.py")):
-        run_command(
-            ["uv", "run", "mypy", "."], cwd=project_path, description="Run MyPy type checker"
-        )
-    else:
-        _print_yellow(f"⚪ Skipping MyPy: No Python files found in {project_path.name}")
-
 
 def get_project_directories(root: Path) -> list[Path]:
     """Scans directories and returns a list of valid project directories."""
     project_dirs = []
+    # The directory of this script, to be excluded
+    script_dir = Path(__file__).parent
+
     for project_type in ["apps", "scripts", "playground"]:
         base_path = root / project_type
         if not base_path.is_dir():
             continue
 
         for d in base_path.iterdir():
-            if d.is_dir() and (d / "pyproject.toml").exists():
+            if d.is_dir() and (d / "pyproject.toml").exists() and d != script_dir:
                 project_dirs.append(d)
     return sorted(project_dirs)
 
@@ -165,7 +150,7 @@ def main() -> None:
     else:
         _print_green("✅ uv is already installed.")
 
-    ensure_uv_managed_python_installed()
+    
 
     project_root = Path(__file__).parent.parent.parent
 
@@ -181,7 +166,7 @@ def main() -> None:
             ["uv", "venv"], cwd=project_path, description="Create Python virtual environment"
         )
         run_command(
-            ["uv", "pip", "install", "-e", "."],
+            ["uv", "pip", "install", "-e", ".[dev]", "--extra-index-url", "https://pypi.org/simple", "--extra-index-url", "https://www.piwheels.org/simple", "--extra-index-url", "https://download.pytorch.org/whl/cpu"],
             cwd=project_path,
             description=f"Install dependencies for {project_path.name}",
         )

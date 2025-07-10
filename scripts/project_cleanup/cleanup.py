@@ -9,21 +9,27 @@ import shutil
 import sys
 from pathlib import Path
 
+
 def _print_color(text: str, color_code: str) -> None:
     """Prints text with ANSI color codes."""
     print(f"\u001b[{color_code}m{text}\u001b[0m")
 
+
 def _print_green(text: str) -> None:
-    _print_color(text, "32") # Green
+    _print_color(text, "32")  # Green
+
 
 def _print_yellow(text: str) -> None:
-    _print_color(text, "33") # Yellow
+    _print_color(text, "33")  # Yellow
+
 
 def _print_red(text: str) -> None:
-    _print_color(text, "31") # Red
+    _print_color(text, "31")  # Red
+
 
 def _print_cyan(text: str) -> None:
-    _print_color(text, "36") # Cyan
+    _print_color(text, "36")  # Cyan
+
 
 # Directories and files to be deleted across the monorepo.
 TARGETS_TO_DELETE = [
@@ -34,7 +40,11 @@ TARGETS_TO_DELETE = [
     "*.egg-info",
     "uv.lock",
     ".mypy_cache",
+    "data",
+    "node_modules",
+    "package-lock.json",
 ]
+
 
 def main() -> None:
     """

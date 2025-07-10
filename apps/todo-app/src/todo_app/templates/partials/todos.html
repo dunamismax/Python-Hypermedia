@@ -1,9 +1,7 @@
-<div>
-    {% for todo in todos %}
-        {% include "partials/todo_item.html" %}
-    {% else %}
-        <div class="text-center p-4">
-            <p>You're all caught up!</p>
-        </div>
-    {% endfor %}
-</div>
+{% for todo in todos %}
+    {% include "partials/todo_item.html" %}
+{% else %}
+    <div id="empty-message" class="text-center p-4">
+        <p>You're all caught up!</p>
+    </div>
+{% endfor %}
