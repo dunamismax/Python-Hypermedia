@@ -120,6 +120,7 @@ This monorepo is organized with a focus on complete application independence.
 - **`apps/`**: Contains all independent applications. Each subdirectory is a complete, standalone project with its own dependencies, environment, and configuration.
   - **[`todo-app/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/todo-app)**: An example To-Do list application.
   - **[`dunamismax/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/apps/dunamismax)**: A personal blog and portfolio website.
+- **[Currently Building Projects](docs/project/Currently_Building.md)**: A roadmap and checklist for applications currently under development.
 - **[`docs/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/docs)**: Contains additional documentation and reference materials.
 - **[`playground/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/playground)**: A space for experimental projects and proofs-of-concept.
 - **[`scripts/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/scripts)**: Contains utility scripts for development, automation, and management.

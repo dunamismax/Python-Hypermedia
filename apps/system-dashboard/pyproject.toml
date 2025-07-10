@@ -1,0 +1,23 @@
+# ==============================================================================
+#                                 PROJECT
+# ==============================================================================
+[project]
+name = "system-dashboard"
+version = "0.1.0"
+description = "A real-time system monitoring dashboard."
+requires-python = ">=3.9"
+# Add your project's core dependencies here.
+dependencies = [
+    "fastapi>=0.116.0",
+    "uvicorn[standard]>=0.35.0",
+]
+
+# To install dev dependencies, run: `uv pip install -e .[dev]`
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
+    "pytest",
+    "pytest-asyncio",
+    "typer",
+]
