@@ -119,7 +119,7 @@ This monorepo is organized with a focus on complete application independence.
 
 - **[`apps/`](./apps/README.md)**: Contains all independent applications. Each subdirectory is a complete, standalone project with its own dependencies, environment, and configuration.
 - **[`docs/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/docs)**: Contains additional documentation and reference materials.
-- **[Currently Building Projects](docs/project/Currently_Building.md)**: A roadmap and checklist for applications currently under development.
+- **[`Currently Building Projects/`](docs/project/Currently_Building.md)**: A roadmap and checklist for applications currently under development.
 - **[`playground/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/playground)**: A space for experimental projects and proofs-of-concept.
 - **[`scripts/`](https://github.com/dunamismax/Python-Hypermedia/tree/main/scripts)**: Contains utility scripts for development, automation, and management.
 - **`.gitignore`**: A single, top-level gitignore for the whole repository.
