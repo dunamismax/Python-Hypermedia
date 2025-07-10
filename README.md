@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/dunamismax/Python-Hypermedia">
-    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=4B8BBE&center=true&vCenter=true&width=800&lines=The+Python+Hypermedia+Stack;Building+Modern+Server-Rendered+Apps;FastAPI+%2B+HTMX+%2B+Tailwind+CSS;Minimal+JavaScript.+Maximum+Productivity." alt="Typing SVG" />
+    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=4B8BBE&center=true&vCenter=true&width=800&lines=The+Python+Hypermedia+Stack;Building+Modern+Server-Rendered+Apps;FastAPI+%2B+HTMX+%2B+Pico.css;Minimal+JavaScript.+Maximum+Productivity." alt="Typing SVG" />
   </a>
 </p>
 
@@ -20,7 +20,7 @@
 
 ## About This Project
 
-This monorepo is a collection of Python web applications that demonstrate a modern, server-rendered approach to web development. Each application is a standalone project with its own dependencies and environment, but all share a common set of tools and a unified development workflow.
+This monorepo is a collection of Python web applications that demonstrate a modern, server-rendered approach to web development. Each application is a standalone project with its own dependencies and environment, but all share a common set of tools and a unified development workflow based on **The Python Hypermedia Stack**.
 
 The primary goal is to provide a structured and scalable environment for building web applications with a focus on performance, developer experience, and minimal frontend complexity.
 
@@ -129,83 +129,53 @@ This monorepo is organized with a focus on complete application independence.
 
 ---
 
-Of course. Here is a revised version that is more concise, better structured, and removes redundancy while preserving all the essential information.
-
----
-
 ## Getting Started
 
 This guide covers the one-time setup and the daily development workflow for this monorepo.
 
+### Prerequisites
+
+- A Unix-like OS (macOS/Linux)
+- `git`
+- `uv` (See [installation guide](https://astral.sh/uv/install.sh))
+
 ### 1. One-Time Setup
 
-First, clone the repository and run the initial setup script.
-
-**Prerequisites:** A Unix-like OS (macOS/Linux), `git`, and an internet connection.
+Clone the repository and install the dependencies for all projects.
 
 ```bash
 git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
 
 # Run the initial setup
-python scripts/project_setup/setup.py
+# This will find all pyproject.toml files and install their dependencies.
+uv pip install -r requirements.txt
 ```
 
-This command installs all required tools (like `uv`, Node.js, and a project-specific Python version) and configures the entire monorepo. **This is the only time you will use the `python` command directly.**
+### 2. The `uv` Workflow
 
-### 2. The `uv` Workflow: Your Primary Tool
-
-From this point forward, **do not use the `python` command directly**. The setup script installed `uv`, a next-generation Python toolkit that now manages the project's environment.
-
-All Python-related tasks must be run through `uv run`, which ensures **consistency**, **speed**, and **simplicity**. It guarantees you're always using the correct project-defined Python version and dependencies, replacing the need for tools like `pip`, `virtualenv`, and `pyenv`.
-
-```bash
-# Example: Running a script
-uv run some_script.py
-
-# Example: Running the cleanup script
-uv run scripts/project_cleanup/cleanup.py
-```
-
-For more details, see the official [uv documentation](https://docs.astral.sh/uv/getting-started/features/).
+All Python-related tasks must be run through `uv`, which ensures **consistency**, **speed**, and **simplicity**. It guarantees you're always using the correct project-defined Python version and dependencies.
 
 ### 3. Running an Application (Example: `todo-app`)
 
-To run an application, navigate to its directory and start its development servers.
+To run an application, navigate to its directory and start the development server.
 
-1. **Navigate to the app's directory:**
+1.  **Navigate to the app's directory:**
+    ```bash
+    cd apps/todo-app
+    ```
 
-   ```bash
-   cd apps/todo-app
-   ```
+2.  **Install the app's specific dependencies:**
+    ```bash
+    uv pip install -e .
+    ```
 
-2. **Start the development servers in two separate terminals:**
+3.  **Start the FastAPI server with live-reloading:**
+    ```bash
+    uv run uvicorn src.todo_app.main:app --reload
+    ```
 
-   - **Terminal 1:** Start the Tailwind CSS watcher to auto-compile styles.
-
-     ```bash
-     npm run watch
-     ```
-
-   - **Terminal 2:** Start the FastAPI server with live-reloading.
-
-     ```bash
-     uv run uvicorn src.todo_app.main:app --reload
-     ```
-
-3. **Open the app in your browser** at [http://127.0.0.1:8000](http://127.0.0.1:8000).
-
-### 4. Keeping the Environment Fresh
-
-After pulling changes or modifying dependencies, you can reset and resync your environment by running the cleanup and setup scripts in order.
-
-```bash
-# 1. Clean up old artifacts
-uv run scripts/project_cleanup/cleanup.py
-
-# 2. Re-install and sync all dependencies
-uv run scripts/project_setup/setup.py
-```
+4.  **Open the app in your browser** at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ---
 

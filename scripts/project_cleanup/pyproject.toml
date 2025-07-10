@@ -7,7 +7,9 @@ version = "0.1.0"
 description = "A script to clean temporary files and directories from the monorepo."
 requires-python = ">=3.9"
 # Add your project's core dependencies here.
-dependencies = []
+dependencies = [
+    "typer>=0.12.3",
+]
 
 # To install dev dependencies, run: `uv pip install -e .[dev]`
 [project.optional-dependencies]
@@ -15,6 +17,8 @@ dev = [
     "ruff",
     "mypy",
     "pytest",
+    "pytest-asyncio",
+    "typer",
 ]
 
 # ==============================================================================

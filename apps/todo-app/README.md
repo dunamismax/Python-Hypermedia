@@ -6,7 +6,7 @@ The primary purpose of this app is to demonstrate a modern, server-side renderin
 
 ## How It Works
 
-The application starts a FastAPI server that renders a main HTML page using Jinja2 templates. All user interactions—such as adding, toggling, or deleting a To-Do item—are handled via HTMX. These actions send AJAX requests to the server, which processes the request, interacts with a local SQLite database, and returns a small HTML partial. HTMX then intelligently swaps this new HTML into the page, updating the UI instantly without a full page reload.
+The application starts a FastAPI server that renders a main HTML page using Jinja2 templates. All user interactions—such as adding, toggling, or deleting a To-Do item—are handled via HTMX. These actions send AJAX requests to the server, which processes the request, interacts with a PostgreSQL database (via SQLModel), and returns a small HTML partial. HTMX then intelligently swaps this new HTML into the page, updating the UI instantly without a full page reload.
 
 ## How to Run This App
 
@@ -20,21 +20,17 @@ Once the setup is complete:
     cd apps/todo-app
     ```
 
-2.  **Run the development servers (requires two separate terminals):**
+2.  **Install the app's specific dependencies:**
 
-    -   **Terminal 1 (CSS Watcher):**
-        This command watches for changes in your Tailwind CSS files and rebuilds the stylesheet automatically.
+    ```bash
+    uv pip install -e .
+    ```
 
-        ```bash
-        npm run watch
-        ```
+3.  **Start the FastAPI server with live-reloading:**
 
-    -   **Terminal 2 (FastAPI Server):**
-        This command starts the Python backend server with live reloading. `uv run` handles the virtual environment automatically.
+    ```bash
+    uv run uvicorn src.todo_app.main:app --reload
+    ```
 
-        ```bash
-        uv run uvicorn src.todo_app.main:app --reload
-        ```
-
-3.  **Open the app in your browser:**
+4.  **Open the app in your browser:**
     Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).

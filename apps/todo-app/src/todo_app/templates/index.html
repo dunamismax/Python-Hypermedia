@@ -3,30 +3,29 @@
 {% block title %}All Todos{% endblock %}
 
 {% block content %}
-<div class="card bg-base-100 shadow-xl">
-    <div class="card-body">
+<article>
+    <header>
         {# Form to add a new todo #}
         <form
             hx-post="/todos"
             hx-target="#todo-list"
             hx-swap="innerHTML"
             hx-on="htmx:afterRequest: this.reset()"
-            class="flex gap-4 mb-4"
+            class="grid"
         >
             <input
                 type="text"
                 name="content"
                 placeholder="What needs to be done?"
-                class="input input-bordered w-full"
                 required
             >
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit">Add</button>
         </form>
+    </header>
 
-        {# The list of todos will be rendered here #}
-        <div id="todo-list">
-            {% include "partials/todos.html" %}
-        </div>
+    {# The list of todos will be rendered here #}
+    <div id="todo-list">
+        {% include "partials/todos.html" %}
     </div>
-</div>
+</article>
 {% endblock %}

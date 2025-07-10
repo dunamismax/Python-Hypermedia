@@ -13,7 +13,9 @@ dependencies = [
     "jinja2>=3.1.6",
     "sqlmodel>=0.0.24",
     "python-multipart>=0.0.20",
-    "gunicorn>=22.0.0",
+    "asyncpg>=0.29.0",
+    "alembic>=1.13.1",
+    "httpx",
 ]
 
 # To install dev dependencies, run: `uv pip install -e .[dev]`
@@ -22,6 +24,8 @@ dev = [
     "ruff",
     "mypy",
     "pytest",
+    "pytest-asyncio",
+    "typer",
 ]
 
 # ==============================================================================
