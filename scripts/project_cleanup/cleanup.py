@@ -54,7 +54,7 @@ def main() -> None:
 
     _print_cyan(f"🔍 Searching for items to delete in {project_root}...")
 
-    items_to_delete = []
+    items_to_delete: list[Path] = []
     for pattern in TARGETS_TO_DELETE:
         items_to_delete.extend(project_root.rglob(pattern))
 

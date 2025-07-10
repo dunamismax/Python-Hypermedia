@@ -13,7 +13,7 @@ from .routers import router
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # On startup, create the database and tables
     print("Creating database and tables...")
-    async with await engine.begin() as conn:
+    async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
     yield
     # On shutdown (not used here, but good practice)

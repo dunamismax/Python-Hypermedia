@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from sqlmodel import select
+from sqlmodel import desc, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from .database import get_session
@@ -21,7 +21,7 @@ async def get_all_todos(
     """
     Renders the main page with all To-Do items.
     """
-    todos = await session.exec(select(Todo).order_by(Todo.id))
+    todos = await session.exec(select(Todo).order_by(desc(Todo.id)))
     return templates.TemplateResponse(
         "index.html", {"request": request, "todos": todos.all()}
     )
