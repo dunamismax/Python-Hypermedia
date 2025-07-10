@@ -4,7 +4,8 @@
   "description": "Frontend assets for the To-Do App",
   "scripts": {
     "build": "tailwindcss -i ./src/todo_app/static/css/input.css -o ./src/todo_app/static/css/main.css",
-    "watch": "tailwindcss -i ./src/todo_app/static/css/input.css -o ./src/todo_app/static/css/main.css --watch"
+    "watch": "tailwindcss -i ./src/todo_app/static/css/input.css -o ./src/todo_app/static/css/main.css --watch",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "daisyui": "^4.12.10",
