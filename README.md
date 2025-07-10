@@ -156,7 +156,7 @@ All Python-related tasks, whether running scripts within this monorepo or any ot
 
 For more details on `uv`'s capabilities, refer to the [official uv documentation](https://docs.astral.sh/uv/getting-started/features/).
 
-#### Examples of `uv run` usage:
+#### Examples of `uv run` usage
 
 ```bash
 # Running a script within this monorepo (e.g., a cleanup script)
@@ -172,7 +172,11 @@ uv run uvicorn src.todo_app.main:app --reload
 
 ### 3. Keeping the Environment Fresh
 
-After pulling changes or modifying dependencies, you can reset and resync your environment by running the setup script again using `uv run`:
+After pulling changes or modifying dependencies, you can reset and resync your environment by running the cleanup script followed by the setup script again using `uv run`:
+
+```bash
+uv run scripts/project_cleanup/cleanup.py
+```
 
 ```bash
 uv run scripts/project_setup/setup.py
