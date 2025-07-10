@@ -137,45 +137,46 @@ This guide covers the one-time setup and the daily development workflow for this
 
 - A Unix-like OS (macOS/Linux)
 - `git`
-- `uv` (See [installation guide](https://astral.sh/uv/install.sh))
 
 ### 1. One-Time Setup
 
-Clone the repository and install the dependencies for all projects.
+Clone the repository and run the initial setup script. This script will install `uv` (if not already present), set up a `uv`-managed Python environment, and install all project dependencies. **This is the only time you should use the `python` command directly for setup.**
 
 ```bash
 git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
-
-# Run the initial setup
-# This will find all pyproject.toml files and install their dependencies.
-uv pip install -r requirements.txt
+python scripts/project_setup/setup.py
 ```
 
-### 2. The `uv` Workflow
+### 2. The `uv` Workflow: Your Primary Tool
 
-All Python-related tasks must be run through `uv`, which ensures **consistency**, **speed**, and **simplicity**. It guarantees you're always using the correct project-defined Python version and dependencies.
+From this point forward, **do not use the `python` command directly**. The setup script installed `uv`, a next-generation Python toolkit that now manages the project's environment and Python versions. `uv` is designed for speed, consistency, and simplicity, replacing the need for tools like `pip`, `virtualenv`, and `pyenv`.
 
-### 3. Running an Application (Example: `todo-app`)
+All Python-related tasks, whether running scripts within this monorepo or any other Python script on your system, should now be executed through `uv run`. This ensures you're always using the correct project-defined Python version and dependencies.
 
-To run an application, navigate to its directory and start the development server.
+For more details on `uv`'s capabilities, refer to the [official uv documentation](https://docs.astral.sh/uv/getting-started/features/).
 
-1.  **Navigate to the app's directory:**
-    ```bash
-    cd apps/todo-app
-    ```
+#### Examples of `uv run` usage:
 
-2.  **Install the app's specific dependencies:**
-    ```bash
-    uv pip install -e .
-    ```
+```bash
+# Running a script within this monorepo (e.g., a cleanup script)
+uv run scripts/project_cleanup/cleanup.py
 
-3.  **Start the FastAPI server with live-reloading:**
-    ```bash
-    uv run uvicorn src.todo_app.main:app --reload
-    ```
+# Running a simple standalone Python script anywhere on your system
+uv run example.py
 
-4.  **Open the app in your browser** at [http://127.0.0.1:8000](http://127.0.0.1:8000).
+# Running an application (e.g., the todo-app)
+cd apps/todo-app
+uv run uvicorn src.todo_app.main:app --reload
+```
+
+### 3. Keeping the Environment Fresh
+
+After pulling changes or modifying dependencies, you can reset and resync your environment by running the setup script again using `uv run`:
+
+```bash
+uv run scripts/project_setup/setup.py
+```
 
 ---
 

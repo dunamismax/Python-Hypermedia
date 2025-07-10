@@ -20,17 +20,11 @@ Once the setup is complete:
     cd apps/todo-app
     ```
 
-2.  **Install the app's specific dependencies:**
-
-    ```bash
-    uv pip install -e .
-    ```
-
-3.  **Start the FastAPI server with live-reloading:**
+2.  **Start the FastAPI server with live-reloading:**
 
     ```bash
     uv run uvicorn src.todo_app.main:app --reload
     ```
 
-4.  **Open the app in your browser:**
+3.  **Open the app in your browser:**
     Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
