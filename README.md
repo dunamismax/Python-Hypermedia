@@ -121,42 +121,35 @@ This monorepo is organized with a focus on complete application independence.
 
 ---
 
+Of course. Here is a revised version that is more concise, better structured, and removes redundancy while preserving all the essential information.
+
+---
+
 ## Getting Started
 
-Setting up this monorepo is an automated process designed to get you from a fresh clone to a fully operational development environment with a single command.
+This guide covers the one-time setup and the daily development workflow for this monorepo.
 
-### 1. Prerequisites
+### 1. One-Time Setup
 
-- A Unix-like operating system (macOS or Linux).
-- `git` for cloning the repository.
-- An internet connection.
+First, clone the repository and run the initial setup script.
 
-The setup script will handle the installation of all other required tools, including `uv`, `python`, `node`, and `npm`.
-
-### 2. Initial Repository Setup
-
-First, clone the repository to your local machine:
+**Prerequisites:** A Unix-like OS (macOS/Linux), `git`, and an internet connection.
 
 ```bash
 git clone https://github.com/dunamismax/Python-Hypermedia.git
 cd Python-Hypermedia
-```
 
-Next, run the **`project_setup`** script. This is the **only time you should use the `python` command directly**. This script will install `uv` and a managed version of Python, which you will use for all subsequent commands.
-
-```bash
+# Run the initial setup
 python scripts/project_setup/setup.py
 ```
 
-After this script completes, the entire monorepo is configured and ready for development.
+This command installs all required tools (like `uv`, Node.js, and a project-specific Python version) and configures the entire monorepo. **This is the only time you will use the `python` command directly.**
 
-### 3. Using uv: The Only Python Command You Need
+### 2. The `uv` Workflow: Your Primary Tool
 
-After you run the initial `python scripts/project_setup/setup.py` command, you should **no longer use the `python` command directly**. The setup script installs a managed version of Python via `uv`, and from that point on, `uv` should be used to run all Python-related tasks.
+From this point forward, **do not use the `python` command directly**. The setup script installed `uv`, a next-generation Python toolkit that now manages the project's environment.
 
-This ensures that you are always using the correct, project-defined version of Python and its dependencies, creating a perfectly consistent environment.
-
-**From now on, to run any Python script, you will use `uv run`:**
+All Python-related tasks must be run through `uv run`, which ensures **consistency**, **speed**, and **simplicity**. It guarantees you're always using the correct project-defined Python version and dependencies, replacing the need for tools like `pip`, `virtualenv`, and `pyenv`.
 
 ```bash
 # Example: Running a script
@@ -166,19 +159,11 @@ uv run some_script.py
 uv run scripts/project_cleanup/cleanup.py
 ```
 
-`uv` is a powerful and extremely fast Python package installer, resolver, and version manager. It replaces `pip`, `pip-tools`, `virtualenv`, and `pyenv`. By using `uv run`, you gain:
+For more details, see the official [uv documentation](https://docs.astral.sh/uv/getting-started/features/).
 
-- **Consistency**: Always use the correct Python version and dependencies for the project.
-- **Speed**: `uv` is significantly faster than traditional Python tooling.
-- **Simplicity**: A single tool for all your Python environment needs.
+### 3. Running an Application (Example: `todo-app`)
 
-For a comprehensive overview of its capabilities, refer to the official [uv features documentation](https://docs.astral.sh/uv/getting-started/features/).
-
-### 4. Running an Application
-
-Once the initial setup is complete, running any application requires navigating to its directory and starting its development servers.
-
-**Example using `todo-app`:**
+To run an application, navigate to its directory and start its development servers.
 
 1. **Navigate to the app's directory:**
 
@@ -186,40 +171,33 @@ Once the initial setup is complete, running any application requires navigating 
    cd apps/todo-app
    ```
 
-2. **Run the development servers (requires two separate terminals):**
+2. **Start the development servers in two separate terminals:**
 
-   - **Terminal 1: Start the Tailwind CSS watcher.**
-     This automatically rebuilds your CSS file when you make changes.
+   - **Terminal 1:** Start the Tailwind CSS watcher to auto-compile styles.
 
      ```bash
      npm run watch
      ```
 
-   - **Terminal 2: Start the FastAPI server.**
-     `uv run` automatically uses the project's virtual environment and dependencies. The `--reload` flag enables live reloading for your Python code.
+   - **Terminal 2:** Start the FastAPI server with live-reloading.
 
      ```bash
      uv run uvicorn src.todo_app.main:app --reload
      ```
 
-3. **Open the app in your browser:**
-   Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
+3. **Open the app in your browser** at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-### 5. Keeping Your Environment Clean and Up-to-Date
+### 4. Keeping the Environment Fresh
 
-To ensure a clean and consistent environment, you can use the `project_cleanup` and `project_setup` scripts together. This is the recommended workflow after pulling new changes, adding a new application, or changing dependencies.
+After pulling changes or modifying dependencies, you can reset and resync your environment by running the cleanup and setup scripts in order.
 
-1. **Run the cleanup script** to remove all temporary files and build artifacts.
+```bash
+# 1. Clean up old artifacts
+uv run scripts/project_cleanup/cleanup.py
 
-   ```bash
-   uv run scripts/project_cleanup/cleanup.py
-   ```
-
-2. **Run the setup script** to reinstall and sync all dependencies and configurations.
-
-   ```bash
-   uv run scripts/project_setup/setup.py
-   ```
+# 2. Re-install and sync all dependencies
+uv run scripts/project_setup/setup.py
+```
 
 ---
 

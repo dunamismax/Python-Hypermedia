@@ -48,6 +48,7 @@ TARGETS_TO_DELETE = [
     "*.egg-info",
     "uv.lock",
     "static/**/main.css",
+    ".mypy_cache",
 ]
 
 
@@ -123,9 +124,7 @@ def main() -> None:
                 )
             else:
                 item.unlink()
-                cprint(
-                    f"🗑️  Deleted file: {item.relative_to(project_root)}", color="yellow"
-                )
+                cprint(f"🗑️  Deleted file: {item.relative_to(project_root)}", color="yellow")
         except OSError as e:
             cprint(f"Error deleting {item}: {e}", color="red")
 
