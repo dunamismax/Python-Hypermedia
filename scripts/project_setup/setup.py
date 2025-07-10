@@ -25,11 +25,25 @@ Usage:
 
 import subprocess
 import sys
+import os
 from pathlib import Path
 
-import typer
 
-app = typer.Typer()
+def _print_color(text: str, color_code: str) -> None:
+    """Prints text with ANSI color codes."""
+    print(f"\033[{color_code}m{text}\033[0m")
+
+def _print_blue(text: str) -> None:
+    _print_color(text, "34") # Blue
+
+def _print_green(text: str) -> None:
+    _print_color(text, "32") # Green
+
+def _print_yellow(text: str) -> None:
+    _print_color(text, "33") # Yellow
+
+def _print_red(text: str) -> None:
+    _print_color(text, "31") # Red
 
 
 def is_command_installed(command: str) -> bool:
@@ -45,15 +59,12 @@ def is_command_installed(command: str) -> bool:
 
 def install_uv() -> None:
     """Installs uv using the official, non-interactive curl script."""
-    typer.secho("uv not found. Installing...", fg=typer.colors.BLUE, bold=True)
+    _print_blue("uv not found. Installing...")
     try:
         if not is_command_installed("curl"):
-            typer.secho(
-                "Error: `curl` is required to install uv, but it's not found.",
-                fg=typer.colors.RED,
-            )
-            typer.secho("Please install `curl` and try again.", fg=typer.colors.YELLOW)
-            raise typer.Exit(code=1)
+            _print_red("Error: `curl` is required to install uv, but it's not found.")
+            _print_yellow("Please install `curl` and try again.")
+            sys.exit(1)
 
         subprocess.run(
             "curl -LsSf https://astral.sh/uv/install.sh | sh",
@@ -62,57 +73,55 @@ def install_uv() -> None:
             stdout=sys.stdout,
             stderr=sys.stderr,
         )
-        typer.secho("✅ uv installed successfully.", fg=typer.colors.GREEN)
+        _print_green("✅ uv installed successfully.")
         # Update PATH for the current process to include uv
         os.environ["PATH"] = f"{os.path.expanduser('~/.cargo/bin')}:{os.environ['PATH']}"
     except subprocess.CalledProcessError as e:
-        typer.secho(f"❌ Failed to install uv: {e}", fg=typer.colors.RED)
-        raise typer.Exit(code=1)
+        _print_red(f"❌ Failed to install uv: {e}")
+        sys.exit(1)
 
 
 def ensure_uv_managed_python_installed() -> None:
     """Ensures a uv-managed Python version is installed."""
-    typer.secho("Ensuring uv-managed Python is installed...", fg=typer.colors.BLUE, bold=True)
+    _print_blue("Ensuring uv-managed Python is installed...")
     try:
         run_command(
             ["uv", "python", "install"], cwd=Path.cwd(), description="Install uv-managed Python"
         )
-        typer.secho("✅ uv-managed Python installed successfully.", fg=typer.colors.GREEN)
-    except typer.Exit:
-        typer.secho("❌ Failed to install uv-managed Python.", fg=typer.colors.RED)
+        _print_green("✅ uv-managed Python installed successfully.")
+    except SystemExit: # Catch SystemExit from run_command
+        _print_red("❌ Failed to install uv-managed Python.")
         raise
 
 
 def run_command(command: list[str], cwd: Path, description: str) -> None:
     """Runs a command in a specified directory, handling errors and output."""
-    typer.secho(f"🚀 Starting: {description} in {cwd.name}...", fg=typer.colors.YELLOW)
+    _print_yellow(f"🚀 Starting: {description} in {cwd.name}...")
     try:
         process = subprocess.Popen(
             command, cwd=cwd, stdout=sys.stdout, stderr=sys.stderr, text=True
         )
         process.wait()
         if process.returncode == 0:
-            typer.secho(f"✅ Success: {description}", fg=typer.colors.GREEN)
+            _print_green(f"✅ Success: {description}")
         else:
-            typer.secho(
-                f"❌ Error: {description} failed with exit code {process.returncode}",
-                fg=typer.colors.RED,
+            _print_red(
+                f"❌ Error: {description} failed with exit code {process.returncode}"
             )
-            raise typer.Exit(code=1)
+            sys.exit(1)
     except FileNotFoundError:
-        typer.secho(
-            f"❌ Error: Command '{command[0]}' not found. Is it installed and in your PATH?",
-            fg=typer.colors.RED,
+        _print_red(
+            f"❌ Error: Command '{command[0]}' not found. Is it installed and in your PATH?"
         )
-        raise typer.Exit(code=1)
+        sys.exit(1)
     except Exception as e:
-        typer.secho(f"❌ An unexpected error occurred: {e}", fg=typer.colors.RED)
-        raise typer.Exit(code=1)
+        _print_red(f"❌ An unexpected error occurred: {e}")
+        sys.exit(1)
 
 
 def run_quality_checks(project_path: Path) -> None:
     """Runs Ruff formatter, linter, and MyPy type checker for a given project."""
-    typer.secho(f"🔬 Running quality checks for: {project_path.name}", fg=typer.colors.BLUE, bold=True)
+    _print_blue(f"🔬 Running quality checks for: {project_path.name}")
 
     run_command(
         ["uv", "run", "ruff", "format", "."], cwd=project_path, description="Run Ruff formatter"
@@ -129,7 +138,7 @@ def run_quality_checks(project_path: Path) -> None:
             ["uv", "run", "mypy", "."], cwd=project_path, description="Run MyPy type checker"
         )
     else:
-        typer.secho(f"⚪ Skipping MyPy: No Python files found in {project_path.name}", fg=typer.colors.YELLOW)
+        _print_yellow(f"⚪ Skipping MyPy: No Python files found in {project_path.name}")
 
 
 def get_project_directories(root: Path) -> list[Path]:
@@ -146,16 +155,15 @@ def get_project_directories(root: Path) -> list[Path]:
     return sorted(project_dirs)
 
 
-@app.command()
 def main() -> None:
     """Main function to orchestrate the entire monorepo setup."""
-    typer.secho("Starting repository setup...", fg=typer.colors.BLUE, bold=True)
-    typer.secho("=" * 40, fg=typer.colors.BLUE)
+    _print_blue("Starting repository setup...")
+    _print_blue("=" * 40)
 
     if not is_command_installed("uv"):
         install_uv()
     else:
-        typer.secho("✅ uv is already installed.", fg=typer.colors.GREEN)
+        _print_green("✅ uv is already installed.")
 
     ensure_uv_managed_python_installed()
 
@@ -164,10 +172,10 @@ def main() -> None:
     all_projects = get_project_directories(project_root)
 
     if not all_projects:
-        typer.secho("No applications or scripts found to set up.", fg=typer.colors.YELLOW)
-        raise typer.Exit(code=0)
+        _print_yellow("No applications or scripts found to set up.")
+        sys.exit(0)
 
-    typer.secho("\nSetting up all applications and scripts...", fg=typer.colors.BLUE, bold=True)
+    _print_blue("\nSetting up all applications and scripts...")
     for project_path in all_projects:
         run_command(
             ["uv", "venv"], cwd=project_path, description="Create Python virtual environment"
@@ -179,11 +187,11 @@ def main() -> None:
         )
         run_quality_checks(project_path)
 
-    typer.secho("\n" + "=" * 40, fg=typer.colors.GREEN, bold=True)
-    typer.secho("🎉 All projects have been set up successfully!", fg=typer.colors.GREEN, bold=True)
-    typer.secho("You are now ready to start development.", fg=typer.colors.YELLOW)
+    _print_green("\n" + "=" * 40)
+    _print_green("🎉 All projects have been set up successfully!")
+    _print_yellow("You are now ready to start development.")
 
 
 if __name__ == "__main__":
-    import os
-    app()
+    main()
+

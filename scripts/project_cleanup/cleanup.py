@@ -6,11 +6,24 @@ files and build artifacts. It can be run at any time without risk.
 """
 
 import shutil
+import sys
 from pathlib import Path
 
-import typer
+def _print_color(text: str, color_code: str) -> None:
+    """Prints text with ANSI color codes."""
+    print(f"\u001b[{color_code}m{text}\u001b[0m")
 
-app = typer.Typer()
+def _print_green(text: str) -> None:
+    _print_color(text, "32") # Green
+
+def _print_yellow(text: str) -> None:
+    _print_color(text, "33") # Yellow
+
+def _print_red(text: str) -> None:
+    _print_color(text, "31") # Red
+
+def _print_cyan(text: str) -> None:
+    _print_color(text, "36") # Cyan
 
 # Directories and files to be deleted across the monorepo.
 TARGETS_TO_DELETE = [
@@ -23,29 +36,23 @@ TARGETS_TO_DELETE = [
     ".mypy_cache",
 ]
 
-
-@app.command()
 def main() -> None:
     """
     Finds and deletes temporary project files and directories automatically.
     """
     project_root = Path(__file__).parent.parent.parent
 
-    typer.secho(f"🔍 Searching for items to delete in {project_root}...", fg=typer.colors.CYAN)
+    _print_cyan(f"🔍 Searching for items to delete in {project_root}...")
 
     items_to_delete = []
     for pattern in TARGETS_TO_DELETE:
         items_to_delete.extend(project_root.rglob(pattern))
 
     if not items_to_delete:
-        typer.secho(
-            "✅ No items to clean up. Project is already clean!",
-            fg=typer.colors.GREEN,
-            bold=True,
-        )
-        raise typer.Exit()
+        _print_green("✅ No items to clean up. Project is already clean!")
+        sys.exit()
 
-    typer.secho("\n🚀 Starting cleanup...", bold=True)
+    _print_yellow("\n🚀 Starting cleanup...")
 
     for item in items_to_delete:
         try:
@@ -54,20 +61,15 @@ def main() -> None:
 
             if item.is_dir():
                 shutil.rmtree(item)
-                typer.secho(
-                    f"🗑️  Deleted directory: {item.relative_to(project_root)}",
-                    fg=typer.colors.YELLOW,
-                )
+                _print_yellow(f"🗑️  Deleted directory: {item.relative_to(project_root)}")
             else:
                 item.unlink()
-                typer.secho(
-                    f"🗑️  Deleted file: {item.relative_to(project_root)}", fg=typer.colors.YELLOW
-                )
+                _print_yellow(f"🗑️  Deleted file: {item.relative_to(project_root)}")
         except OSError as e:
-            typer.secho(f"Error deleting {item}: {e}", fg=typer.colors.RED)
+            _print_red(f"Error deleting {item}: {e}")
 
-    typer.secho("\n✅ Cleanup complete!", fg=typer.colors.GREEN, bold=True)
+    _print_green("\n✅ Cleanup complete!")
 
 
 if __name__ == "__main__":
-    app()
+    main()

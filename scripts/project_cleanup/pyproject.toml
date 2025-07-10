@@ -8,7 +8,6 @@ description = "A script to clean temporary files and directories from the monore
 requires-python = ">=3.9"
 # Add your project's core dependencies here.
 dependencies = [
-    "typer>=0.12.3",
 ]
 
 # To install dev dependencies, run: `uv pip install -e .[dev]`
